@@ -1,0 +1,170 @@
+# ==============================================================================
+# SCOREIA — Configuración Central del Sistema
+# Todos los hiperparámetros, rutas y umbrales se definen aquí.
+# NUNCA hardcodear valores en los scripts .py
+# ==============================================================================
+
+project:
+  name: "SCOREIA"
+  version: "1.0.0"
+  description: "Sistema de Credit Scoring Basado en Inteligencia Artificial"
+  python_version: "3.11"
+  random_seed: 42
+
+# ─── Rutas del Proyecto ───────────────────────────────────────────────────────
+paths:
+  data_raw: "data/raw/"
+  data_processed: "data/processed/"
+  data_external: "data/external/"
+  models: "models/"
+  reports: "reports/"
+  reports_figures: "reports/figures/"
+  reports_monitoring: "reports/monitoring/"
+  reports_decisions: "reports/decisions/"
+  mlruns: "mlruns/"
+
+# ─── Dataset Sintético ────────────────────────────────────────────────────────
+synthetic_data:
+  n_samples: 10000
+  class_imbalance_ratio: 0.20      # 20% incumplimiento, 80% pago
+  output_filename: "credit_data_synthetic.csv"
+  random_seed: 42
+
+  # Rangos para variables numéricas
+  features:
+    edad:
+      min: 18
+      max: 75
+    ingreso_mensual:
+      min_bajo: 800.0              # Ingreso bajo (mayor riesgo)
+      max_bajo: 2000.0
+      min_medio: 2000.0
+      max_medio: 5000.0
+      min_alto: 5000.0
+      max_alto: 15000.0
+    antiguedad_laboral:
+      min: 0
+      max: 360                     # 0 a 30 años en meses
+    score_buro:
+      min: 300
+      max: 850
+    meses_mora_maxima:
+      min: 0
+      max: 24
+    num_creditos_activos:
+      min: 0
+      max: 10
+    consultas_buro_6m:
+      min: 0
+      max: 15
+    ratio_deuda_ingreso:
+      min: 0.0
+      max: 1.5                     # Puede superar 1 en casos extremos
+    utilizacion_credito:
+      min: 0.0
+      max: 1.0                     # 0% a 100%
+    monto_solicitado:
+      min: 500.0
+      max: 50000.0
+    plazo_meses:
+      opciones: [6, 12, 18, 24, 36, 48, 60, 72, 84]
+
+  # Categorías para variables categóricas
+  categories:
+    estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"]
+    nivel_educativo: ["Primaria", "Secundaria", "Universidad", "Posgrado"]
+    tipo_vivienda: ["Propia", "Arrendada", "Familiar"]
+    tipo_contrato: ["Indefinido", "Temporal", "Independiente"]
+    tipo_prestamo: ["Personal", "Hipotecario", "Automotriz", "Tarjeta"]
+
+# ─── Preprocesamiento ─────────────────────────────────────────────────────────
+preprocessing:
+  test_size: 0.20
+  stratify: true
+  numerical_imputer_strategy: "median"
+  categorical_imputer_strategy: "most_frequent"
+  outlier_capping_method: "iqr"   # 'iqr' o 'percentile'
+  outlier_iqr_multiplier: 1.5
+
+  smote:
+    sampling_strategy: "minority"
+    k_neighbors: 5
+    random_state: 42
+
+# ─── Ingeniería de Variables ──────────────────────────────────────────────────
+feature_engineering:
+  # Ratios derivados
+  ratios:
+    - name: "cuota_estimada_ingreso"
+      formula: "monto_solicitado / (plazo_meses * ingreso_mensual)"
+    - name: "score_normalizado"
+      formula: "(score_buro - 300) / 550"
+
+  # WoE — umbral mínimo de Information Value para retener variable
+  woe:
+    min_iv_threshold: 0.02
+    max_bins: 10
+    handle_unknown: "value"
+    handle_missing: "value"
+
+  # Variables categóricas a codificar con OHE (baja cardinalidad)
+  ohe_columns:
+    - "estado_civil"
+    - "tipo_vivienda"
+    - "tipo_contrato"
+    - "tipo_prestamo"
+
+  # Variables ordinales a codificar con orden explícito
+  ordinal_columns:
+    nivel_educativo:
+      order: ["Primaria", "Secundaria", "Universidad", "Posgrado"]
+      values: [0, 1, 2, 3]
+
+# ─── Entrenamiento ────────────────────────────────────────────────────────────
+training:
+  model: "RandomForestClassifier"
+  cv_folds: 5
+  cv_scoring: "roc_auc"
+  n_iter_search: 50               # Iteraciones de RandomizedSearchCV
+  random_state: 42
+  n_jobs: -1                      # Usar todos los núcleos disponibles
+
+  # Espacio de hiperparámetros para búsqueda
+  hyperparameter_space:
+    n_estimators: [100, 200, 300, 500, 700]
+    max_depth: [null, 5, 10, 15, 20, 25]
+    min_samples_split: [2, 5, 10, 15]
+    min_samples_leaf: [1, 2, 4, 8]
+    max_features: ["sqrt", "log2", 0.3, 0.5]
+    class_weight: ["balanced", "balanced_subsample", null]
+    bootstrap: [true, false]
+
+  # Nombre del archivo del modelo serializado
+  model_filename: "scoreia_rf_v1.pkl"
+  metadata_filename: "model_metadata.json"
+
+# ─── Métricas Objetivo ────────────────────────────────────────────────────────
+metrics:
+  target_auc_roc: 0.80
+  target_f1_score: 0.72
+  positive_label: 1               # 1 = Incumplió
+
+# ─── Inferencia y Segmentación de Riesgo ─────────────────────────────────────
+inference:
+  risk_thresholds:
+    low:    [0.00, 0.30]          # PD < 0.30 → Riesgo Bajo
+    medium: [0.30, 0.60]          # 0.30 <= PD < 0.60 → Riesgo Medio
+    high:   [0.60, 1.00]          # PD >= 0.60 → Riesgo Alto
+  risk_labels:
+    low: "Bajo"
+    medium: "Medio"
+    high: "Alto"
+
+# ─── Monitoreo ────────────────────────────────────────────────────────────────
+monitoring:
+  drift_threshold: 0.05           # p-value mínimo para alertar drift (PSI/KS)
+  psi_threshold: 0.20             # Population Stability Index umbral
+  fairness_sensitive_features:
+    - "estado_civil"
+    - "nivel_educativo"
+  report_output_format: "html"

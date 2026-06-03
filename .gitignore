@@ -1,0 +1,104 @@
+# ==============================================================================
+# SCOREIA — .gitignore
+# Proyecto de Machine Learning en Python 3.11 / Windows
+# ==============================================================================
+
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ─── Entornos Virtuales ───────────────────────────────────────────────────────
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.conda/
+
+# ─── Jupyter Notebooks ────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+*.ipynb_checkpoints
+
+# ─── Datos (NO versionar datos crudos ni procesados) ─────────────────────────
+data/raw/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# ─── Modelos Serializados ─────────────────────────────────────────────────────
+models/*.pkl
+models/*.joblib
+models/*.h5
+!models/.gitkeep
+
+# ─── MLflow ───────────────────────────────────────────────────────────────────
+mlruns/
+mlflow.db
+
+# ─── Reportes generados ───────────────────────────────────────────────────────
+reports/figures/*.png
+reports/figures/*.jpg
+reports/figures/*.svg
+reports/monitoring/*.html
+reports/decisions/*.json
+reports/decisions/*.html
+!reports/figures/.gitkeep
+!reports/monitoring/.gitkeep
+!reports/decisions/.gitkeep
+
+# ─── Variables de entorno ─────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.env
+
+# ─── IDEs ─────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Testing y Cobertura ──────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ─── Distribución ─────────────────────────────────────────────────────────────
+*.log
+*.pot
+local_settings.py
+pip-log.txt
+pip-delete-this-directory.txt
