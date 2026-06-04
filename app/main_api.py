@@ -44,13 +44,14 @@ class CreditRequest(BaseModel):
     antiguedad_laboral: int
     tipo_contrato: str
     score_buro: int
-    monto_prestamo: float
-    plazo_prestamo: int
-    tasa_interes: float
-    deuda_total: float
-    cuota_mensual: float
-    retrasos_historicos: int
-    ratio_uso_credito: float
+    meses_mora_maxima: int
+    num_creditos_activos: int
+    consultas_buro_6m: int
+    ratio_deuda_ingreso: float
+    utilizacion_credito: float
+    monto_solicitado: float
+    plazo_meses: int
+    tipo_prestamo: str
 
 @app.get("/api/status")
 def read_root():
