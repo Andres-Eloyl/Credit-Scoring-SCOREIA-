@@ -106,9 +106,7 @@ class WoEAnalyzer(BaseEstimator, TransformerMixin):
         # Auto-detectar categóricas si no se especifican
         if not self.categorical_columns:
             self.categorical_columns = list(
-                X.select_dtypes(
-                    include=["object", "category", "str", "string"]
-                ).columns
+                X.select_dtypes(exclude=[np.number]).columns
             )
 
         total_good = (y == 0).sum()

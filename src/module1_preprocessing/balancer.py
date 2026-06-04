@@ -125,9 +125,7 @@ class ClassBalancer(BaseEstimator):
         )
 
         # SMOTE requiere datos numéricos — verificar
-        non_numeric = X.select_dtypes(
-            include=["object", "category", "str", "string"]
-        )
+        non_numeric = X.select_dtypes(exclude=[np.number])
         if non_numeric.shape[1] > 0:
             raise ValueError(
                 "SMOTE requiere datos 100% numericos. "

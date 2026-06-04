@@ -1,0 +1,59 @@
+{
+    "project_name": "SCOREIA",
+    "model_version": "1.0.0",
+    "algorithm": "RandomForestClassifier",
+    "trained_at": "2026-06-03 20:02:10",
+    "environment": {
+        "python_version": "3.11"
+    },
+    "best_hyperparameters": {
+        "n_estimators": 200,
+        "min_samples_split": 5,
+        "min_samples_leaf": 1,
+        "max_features": "log2",
+        "max_depth": null,
+        "class_weight": "balanced_subsample",
+        "bootstrap": false
+    },
+    "metrics": {
+        "auc_roc": 0.93204,
+        "f1_score": 0.706977,
+        "precision": 0.66087,
+        "recall": 0.76,
+        "accuracy": 0.874,
+        "opt_f1_score": 0.717833,
+        "opt_threshold": 0.471667,
+        "true_negatives": 1444,
+        "false_positives": 156,
+        "false_negatives": 96,
+        "true_positives": 304
+    },
+    "targets": {
+        "target_auc_roc": 0.8,
+        "target_f1_score": 0.72
+    },
+    "objectives_met": {
+        "auc_roc": true,
+        "f1_score": false,
+        "all_met": false
+    },
+    "features": {
+        "n_selected": 14,
+        "selected_list": [
+            "edad",
+            "nivel_educativo",
+            "antiguedad_laboral",
+            "meses_mora_maxima",
+            "num_creditos_activos",
+            "consultas_buro_6m",
+            "ratio_deuda_ingreso",
+            "utilizacion_credito",
+            "plazo_meses",
+            "score_normalizado",
+            "antiguedad_edad_ratio",
+            "deuda_utilizacion_producto",
+            "consultas_creditos_ratio",
+            "riesgo_compuesto"
+        ]
+    }
+}

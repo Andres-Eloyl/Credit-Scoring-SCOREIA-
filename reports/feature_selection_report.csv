@@ -1,0 +1,34 @@
+feature,iv,status,razon_eliminacion
+edad,0.103,Seleccionada,
+nivel_educativo,0.2358,Seleccionada,
+ingreso_mensual,0.0067,Eliminada,IV insuficiente (0.0067 < 0.02)
+antiguedad_laboral,0.1348,Seleccionada,
+score_buro,0.48,Eliminada,Alta correlacion con 'score_normalizado' (r=1.000 >= 0.85) y menor IV
+meses_mora_maxima,1.4616,Seleccionada,
+num_creditos_activos,0.1108,Seleccionada,
+consultas_buro_6m,3.0789,Seleccionada,
+ratio_deuda_ingreso,1.045,Seleccionada,
+utilizacion_credito,0.1491,Seleccionada,
+monto_solicitado,0.0106,Eliminada,IV insuficiente (0.0106 < 0.02)
+plazo_meses,1.0487,Seleccionada,
+estado_civil_Casado,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+estado_civil_Divorciado,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+estado_civil_Soltero,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+estado_civil_Viudo,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_vivienda_Arrendada,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_vivienda_Familiar,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_vivienda_Propia,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_contrato_Indefinido,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_contrato_Independiente,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_contrato_Temporal,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_prestamo_Automotriz,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_prestamo_Hipotecario,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_prestamo_Personal,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+tipo_prestamo_Tarjeta,0.0,Eliminada,IV insuficiente (0.0000 < 0.02)
+cuota_estimada_ingreso,0.0082,Eliminada,IV insuficiente (0.0082 < 0.02)
+monto_ingreso_ratio,0.0063,Eliminada,IV insuficiente (0.0063 < 0.02)
+score_normalizado,0.4802,Seleccionada,
+antiguedad_edad_ratio,0.1116,Seleccionada,
+deuda_utilizacion_producto,0.9722,Seleccionada,
+consultas_creditos_ratio,0.1237,Seleccionada,
+riesgo_compuesto,2.8649,Seleccionada,

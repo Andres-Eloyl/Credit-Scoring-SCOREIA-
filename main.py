@@ -76,11 +76,14 @@ def run_training(config_path: str) -> None:
     logger.info("=" * 60)
     logger.info("  SCOREIA — Modo: ENTRENAMIENTO")
     logger.info("=" * 60)
-    # TODO: Implementar en Módulo 3
-    # from module3_training.trainer import SCOREIATrainer
-    # trainer = SCOREIATrainer(config_path=config_path)
-    # trainer.run()
-    logger.info("Pipeline de entrenamiento (Módulo 3) — Próximamente")
+    try:
+        from module3_training.trainer import SCOREIATrainer
+        trainer = SCOREIATrainer(config_path=config_path)
+        result = trainer.run()
+        logger.info("Pipeline de entrenamiento ejecutado exitosamente.")
+    except Exception as e:
+        logger.error(f"Error durante el entrenamiento: {e}", exc_info=True)
+        sys.exit(1)
 
 
 def run_prediction(config_path: str, input_path: str, output_path: str) -> None:
