@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCOREIA - Evaluador de Riesgo Crediticio</title>
+    <meta name="description" content="Dashboard moderno para evaluación de riesgo de crédito mediante Inteligencia Artificial.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Hanken+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="brand">
+                <div class="logo">S</div>
+                <h2>SCOREIA</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><svg xmlns="http://www.w3.org/polygons/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> Nueva Evaluación</a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/polygons/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Historial</a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/polygons/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Configuración</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="top-header">
+                <div>
+                    <h1>Entrada de Datos</h1>
+                    <p>Complete el perfil financiero del solicitante para predecir el riesgo de incumplimiento.</p>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Analista+Riesgo&background=0D8ABC&color=fff" alt="User Avatar" class="avatar">
+                    <span class="user-role">Analista</span>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Form Section -->
+                <section class="card form-section">
+                    <h2>Formulario de Solicitud</h2>
+                    <form id="evaluationForm" class="grid-form">
+                        
+                        <!-- Columna 1: Demografía -->
+                        <fieldset>
+                            <legend>Datos Demográficos</legend>
+                            <div class="input-group">
+                                <label for="client_id">ID Cliente</label>
+                                <input type="text" id="client_id" name="client_id" value="C-10023" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="edad">Edad</label>
+                                <input type="number" id="edad" name="edad" min="18" max="100" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="estado_civil">Estado Civil</label>
+                                <select id="estado_civil" name="estado_civil" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option value="Soltero">Soltero</option>
+                                    <option value="Casado">Casado</option>
+                                    <option value="Divorciado">Divorciado</option>
+                                    <option value="Viudo">Viudo</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="nivel_educativo">Nivel Educativo</label>
+                                <select id="nivel_educativo" name="nivel_educativo" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option value="Primaria">Primaria</option>
+                                    <option value="Secundaria">Secundaria</option>
+                                    <option value="Universidad">Universidad</option>
+                                    <option value="Posgrado">Posgrado</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="tipo_vivienda">Tipo Vivienda</label>
+                                <select id="tipo_vivienda" name="tipo_vivienda" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option value="Propia">Propia</option>
+                                    <option value="Arrendada">Arrendada</option>
+                                    <option value="Familiar">Familiar</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <!-- Columna 2: Finanzas y Empleo -->
+                        <fieldset>
+                            <legend>Situación Financiera</legend>
+                            <div class="input-group">
+                                <label for="ingreso_mensual">Ingreso Mensual (USD)</label>
+                                <input type="number" id="ingreso_mensual" name="ingreso_mensual" step="0.01" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="antiguedad_laboral">Antigüedad Laboral (Meses)</label>
+                                <input type="number" id="antiguedad_laboral" name="antiguedad_laboral" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="tipo_contrato">Tipo de Contrato</label>
+                                <select id="tipo_contrato" name="tipo_contrato" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option value="Indefinido">Indefinido</option>
+                                    <option value="Temporal">Temporal</option>
+                                    <option value="Independiente">Independiente</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="score_buro">Score Buró (300-850)</label>
+                                <input type="number" id="score_buro" name="score_buro" min="300" max="850" required>
+                            </div>
+                        </fieldset>
+
+                        <!-- Columna 3: Detalles del Préstamo -->
+                        <fieldset class="full-width">
+                            <legend>Detalles del Préstamo y Deudas</legend>
+                            <div class="grid-2-col">
+                                <div class="input-group">
+                                    <label for="monto_prestamo">Monto Préstamo (USD)</label>
+                                    <input type="number" id="monto_prestamo" name="monto_prestamo" step="0.01" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="plazo_prestamo">Plazo (Meses)</label>
+                                    <input type="number" id="plazo_prestamo" name="plazo_prestamo" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="tasa_interes">Tasa Interés (%)</label>
+                                    <input type="number" id="tasa_interes" name="tasa_interes" step="0.01" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="deuda_total">Deuda Total (USD)</label>
+                                    <input type="number" id="deuda_total" name="deuda_total" step="0.01" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="cuota_mensual">Cuota Mensual Actual (USD)</label>
+                                    <input type="number" id="cuota_mensual" name="cuota_mensual" step="0.01" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="retrasos_historicos">Retrasos Históricos (Cantidad)</label>
+                                    <input type="number" id="retrasos_historicos" name="retrasos_historicos" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="ratio_uso_credito">Ratio Uso Crédito (0-1)</label>
+                                    <input type="number" id="ratio_uso_credito" name="ratio_uso_credito" step="0.01" min="0" max="1" required>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn secondary" id="btnFillDummy">Auto-completar</button>
+                            <button type="submit" class="btn primary" id="btnCalculate">
+                                <span class="spinner hidden" id="loadingSpinner"></span>
+                                Evaluar Riesgo
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Results Section -->
+                <aside class="results-section">
+                    <div class="card result-card" id="resultsPanel">
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                            <h3>Sin resultados</h3>
+                            <p>Complete el formulario y presione "Evaluar Riesgo" para ver el análisis de inteligencia artificial.</p>
+                        </div>
+                        
+                        <div class="results-content hidden" id="resultsContent">
+                            <h2 class="result-title">Análisis SCOREIA</h2>
+                            
+                            <div class="metric-container">
+                                <h3>Probabilidad de Incumplimiento (PD)</h3>
+                                <div class="pd-value" id="pdValue">--%</div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" id="pdFill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-container">
+                                <h3>Segmento de Riesgo</h3>
+                                <div class="risk-badge badge-neutral" id="riskBadge">--</div>
+                                <p class="decision-text" id="decisionText">Decisión Recomendada: <strong>--</strong></p>
+                            </div>
+                            
+                            <div class="metric-container shap-container">
+                                <h3>Explicabilidad del Modelo (SHAP)</h3>
+                                <p class="sub-label">Principales factores que influyen en esta predicción:</p>
+                                <div class="shap-img-wrapper">
+                                    <img src="" alt="SHAP Explanation" id="shapImage" class="shap-img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

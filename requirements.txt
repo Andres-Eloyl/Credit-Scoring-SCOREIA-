@@ -31,7 +31,8 @@ seaborn>=0.13.0
 plotly>=5.18.0
 
 # ─── Interfaz Demo ────────────────────────────────────────────────────────────
-streamlit>=1.30.0
+fastapi>=0.100.0             # Backend API
+uvicorn>=0.23.0              # Servidor ASGI para FastAPI
 
 # ─── Generación de Datos Sintéticos ───────────────────────────────────────────
 Faker>=22.0.0
