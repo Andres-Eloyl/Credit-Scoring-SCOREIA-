@@ -88,6 +88,42 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Clear previous validations
+        document.querySelectorAll('.premium-input-container').forEach(el => {
+            el.classList.remove('!border-error', '!bg-error/10');
+        });
+        
+        // Basic Validation
+        let isValid = true;
+        let errors = [];
+
+        if (data.edad < 18 || data.edad > 100) {
+            isValid = false;
+            document.getElementById('edad').closest('.premium-input-container').classList.add('!border-error', '!bg-error/10');
+            errors.push('La edad debe estar entre 18 y 100 años.');
+        }
+
+        if (data.monto_solicitado <= 0) {
+            isValid = false;
+            document.getElementById('monto_solicitado').closest('.premium-input-container').classList.add('!border-error', '!bg-error/10');
+            errors.push('El monto solicitado debe ser mayor a 0.');
+        }
+
+        if (data.ingreso_mensual <= 0) {
+            isValid = false;
+            document.getElementById('ingreso_mensual').closest('.premium-input-container').classList.add('!border-error', '!bg-error/10');
+            errors.push('El ingreso mensual debe ser mayor a 0.');
+        }
+
+        if (!isValid) {
+            alert("Por favor corrija los siguientes errores:\n" + errors.join('\n'));
+            evaluarText.innerHTML = originalText;
+            btnCalculate.disabled = false;
+            btnCalculate.classList.remove('opacity-80');
+            emptyState.classList.remove('hidden');
+            return;
+        }
+
         try {
             const apiUrl = window.location.origin + '/api/predict';
             
