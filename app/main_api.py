@@ -71,25 +71,17 @@ def predict_credit(req: CreditRequest):
         pd_val = float(prediction_df.iloc[0]["pd"])
         
         # Segmentación
-        segment_df = segmentor.segment(prediction_df)
-        riesgo = segment_df.iloc[0]["riesgo"]
+        riesgo = prediction_df.iloc[0]["risk_segment"]
         
-        # Explicabilidad: Guardar gráfico SHAP
-        explainer.explain_individual(data_dict, client_id)
-        
-        # Leer el gráfico SHAP generado y codificarlo en Base64
-        shap_path = Path(f"reports/decisions/shap_waterfall_{client_id}.png")
-        shap_base64 = ""
-        if shap_path.exists():
-            with open(shap_path, "rb") as image_file:
-                shap_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+        # Explicabilidad: Extraer datos crudos para dashboard interactivo
+        shap_data = explainer.get_shap_values_dict(data_dict)
                 
         return {
             "client_id": client_id,
             "pd": pd_val,
             "riesgo": riesgo,
             "decision": "Aprobado" if pd_val < 0.60 else "Rechazado",
-            "shap_image_b64": shap_base64
+            "shap_data": shap_data
         }
         
     except Exception as e:

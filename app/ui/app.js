@@ -13,29 +13,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdGauge = document.getElementById('pdGauge');
     const riskBadge = document.getElementById('riskBadge');
     const decisionText = document.getElementById('decisionText');
-    const shapImage = document.getElementById('shapImage');
+    const shapChartContainer = document.getElementById('shapChartContainer');
+    const shapChart = document.getElementById('shapChart');
     const shapPlaceholder = document.getElementById('shapPlaceholder');
+
+    const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const randomFloat = (min, max, decimals = 2) => Number((Math.random() * (max - min) + min).toFixed(decimals));
 
     // Pre-fill with dummy data for testing
     btnFillDummy.addEventListener('click', () => {
         const dummyData = {
-            client_id: "C-10023",
-            edad: 35,
-            estado_civil: "Casado",
-            nivel_educativo: "Universidad",
-            tipo_vivienda: "Propia",
-            ingreso_mensual: 4500.00,
-            antiguedad_laboral: 60,
-            tipo_contrato: "Indefinido",
-            score_buro: 720,
-            tipo_prestamo: "Personal",
-            monto_solicitado: 15000.00,
-            plazo_meses: 36,
-            meses_mora_maxima: 0,
-            num_creditos_activos: 2,
-            consultas_buro_6m: 1,
-            ratio_deuda_ingreso: 0.30,
-            utilizacion_credito: 0.45
+            client_id: "C-" + randomInt(10000, 99999),
+            edad: randomInt(18, 75),
+            estado_civil: randomItem(["Soltero", "Casado", "Divorciado", "Viudo"]),
+            nivel_educativo: randomItem(["Primaria", "Secundaria", "Universidad", "Posgrado"]),
+            tipo_vivienda: randomItem(["Propia", "Arrendada", "Familiar"]),
+            ingreso_mensual: randomFloat(800, 15000),
+            antiguedad_laboral: randomInt(0, 240),
+            tipo_contrato: randomItem(["Indefinido", "Temporal", "Independiente"]),
+            score_buro: randomInt(300, 850),
+            tipo_prestamo: randomItem(["Personal", "Hipotecario", "Automotriz", "Tarjeta"]),
+            monto_solicitado: randomFloat(1000, 50000),
+            plazo_meses: randomItem([6, 12, 24, 36, 48, 60, 72, 84]),
+            meses_mora_maxima: randomInt(0, 6),
+            num_creditos_activos: randomInt(0, 5),
+            consultas_buro_6m: randomInt(0, 10),
+            ratio_deuda_ingreso: randomFloat(0.05, 0.60),
+            utilizacion_credito: randomFloat(0, 1)
         };
 
         for (const [key, value] of Object.entries(dummyData)) {
@@ -120,9 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsContent.classList.remove('hidden');
         resultsContent.classList.add('flex', 'animate-in', 'fade-in', 'slide-in-from-bottom-4', 'duration-700');
         
-        // Update PD
-        const pdPercent = (data.pd * 100).toFixed(1);
-        pdValue.textContent = `${pdPercent}%`;
+        // Update PD with animation
+        const targetPdPercent = data.pd * 100;
+        animateValue(pdValue, 0, targetPdPercent, 1000, "%");
         
         // Gauge colors based on risk
         let color = '#398a48'; // forest-green (low risk)
@@ -162,14 +167,100 @@ document.addEventListener('DOMContentLoaded', () => {
             decisionText.className = 'mt-4 text-sm font-semibold text-error text-center';
         }
 
-        // Update SHAP Image
-        if (data.shap_image_b64) {
-            shapImage.src = `data:image/png;base64,${data.shap_image_b64}`;
-            shapImage.classList.remove('hidden');
+        // Update SHAP Chart
+        if (data.shap_data) {
+            shapChart.classList.remove('hidden');
             shapPlaceholder.classList.add('hidden');
+            renderShapChart(data.shap_data);
         } else {
-            shapImage.classList.add('hidden');
+            shapChart.classList.add('hidden');
             shapPlaceholder.classList.remove('hidden');
         }
+    }
+
+    function animateValue(obj, start, end, duration, suffix) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerHTML = (progress * (end - start) + start).toFixed(1) + suffix;
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    let currentChart = null;
+    function renderShapChart(shapData) {
+        // Find top 10 features by absolute contribution magnitude
+        const features = shapData.features.sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)).slice(0, 10);
+        
+        const seriesData = features.map(f => {
+            return {
+                x: f.name,
+                y: Number(f.contribution.toFixed(4)),
+                fillColor: f.contribution > 0 ? '#ffb4ab' : '#398a48'
+            };
+        });
+
+        const options = {
+            series: [{
+                name: 'Impacto SHAP',
+                data: seriesData
+            }],
+            chart: {
+                type: 'bar',
+                height: '100%',
+                parentHeightOffset: 0,
+                toolbar: { show: false },
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800,
+                    animateGradually: { enabled: true, delay: 150 },
+                    dynamicAnimation: { enabled: true, speed: 350 }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 2
+                }
+            },
+            dataLabels: { enabled: false },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#e0e4db',
+                        fontSize: '11px',
+                        fontFamily: 'Inter, sans-serif'
+                    }
+                }
+            },
+            xaxis: {
+                labels: { style: { colors: '#e0e4db' } }
+            },
+            grid: {
+                borderColor: 'rgba(245, 245, 220, 0.1)',
+                strokeDashArray: 4
+            },
+            theme: { mode: 'dark' },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return val > 0 ? "+" + val : val;
+                    }
+                }
+            }
+        };
+
+        if (currentChart) {
+            currentChart.destroy();
+        }
+        
+        currentChart = new ApexCharts(document.querySelector("#shapChart"), options);
+        currentChart.render();
     }
 });

@@ -89,6 +89,44 @@ class ModelExplainer:
         plt.close()
         logger.info(f"Gráfico Waterfall guardado en {output_path}")
 
+    def get_shap_values_dict(self, data: Union[Dict[str, Any], pd.Series, pd.DataFrame]) -> Dict[str, Any]:
+        """
+        Calcula y devuelve los valores SHAP en formato de diccionario para ser consumido
+        por un frontend (Dashboard interactivo).
+        """
+        if isinstance(data, dict):
+            df = pd.DataFrame([data])
+        elif isinstance(data, pd.Series):
+            df = data.to_frame().T
+        elif isinstance(data, pd.DataFrame):
+            df = data.copy()
+            if len(df) > 1:
+                df = df.iloc[[0]]
+        else:
+            raise ValueError("Formato de datos no soportado.")
+            
+        X_processed = self.predictor._preprocess(df)
+        if isinstance(X_processed, pd.DataFrame):
+            X_processed = X_processed[self.feature_names]
+            
+        explanation = self._get_shap_explanation(X_processed)
+        
+        # El objeto explanation contiene base_values, values y data
+        base_value = float(explanation.base_values[0]) if hasattr(explanation.base_values, "__len__") else float(explanation.base_values)
+        
+        features_list = []
+        for i, feature_name in enumerate(self.feature_names):
+            features_list.append({
+                "name": feature_name,
+                "value": float(explanation.data[0][i]) if explanation.data is not None else 0.0,
+                "contribution": float(explanation.values[0][i])
+            })
+            
+        return {
+            "base_value": base_value,
+            "features": features_list
+        }
+
     def explain_global(self, X_df: pd.DataFrame, filename: str = "shap_summary_plot.png") -> None:
         """
         Genera un Summary Plot global utilizando un lote de datos.
