@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFillDummy = document.getElementById('btnFillDummy');
     const btnCalculate = document.getElementById('btn-evaluar');
     const evaluarText = document.getElementById('evaluar-text');
-    const evaluarIcon = document.getElementById('evaluar-icon');
     
     // Results elements
     const emptyState = document.getElementById('empty-state');
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
             Analizando Perfil...
         `;
-        evaluarIcon.classList.add('hidden');
         btnCalculate.disabled = true;
         btnCalculate.classList.add('opacity-80');
         
@@ -114,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             // Restore button
             evaluarText.innerHTML = originalText;
-            evaluarIcon.classList.remove('hidden');
             btnCalculate.disabled = false;
             btnCalculate.classList.remove('opacity-80');
         }
