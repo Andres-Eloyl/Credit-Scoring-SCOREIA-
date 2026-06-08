@@ -90,26 +90,26 @@
         </div>
 
         <!-- Tarjetas de Información (Carrusel) -->
-        <div class="relative z-10 mt-12 max-w-lg">
-            <div id="infoCarousel" class="glass-panel-premium p-6 rounded-2xl flex items-start gap-4 transition-all duration-500 min-h-[120px]">
-                <div class="bg-accent/20 p-3 rounded-xl border border-accent/30 flex-shrink-0" id="carouselIconContainer">
-                    <span class="material-symbols-outlined text-accent" id="carouselIcon">bolt</span>
+        <div class="relative z-10 mt-12 max-w-xl w-full">
+            <div id="infoCarousel" class="glass-panel-premium p-8 rounded-3xl flex items-start gap-6 transition-all duration-500 min-h-[160px]">
+                <div class="bg-accent/20 p-4 rounded-2xl border border-accent/30 flex-shrink-0" id="carouselIconContainer">
+                    <span class="material-symbols-outlined text-accent text-4xl" id="carouselIcon">bolt</span>
                 </div>
                 <div>
-                    <h3 class="font-bold text-cream text-lg" id="carouselTitle">Evaluación Ultrarrápida</h3>
-                    <p class="text-cream/50 text-sm mt-1" id="carouselDesc">Analizamos tus datos en menos de 200 milisegundos para darte una respuesta casi instantánea.</p>
+                    <h3 class="font-bold text-cream text-2xl" id="carouselTitle">Evaluación Ultrarrápida</h3>
+                    <p class="text-cream/60 text-base mt-2 leading-relaxed" id="carouselDesc">Analizamos tus datos en menos de 200 milisegundos para darte una respuesta casi instantánea.</p>
                 </div>
             </div>
             
             <!-- Controles del carrusel -->
-            <div class="flex gap-2 mt-4 ml-2">
-                <button onclick="prevSlide()" class="w-8 h-8 rounded-full border border-cream/10 flex items-center justify-center text-cream/50 hover:bg-cream/10 hover:text-cream transition-colors focus:outline-none">
-                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+            <div class="flex gap-3 mt-6 ml-2">
+                <button onclick="prevSlide()" class="w-10 h-10 rounded-full border border-cream/10 flex items-center justify-center text-cream/50 hover:bg-cream/10 hover:text-cream transition-colors focus:outline-none">
+                    <span class="material-symbols-outlined text-lg">arrow_back</span>
                 </button>
-                <button onclick="nextSlide()" class="w-8 h-8 rounded-full border border-cream/10 flex items-center justify-center text-cream/50 hover:bg-cream/10 hover:text-cream transition-colors focus:outline-none">
-                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                <button onclick="nextSlide()" class="w-10 h-10 rounded-full border border-cream/10 flex items-center justify-center text-cream/50 hover:bg-cream/10 hover:text-cream transition-colors focus:outline-none">
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
                 </button>
-                <div class="flex items-center gap-2 ml-4" id="carouselDots">
+                <div class="flex items-center gap-3 ml-6" id="carouselDots">
                     <!-- Puntos generados por JS -->
                 </div>
             </div>
@@ -788,7 +788,7 @@
     function renderDots() {
         if(!carouselDots) return;
         carouselDots.innerHTML = slides.map((_, i) => 
-            `<button onclick="goToSlide(${i})" class="w-2 h-2 rounded-full transition-all duration-300 focus:outline-none ${i === currentSlide ? 'bg-accent w-4' : 'bg-cream/20 hover:bg-cream/40'}"></button>`
+            `<button onclick="goToSlide(${i})" class="h-2.5 rounded-full transition-all duration-300 focus:outline-none ${i === currentSlide ? 'bg-accent w-6' : 'bg-cream/20 hover:bg-cream/40 w-2.5'}"></button>`
         ).join('');
     }
 
