@@ -226,8 +226,8 @@
 <script>if(!localStorage.getItem('scoreia_user')){window.location.href='/login';}</script>
 <canvas id="particleCanvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
-<!-- Mobile Header -->
-<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-surface/80 backdrop-blur-2xl border-b border-cream/10 md:hidden">
+<!-- Global Header -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-20 bg-surface/80 backdrop-blur-2xl border-b border-cream/10">
     <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-accent text-2xl">blur_on</span>
         <div>
@@ -240,16 +240,20 @@
     </button>
 </header>
 
-<!-- Desktop / Mobile Sidebar -->
-<nav id="sidebar" class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-10 px-6 z-40 bg-[#0a0e0a] border-r border-cream/10 hidden md:flex transition-transform duration-300">
-    <div class="flex items-center gap-3 mb-8 px-2">
-        <div class="w-12 h-12 rounded-2xl bg-surface flex items-center justify-center border border-cream/10 shadow-[0_0_20px_rgba(57,138,72,0.2)]">
-            <span class="material-symbols-outlined text-accent text-3xl font-bold">blur_on</span>
+<!-- Sidebar Drawer -->
+<nav id="sidebar" class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-8 px-6 z-50 bg-[#0a0e0a] border-r border-cream/10 transition-transform duration-300 -translate-x-full shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
+    <div class="flex items-center justify-between mb-8 px-2">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center border border-cream/10 shadow-[0_0_15px_rgba(57,138,72,0.2)]">
+                <span class="material-symbols-outlined text-accent text-2xl font-bold">blur_on</span>
+            </div>
+            <div>
+                <h1 class="text-lg font-headline-md font-extrabold text-cream tracking-tight">SCOREIA</h1>
+            </div>
         </div>
-        <div>
-            <h1 class="text-xl font-headline-md font-extrabold text-cream tracking-tight">SCOREIA</h1>
-            <p class="text-[10px] font-bold text-accent/80 uppercase tracking-[0.2em]">Riesgo Crediticio</p>
-        </div>
+        <button id="closeSidebarBtn" class="text-cream/50 hover:text-accent transition-colors p-1 bg-cream/5 rounded-lg border border-cream/10">
+            <span class="material-symbols-outlined text-xl">close</span>
+        </button>
     </div>
     <!-- Welcome User -->
     <div class="mb-8 px-2 py-3 rounded-xl bg-cream/5 border border-cream/10">
@@ -280,8 +284,8 @@
     </div>
 </nav>
 
-<!-- Main Canvas -->
-<main class="md:ml-[280px] pt-28 md:pt-12 px-6 lg:px-10 pb-20 max-w-[1600px] mx-auto min-h-screen relative">
+<!-- Main content -->
+<main id="main-content" class="pt-28 pb-8 px-4 md:px-8 w-full max-w-7xl mx-auto transition-all duration-300">
     
     <!-- EVAL VIEW -->
     <div id="eval-view">

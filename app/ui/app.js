@@ -190,18 +190,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Navigation Logic ---
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
 
-    if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            if (!sidebar.classList.contains('hidden')) {
-                sidebar.classList.remove('md:flex');
-                sidebar.classList.add('flex', 'w-full', 'z-50', 'bg-[#0a0e0a]');
-            } else {
-                sidebar.classList.remove('flex', 'w-full', 'z-50');
-                sidebar.classList.add('md:flex');
-            }
-        });
+    function toggleSidebar() {
+        if (sidebar) {
+            sidebar.classList.toggle('-translate-x-full');
+        }
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+    }
+    
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', toggleSidebar);
     }
 
     function setActiveNav(activeNav, activeView) {
@@ -225,11 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close sidebar on mobile after clicking
-        if (window.innerWidth < 768 && sidebar && !sidebar.classList.contains('hidden')) {
-            sidebar.classList.add('hidden');
-            sidebar.classList.remove('flex', 'w-full', 'z-50');
-            sidebar.classList.add('md:flex');
+        // Close sidebar after clicking
+        if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.add('-translate-x-full');
         }
     }
 
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'html body .fill-accent { fill: ' + c + ' !important; }' +
             'html body .shadow-accent\\/20 { --tw-shadow-color: ' + c + '33 !important; }' +
             'html body .nav-item-active { border-left-color: ' + c + ' !important; background: linear-gradient(90deg, ' + c + '26 0%, transparent 100%) !important; }' +
-            ':root { --forest-green: ' + c + ' !important; }' +
+            ':root { --forest-green: ' + c + ' !important; --accent: ' + c + ' !important; --accent-glow: rgba(' + rgb + ', 0.4) !important; }' +
             'html body .bg-accent\\/10 { background-color: ' + c + '1a !important; }' +
             'html body .bg-accent\\/20 { background-color: ' + c + '33 !important; }' +
             'html body .border-accent\\/20 { border-color: ' + c + '33 !important; }' +
