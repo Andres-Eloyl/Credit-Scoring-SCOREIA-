@@ -136,14 +136,20 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Rol / Cargo</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">work</span>
-                        <select id="regRole" required
+                        <select id="regRole" required onchange="toggleRoleCustom()"
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body-md">
                             <option value="" disabled selected class="bg-background">Selecciona tu rol</option>
                             <option value="analista" class="bg-background text-cream">Analista de Riesgo</option>
                             <option value="gerente" class="bg-background text-cream">Gerente de Crédito</option>
                             <option value="cientifico" class="bg-background text-cream">Científico de Datos</option>
                             <option value="admin" class="bg-background text-cream">Administrador</option>
+                            <option value="otro" class="bg-background text-cream">Otro...</option>
                         </select>
+                    </div>
+                    <div id="customRoleContainer" class="hidden mt-3 relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">edit</span>
+                        <input id="regRoleCustom" type="text" placeholder="Especifique rol"
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
                 <!-- Departamento -->
@@ -172,27 +178,54 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Teléfono de contacto</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">call</span>
-                        <select id="regCountryCode" required class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[80px]">
-                            <option value="+1" class="bg-background">+1</option>
-                            <option value="+34" class="bg-background">+34</option>
-                            <option value="+51" class="bg-background">+51</option>
-                            <option value="+52" class="bg-background">+52</option>
-                            <option value="+54" class="bg-background">+54</option>
-                            <option value="+56" class="bg-background">+56</option>
-                            <option value="+57" class="bg-background">+57</option>
-                            <option value="+58" class="bg-background">+58</option>
+                        <select id="regCountryCode" required class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[100px]">
+                            <option value="+1" class="bg-background">🇺🇸 +1</option>
+                            <option value="+34" class="bg-background">🇪🇸 +34</option>
+                            <option value="+51" class="bg-background">🇵🇪 +51</option>
+                            <option value="+52" class="bg-background">🇲🇽 +52</option>
+                            <option value="+54" class="bg-background">🇦🇷 +54</option>
+                            <option value="+56" class="bg-background">🇨🇱 +56</option>
+                            <option value="+57" class="bg-background">🇨🇴 +57</option>
+                            <option value="+58" class="bg-background">🇻🇪 +58</option>
                         </select>
                         <div class="w-px h-6 bg-cream/20"></div>
                         <input id="regPhone" type="tel" placeholder="234 567 890" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
-                <!-- Ubicación -->
-                <div class="md:col-span-2">
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Ubicación / Sucursal</label>
+                <!-- País -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">País</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
-                        <span class="material-symbols-outlined text-cream/40 ml-4">location_on</span>
-                        <input id="regLocation" type="text" placeholder="Ciudad, País o Sucursal" required
+                        <span class="material-symbols-outlined text-cream/40 ml-4">public</span>
+                        <input id="regCountry" type="text" placeholder="Ej: México" required
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                    </div>
+                </div>
+                <!-- Estado / Provincia -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Estado / Provincia</label>
+                    <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">map</span>
+                        <input id="regState" type="text" placeholder="Ej: Jalisco" required
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                    </div>
+                </div>
+                <!-- Municipio / Ciudad -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Municipio / Ciudad</label>
+                    <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">location_city</span>
+                        <input id="regCity" type="text" placeholder="Ej: Guadalajara" required
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                    </div>
+                </div>
+                <!-- Dirección de Referencia -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Dirección de Referencia</label>
+                    <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">signpost</span>
+                        <input id="regAddress" type="text" placeholder="Calle, Número, Colonia" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
@@ -270,6 +303,20 @@
         const customContainer = document.getElementById('customDeptContainer');
         const customInput = document.getElementById('regDeptCustom');
         if (deptSelect.value === 'otro') {
+            customContainer.classList.remove('hidden');
+            customInput.required = true;
+        } else {
+            customContainer.classList.add('hidden');
+            customInput.required = false;
+            customInput.value = '';
+        }
+    }
+
+    window.toggleRoleCustom = function() {
+        const roleSelect = document.getElementById('regRole');
+        const customContainer = document.getElementById('customRoleContainer');
+        const customInput = document.getElementById('regRoleCustom');
+        if (roleSelect.value === 'otro') {
             customContainer.classList.remove('hidden');
             customInput.required = true;
         } else {
