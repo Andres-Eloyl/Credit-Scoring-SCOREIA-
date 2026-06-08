@@ -177,8 +177,9 @@
                 <div>
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Teléfono de contacto</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
-                        <span class="material-symbols-outlined text-cream/40 ml-4">call</span>
-                        <select id="regCountryCode" required class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[100px]">
+                        <span id="callIcon" class="material-symbols-outlined text-cream/40 ml-4">call</span>
+                        <span id="flagIcon" class="ml-4 text-xl hidden"></span>
+                        <select id="regCountryCode" required onchange="updateFlagIcon()" class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[100px]">
                             <option value="+1" class="bg-background">🇺🇸 +1</option>
                             <option value="+34" class="bg-background">🇪🇸 +34</option>
                             <option value="+51" class="bg-background">🇵🇪 +51</option>
@@ -323,6 +324,20 @@
             customContainer.classList.add('hidden');
             customInput.required = false;
             customInput.value = '';
+        }
+    }
+
+    window.updateFlagIcon = function() {
+        const select = document.getElementById('regCountryCode');
+        const flagIcon = document.getElementById('flagIcon');
+        const callIcon = document.getElementById('callIcon');
+        
+        if(select.value) {
+            const selectedText = select.options[select.selectedIndex].text;
+            const emoji = selectedText.split(' ')[0];
+            flagIcon.innerText = emoji;
+            flagIcon.classList.remove('hidden');
+            callIcon.classList.add('hidden');
         }
     }
 
