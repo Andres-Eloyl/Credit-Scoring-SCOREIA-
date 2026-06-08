@@ -30,9 +30,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navigation & Views
     const navEval = document.getElementById('nav-eval');
     const navDashboard = document.getElementById('nav-dashboard');
+    const navConfig = document.getElementById('nav-config');
     const evalView = document.getElementById('eval-view');
     const dashboardView = document.getElementById('dashboard-view');
+    const configView = document.getElementById('config-view');
     let chartDecisionsInstance = null;
+    
+    // Config Elements
+    const btnThemeDark = document.getElementById('btn-theme-dark');
+    const btnThemeLight = document.getElementById('btn-theme-light');
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const riskThresholdSlider = document.getElementById('riskThresholdSlider');
+    const thresholdValueText = document.getElementById('thresholdValueText');
+    const btnSaveConfig = document.getElementById('btnSaveConfig');
+    
+    // Global Config State
+    let currentConfig = {
+        theme: localStorage.getItem('theme') || 'dark',
+        accentColor: localStorage.getItem('accentColor') || '#398a48',
+        riskThreshold: parseFloat(localStorage.getItem('riskThreshold')) || 60
+    };
     
     // Simulator elements
     const simMonto = document.getElementById('simMonto');
@@ -93,24 +110,37 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchHistory();
 
     // --- Navigation Logic ---
-    if (navEval && navDashboard) {
-        navEval.addEventListener('click', () => {
-            navEval.classList.add('nav-item-active', 'text-accent');
-            navEval.classList.remove('text-cream/50');
-            navDashboard.classList.remove('nav-item-active', 'text-accent');
-            navDashboard.classList.add('text-cream/50');
-            evalView.classList.remove('hidden');
-            dashboardView.classList.add('hidden');
+    function setActiveNav(activeNav, activeView) {
+        [navEval, navDashboard, navConfig].forEach(nav => {
+            if (!nav) return;
+            if (nav === activeNav) {
+                nav.classList.add('nav-item-active', 'text-accent');
+                nav.classList.remove('text-cream/50');
+            } else {
+                nav.classList.remove('nav-item-active', 'text-accent');
+                nav.classList.add('text-cream/50');
+            }
         });
+        
+        [evalView, dashboardView, configView].forEach(view => {
+            if (!view) return;
+            if (view === activeView) {
+                view.classList.remove('hidden');
+            } else {
+                view.classList.add('hidden');
+            }
+        });
+    }
 
+    if (navEval && navDashboard && navConfig) {
+        navEval.addEventListener('click', () => setActiveNav(navEval, evalView));
         navDashboard.addEventListener('click', () => {
-            navDashboard.classList.add('nav-item-active', 'text-accent');
-            navDashboard.classList.remove('text-cream/50');
-            navEval.classList.remove('nav-item-active', 'text-accent');
-            navEval.classList.add('text-cream/50');
-            evalView.classList.add('hidden');
-            dashboardView.classList.remove('hidden');
+            setActiveNav(navDashboard, dashboardView);
             fetchStats();
+        });
+        navConfig.addEventListener('click', () => {
+            setActiveNav(navConfig, configView);
+            syncConfigUI();
         });
     }
 
@@ -201,6 +231,104 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Config Logic ---
+    function applyThemeConfig() {
+        // Theme
+        if (currentConfig.theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Color
+        let styleTag = document.getElementById('dynamic-accent-style');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'dynamic-accent-style';
+            document.head.appendChild(styleTag);
+        }
+        const c = currentConfig.accentColor;
+        styleTag.innerHTML = `
+            .bg-accent { background-color: \${c} !important; }
+            .text-accent { color: \${c} !important; }
+            .border-accent { border-color: \${c} !important; }
+            .ring-accent { --tw-ring-color: \${c} !important; }
+            .from-accent { --tw-gradient-from: \${c} !important; }
+            .to-accent { --tw-gradient-to: \${c} !important; }
+            .accent-accent { accent-color: \${c} !important; }
+            .fill-accent { fill: \${c} !important; }
+        `;
+    }
+    
+    function syncConfigUI() {
+        // Slider
+        riskThresholdSlider.value = currentConfig.riskThreshold;
+        thresholdValueText.innerText = currentConfig.riskThreshold + '%';
+        
+        // Buttons Theme
+        if (currentConfig.theme === 'dark') {
+            btnThemeDark.classList.add('border-accent', 'bg-accent/20');
+            btnThemeDark.classList.remove('border-cream/20', 'bg-cream/5');
+            btnThemeLight.classList.remove('border-accent', 'bg-accent/20');
+            btnThemeLight.classList.add('border-cream/20', 'bg-cream/5');
+        } else {
+            btnThemeLight.classList.add('border-accent', 'bg-accent/20');
+            btnThemeLight.classList.remove('border-cream/20', 'bg-cream/5');
+            btnThemeDark.classList.remove('border-accent', 'bg-accent/20');
+            btnThemeDark.classList.add('border-cream/20', 'bg-cream/5');
+        }
+    }
+    
+    // Apply on load
+    applyThemeConfig();
+    
+    // Listeners
+    if (riskThresholdSlider) {
+        riskThresholdSlider.addEventListener('input', (e) => {
+            thresholdValueText.innerText = e.target.value + '%';
+        });
+    }
+    
+    if (btnThemeDark) {
+        btnThemeDark.addEventListener('click', () => {
+            currentConfig.theme = 'dark';
+            syncConfigUI();
+        });
+    }
+    
+    if (btnThemeLight) {
+        btnThemeLight.addEventListener('click', () => {
+            currentConfig.theme = 'light';
+            syncConfigUI();
+        });
+    }
+    
+    if (colorBtns) {
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                currentConfig.accentColor = e.target.dataset.color;
+                // remove ring from all
+                colorBtns.forEach(b => b.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]'));
+                // add ring to clicked
+                e.target.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]');
+            });
+        });
+    }
+    
+    if (btnSaveConfig) {
+        btnSaveConfig.addEventListener('click', () => {
+            currentConfig.riskThreshold = parseFloat(riskThresholdSlider.value);
+            localStorage.setItem('theme', currentConfig.theme);
+            localStorage.setItem('accentColor', currentConfig.accentColor);
+            localStorage.setItem('riskThreshold', currentConfig.riskThreshold);
+            applyThemeConfig();
+            
+            const originalText = btnSaveConfig.innerText;
+            btnSaveConfig.innerText = '¡Guardado!';
+            setTimeout(() => { btnSaveConfig.innerText = originalText; }, 2000);
+        });
+    }
+
     // --- Simulator Logic ---
     function formatCurrency(val) {
         return "$" + Number(val).toLocaleString('en-US');
@@ -230,10 +358,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 riskBadge.className = 'px-6 py-2 rounded-full font-bold text-sm tracking-wide border bg-surface text-cream border-cream/20 animate-pulse';
                 
                 const apiUrl = window.location.origin + '/api/predict';
+                const riskThreshold = currentConfig ? (currentConfig.riskThreshold / 100.0) : 0.60;
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(simData)
+                    body: JSON.stringify({ ...simData, risk_threshold: riskThreshold })
                 });
 
                 if (response.ok) {
@@ -359,12 +488,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             latestFormData = data; // Store for simulator
+
+            const riskThreshold = currentConfig ? (currentConfig.riskThreshold / 100.0) : 0.60;
+
             const apiUrl = window.location.origin + '/api/predict';
-            
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ ...data, risk_threshold: riskThreshold })
             });
 
             if (!response.ok) {

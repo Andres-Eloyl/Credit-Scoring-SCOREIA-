@@ -236,6 +236,10 @@
             <span class="material-symbols-outlined text-xl">dashboard</span>
             <span class="text-sm font-bold">Dashboard Analytics</span>
         </a>
+        <a id="nav-config" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-xl">settings</span>
+            <span class="text-sm font-bold">Configuración</span>
+        </a>
     </div>
 </nav>
 
@@ -618,6 +622,83 @@
             </div>
         </div>
     </div> <!-- END DASHBOARD VIEW -->
+    
+    <!-- CONFIG VIEW -->
+    <div id="config-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+        <div class="mb-12">
+            <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
+                <span>Core Analytics</span>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-accent/80">Configuración</span>
+            </nav>
+            <h2 class="text-3xl font-headline-lg font-bold text-cream">Ajustes del Sistema</h2>
+            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Personaliza la interfaz visual y ajusta los parámetros del motor de inferencia.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Interfaz Visual -->
+            <div class="glass-panel-premium p-8 rounded-3xl">
+                <h3 class="text-xl font-bold text-cream mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-accent">palette</span>
+                    Personalización Visual
+                </h3>
+                
+                <div class="space-y-8">
+                    <!-- Tema Claro/Oscuro -->
+                    <div>
+                        <p class="text-sm font-bold text-cream mb-3">Modo de Apariencia</p>
+                        <div class="flex items-center gap-4">
+                            <button id="btn-theme-dark" class="px-6 py-3 rounded-xl border border-accent bg-accent/20 text-cream font-bold transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined">dark_mode</span> Oscuro
+                            </button>
+                            <button id="btn-theme-light" class="px-6 py-3 rounded-xl border border-cream/20 bg-cream/5 text-cream hover:bg-cream/10 font-bold transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined">light_mode</span> Claro
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Color de Acento -->
+                    <div>
+                        <p class="text-sm font-bold text-cream mb-3">Color de Acento Principal</p>
+                        <div class="flex items-center gap-4" id="color-picker-group">
+                            <button class="color-btn w-10 h-10 rounded-full bg-[#398a48] ring-2 ring-white ring-offset-2 ring-offset-[#1e211d]" data-color="#398a48"></button>
+                            <button class="color-btn w-10 h-10 rounded-full bg-[#3b82f6] opacity-70 hover:opacity-100 transition-all" data-color="#3b82f6"></button>
+                            <button class="color-btn w-10 h-10 rounded-full bg-[#8b5cf6] opacity-70 hover:opacity-100 transition-all" data-color="#8b5cf6"></button>
+                            <button class="color-btn w-10 h-10 rounded-full bg-[#f97316] opacity-70 hover:opacity-100 transition-all" data-color="#f97316"></button>
+                        </div>
+                        <p class="text-[10px] text-cream/50 mt-2">Aplica instantáneamente a gráficas, botones y componentes destacados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parámetros del Motor -->
+            <div class="glass-panel-premium p-8 rounded-3xl">
+                <h3 class="text-xl font-bold text-cream mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-accent">memory</span>
+                    Parámetros del Motor
+                </h3>
+                
+                <div class="space-y-8">
+                    <div>
+                        <div class="flex justify-between items-end mb-2">
+                            <div>
+                                <p class="text-sm font-bold text-cream">Umbral de Aprobación (Riesgo Máximo)</p>
+                                <p class="text-[11px] text-cream/60 mt-1 max-w-sm">Si la Probabilidad de Default (PD) es mayor a este valor, el crédito será Rechazado. (Por defecto 60%)</p>
+                            </div>
+                            <span id="thresholdValueText" class="text-3xl font-black text-accent">60%</span>
+                        </div>
+                        <input type="range" id="riskThresholdSlider" min="10" max="90" step="1" value="60" class="w-full h-2 bg-black/40 rounded-lg appearance-none cursor-pointer accent-accent mt-4">
+                    </div>
+                    
+                    <div class="pt-4 border-t border-cream/10">
+                        <button id="btnSaveConfig" class="w-full px-6 py-4 rounded-xl bg-accent text-white font-bold hover:scale-[1.02] transition-all shadow-xl shadow-accent/20">
+                            Aplicar Configuración
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END CONFIG VIEW -->
     
     <!-- Footer Global -->
     <footer class="mt-16 pb-12 flex flex-col items-center justify-center border-t border-white/10 pt-10">

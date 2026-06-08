@@ -69,10 +69,13 @@ async def predict(data: dict, db: Session = Depends(database.get_db)):
     if not predictor:
         raise HTTPException(status_code=500, detail="El modelo no está disponible.")
     
-    # Extraer client_id y quitarlo de features
+    # Extraer client_id y risk_threshold
     client_id = data.get("client_id", "Unknown")
+    risk_threshold = float(data.get("risk_threshold", 0.60))
+    
     data_dict = data.copy()
     data_dict.pop("client_id", None)
+    data_dict.pop("risk_threshold", None)
     
     # Realizar predicción
     try:
@@ -84,7 +87,7 @@ async def predict(data: dict, db: Session = Depends(database.get_db)):
         
         # Explicabilidad: Extraer datos crudos para dashboard interactivo
         shap_data = explainer.get_shap_values_dict(data_dict)
-        decision_text = "Aprobado" if pd_val < 0.60 else "Rechazado"
+        decision_text = "Aprobado" if pd_val <= risk_threshold else "Rechazado"
 
         # Guardar en base de datos
         db_eval = models.Evaluation(
