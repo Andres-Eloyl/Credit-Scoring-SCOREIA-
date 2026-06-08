@@ -1,84 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- LOGIN / REGISTRO ---
-    const loginOverlay = document.getElementById('loginOverlay');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const loginNameInput = document.getElementById('loginName');
-    const loginPassInput = document.getElementById('loginPass');
-    const regNameInput = document.getElementById('regName');
-    const regPassInput = document.getElementById('regPass');
-    const regPassConfirm = document.getElementById('regPassConfirm');
-    const loginError = document.getElementById('loginError');
-    const regError = document.getElementById('regError');
     const welcomeUser = document.getElementById('welcomeUser');
-    const btnShowRegister = document.getElementById('btnShowRegister');
-    const btnShowLogin = document.getElementById('btnShowLogin');
-    const loginPanel = document.getElementById('loginPanel');
-    const registerPanel = document.getElementById('registerPanel');
-    
     const storedUser = localStorage.getItem('scoreia_user');
-    if (storedUser) {
-        loginOverlay.classList.add('hidden');
-        if (welcomeUser) welcomeUser.innerText = storedUser;
-    }
-
-    // Toggle entre Login y Registro
-    if (btnShowRegister) {
-        btnShowRegister.addEventListener('click', () => {
-            loginPanel.classList.add('hidden');
-            registerPanel.classList.remove('hidden');
-        });
-    }
-    if (btnShowLogin) {
-        btnShowLogin.addEventListener('click', () => {
-            registerPanel.classList.add('hidden');
-            loginPanel.classList.remove('hidden');
-        });
-    }
-
-    // Registro
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = regNameInput.value.trim();
-            const pass = regPassInput.value;
-            const passC = regPassConfirm.value;
-            if (name.length < 2 || pass.length < 4) {
-                regError.innerText = 'Nombre (min 2) y contraseña (min 4 caracteres).';
-                regError.classList.remove('hidden');
-                return;
-            }
-            if (pass !== passC) {
-                regError.innerText = 'Las contraseñas no coinciden.';
-                regError.classList.remove('hidden');
-                return;
-            }
-            // Guardar credenciales
-            localStorage.setItem('scoreia_user', name);
-            localStorage.setItem('scoreia_pass', pass);
-            // Iniciar sesión directo
-            loginOverlay.classList.add('hidden');
-            if (welcomeUser) welcomeUser.innerText = name;
-        });
-    }
-
-    // Inicio de Sesión
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = loginNameInput.value.trim();
-            const pass = loginPassInput.value;
-            const savedName = localStorage.getItem('scoreia_user');
-            const savedPass = localStorage.getItem('scoreia_pass');
-            if (name === savedName && pass === savedPass) {
-                loginOverlay.classList.add('hidden');
-                if (welcomeUser) welcomeUser.innerText = name;
-            } else {
-                loginError.innerText = 'Credenciales incorrectas.';
-                loginError.classList.remove('hidden');
-            }
-        });
+    
+    // Set username if logged in
+    if (storedUser && welcomeUser) {
+        welcomeUser.innerText = storedUser;
     }
 
     // --- SHAP LABEL MAP ---
