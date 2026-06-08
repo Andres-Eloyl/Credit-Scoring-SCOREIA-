@@ -195,9 +195,16 @@
 </footer>
 
 <script>
+    let mouse = { x: -1000, y: -1000 };
     document.addEventListener('mousemove', (e) => {
         document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
         document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    document.addEventListener('mouseout', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
     });
 
     // --- Partículas (Efecto Constelación Antigravity) ---
@@ -232,7 +239,7 @@
     function animateParticles() {
         requestAnimationFrame(animateParticles);
         ctx.clearRect(0, 0, innerWidth, innerHeight);
-        ctx.fillStyle = 'rgba(57, 138, 72, 0.5)';
+        ctx.fillStyle = 'rgba(57, 138, 72, 0.4)';
         ctx.lineWidth = 0.5;
         
         for (let i = 0; i < particlesArray.length; i++) {
@@ -245,15 +252,26 @@
             ctx.beginPath();
             ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
             ctx.fill();
+
+            const dxMouse = mouse.x - p1.x;
+            const dyMouse = mouse.y - p1.y;
+            const distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
+            if (distMouse < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
             
-            for (let j = i; j < particlesArray.length; j++) {
+            for (let j = i + 1; j < particlesArray.length; j++) {
                 let p2 = particlesArray[j];
                 let dx = p1.x - p2.x;
                 let dy = p1.y - p2.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 120) {
+                if (distance < 100) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(57, 138, 72, ${1 - distance/120})`;
+                    ctx.strokeStyle = `rgba(57, 138, 72, ${0.15 - distance/1000})`;
                     ctx.moveTo(p1.x, p1.y);
                     ctx.lineTo(p2.x, p2.y);
                     ctx.stroke();

@@ -146,6 +146,30 @@
                         </select>
                     </div>
                 </div>
+                <!-- Departamento -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Departamento</label>
+                    <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">corporate_fare</span>
+                        <select id="regDept" required
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body-md">
+                            <option value="" disabled selected class="bg-background">Selecciona departamento</option>
+                            <option value="riesgos" class="bg-background text-cream">Riesgos Corporativos</option>
+                            <option value="finanzas" class="bg-background text-cream">Finanzas</option>
+                            <option value="ti" class="bg-background text-cream">Tecnología / TI</option>
+                            <option value="auditoria" class="bg-background text-cream">Auditoría</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Teléfono de Contacto -->
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Teléfono de contacto</label>
+                    <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                        <span class="material-symbols-outlined text-cream/40 ml-4">call</span>
+                        <input id="regPhone" type="tel" placeholder="+1 234 567 890" required
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                    </div>
+                </div>
                 <!-- Contraseña -->
                 <div>
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
@@ -182,9 +206,9 @@
 
     <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
     
-    <div class="mt-6 text-center">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-cream/40 hover:text-accent font-bold transition-colors">
-            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+    <div class="mt-8 text-center">
+        <a href="/" class="inline-flex items-center gap-2 text-base md:text-lg text-cream/50 hover:text-accent font-bold transition-colors">
+            <span class="material-symbols-outlined text-[24px]">arrow_back</span>
             Volver a la página principal
         </a>
     </div>
