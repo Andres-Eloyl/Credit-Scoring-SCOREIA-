@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
       tailwind.config = {
@@ -66,12 +66,12 @@
                 "on-error-container": "#ffdad6"
             },
             fontFamily: {
-                "headline-md": ["Sora", "sans-serif"],
-                "headline-lg": ["Sora", "sans-serif"],
-                "display-lg": ["Sora", "sans-serif"],
-                "body-md": ["DM Sans", "sans-serif"],
-                "label-md": ["DM Sans", "sans-serif"],
-                "label-sm": ["DM Sans", "sans-serif"]
+                "headline-md": ["Space Grotesk", "sans-serif"],
+                "headline-lg": ["Space Grotesk", "sans-serif"],
+                "display-lg": ["Space Grotesk", "sans-serif"],
+                "body-md": ["Outfit", "sans-serif"],
+                "label-md": ["Outfit", "sans-serif"],
+                "label-sm": ["Outfit", "sans-serif"]
             }
           }
         }
@@ -79,30 +79,39 @@
     </script>
     <style>
         :root {
-            --glass-bg: rgba(245, 245, 220, 0.03);
-            --glass-border: rgba(245, 245, 220, 0.12);
-            --glass-glow: rgba(57, 138, 72, 0.15);
-            --forest-green: #398a48;
+            --primary: #0b1310;
+            --accent: #398a48;
+            --accent-glow: rgba(57,138,72,0.4);
+            --surface: #13221c;
             --cream: #f5f5dc;
+            --forest-green: #398a48;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary);
+            color: var(--cream);
         }
 
         .glass-panel-premium {
-            background: linear-gradient(135deg, rgba(245, 245, 220, 0.05) 0%, rgba(245, 245, 220, 0.01) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            background: linear-gradient(135deg, rgba(19, 34, 28, 0.6) 0%, rgba(11, 19, 16, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 245, 220, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(245, 245, 220, 0.02);
+            position: relative;
         }
 
-        .glass-panel-premium:hover {
-            border-color: rgba(245, 245, 220, 0.25);
-            box-shadow: 0 0 20px var(--glass-glow);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .glass-panel-premium::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(57,138,72,0.5), transparent);
         }
         
         .premium-input-container {
             position: relative;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(245, 245, 220, 0.1);
             border-radius: 0.75rem;
             transition: all 0.3s ease;
@@ -110,8 +119,7 @@
 
         .premium-input-container:focus-within {
             border-color: var(--forest-green);
-            background: rgba(0, 0, 0, 0.4);
-            box-shadow: 0 0 0 1px var(--forest-green);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .premium-input {
@@ -216,8 +224,7 @@
 </head>
 <body class="bg-background text-cream font-body-md overflow-x-hidden min-h-screen">
 <script>if(!localStorage.getItem('scoreia_user')){window.location.href='/login';}</script>
-<div class="bg-mesh"></div>
-<div class="grid-overlay"></div>
+<canvas id="particleCanvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
 <!-- Mobile Header -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-surface/80 backdrop-blur-2xl border-b border-cream/10 md:hidden">
@@ -744,5 +751,92 @@
 </div>
 
 <script src="app.js?v=8"></script>
+<script>
+    // --- Particle System ---
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width, height;
+    
+    let mouse = { x: -1000, y: -1000 };
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+
+    window.addEventListener('mouseout', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    function initParticles() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        particles = [];
+        const numParticles = Math.floor((width * height) / 12000); 
+        
+        for (let i = 0; i < numParticles; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                radius: Math.random() * 1.5 + 0.5
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (let i = 0; i < particles.length; i++) {
+            let p = particles[i];
+            
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            if (p.x < 0 || p.x > width) p.vx *= -1;
+            if (p.y < 0 || p.y > height) p.vy *= -1;
+            
+            ctx.fillStyle = 'rgba(57, 138, 72, 0.5)';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            const dxMouse = mouse.x - p.x;
+            const dyMouse = mouse.y - p.y;
+            const distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
+            if (distMouse < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
+
+            for (let j = i + 1; j < particles.length; j++) {
+                let p2 = particles[j];
+                let dx = p.x - p2.x;
+                let dy = p.y - p2.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 100) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(57, 138, 72, ${0.15 - dist/1000})`;
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', initParticles);
+    
+    initParticles();
+    drawParticles();
+</script>
 </body>
 </html>
