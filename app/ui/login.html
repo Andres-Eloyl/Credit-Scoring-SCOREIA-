@@ -20,15 +20,6 @@
             fontFamily: {
                 "headline": ["Space Grotesk", "sans-serif"],
                 "body": ["Outfit", "sans-serif"]
-            },
-            animation: {
-                "fade-in-up": "fadeInUp 0.4s ease-out forwards",
-            },
-            keyframes: {
-                fadeInUp: {
-                    "0%": { opacity: 0, transform: "translateY(10px)" },
-                    "100%": { opacity: 1, transform: "translateY(0)" }
-                }
             }
           }
         }
@@ -48,40 +39,43 @@
             background-size: 40px 40px; z-index: -1; pointer-events: none;
         }
 
-        .glass-panel-premium {
-            background: linear-gradient(135deg, rgba(245, 245, 220, 0.05) 0%, rgba(245, 245, 220, 0.01) 100%);
+        .glass-card {
+            background: linear-gradient(135deg, rgba(245, 245, 220, 0.04) 0%, rgba(245, 245, 220, 0.01) 100%);
             backdrop-filter: blur(24px);
-            border: 1px solid rgba(245, 245, 220, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(245, 245, 220, 0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
         }
-        .input-glow:focus-within {
-            box-shadow: 0 0 15px rgba(57, 138, 72, 0.3);
-            border-color: #398a48;
+        .glass-card:hover {
+            border-color: rgba(245, 245, 220, 0.2);
+            box-shadow: 0 0 25px rgba(57, 138, 72, 0.15);
+            transform: translateY(-4px);
         }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .relative-z {
-            position: relative;
-            z-index: 10;
+
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
+        .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
+        .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
+        
+        .glass-panel-premium {
+            background: linear-gradient(145deg, rgba(20,28,22,0.6) 0%, rgba(10,14,10,0.8) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 245, 220, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 </head>
-<body class="bg-background text-cream overflow-x-hidden overflow-y-auto min-h-screen font-body">
+<body class="bg-background text-cream overflow-x-hidden min-h-screen font-body">
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
 
 
 
-<canvas id="particleCanvas"></canvas>
+
+
+
 
 <div class="flex flex-col lg:flex-row min-h-screen relative-z">
     
@@ -868,6 +862,8 @@
 </script>
 
 
+
+
 <script>
     let mouse = { x: -1000, y: -1000 };
     document.addEventListener('mousemove', (e) => {
@@ -881,7 +877,6 @@
         mouse.y = -1000;
     });
 
-    // --- Partículas (Efecto Constelación) ---
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
@@ -943,6 +938,5 @@
     initParticles();
     animateParticles();
 </script>
-
 </body>
 </html>

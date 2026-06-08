@@ -14,7 +14,8 @@
                 "accent": "#398a48",
                 "cream": "#f5f5dc",
                 "surface": "#101410",
-                "background": "#0b1310"
+                "background": "#0b1310",
+                "error": "#ffb4ab"
             },
             fontFamily: {
                 "headline": ["Space Grotesk", "sans-serif"],
@@ -38,10 +39,6 @@
             background-size: 40px 40px; z-index: -1; pointer-events: none;
         }
 
-        
-
-        
-
         .glass-card {
             background: linear-gradient(135deg, rgba(245, 245, 220, 0.04) 0%, rgba(245, 245, 220, 0.01) 100%);
             backdrop-filter: blur(24px);
@@ -57,13 +54,24 @@
 
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
+        .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
+        .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
+        
+        .glass-panel-premium {
+            background: linear-gradient(145deg, rgba(20,28,22,0.6) 0%, rgba(10,14,10,0.8) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 245, 220, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-background text-cream overflow-x-hidden pt-32 pb-20 font-body">
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
+
+
 
 
 
@@ -138,6 +146,8 @@
 
 
 
+
+
 <script>
     let mouse = { x: -1000, y: -1000 };
     document.addEventListener('mousemove', (e) => {
@@ -151,7 +161,6 @@
         mouse.y = -1000;
     });
 
-    // --- Partículas (Efecto Constelación) ---
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
@@ -213,6 +222,5 @@
     initParticles();
     animateParticles();
 </script>
-
 </body>
 </html>
