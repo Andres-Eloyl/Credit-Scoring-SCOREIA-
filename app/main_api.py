@@ -33,9 +33,28 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import case
 from app import models, database
 
 models.Base.metadata.create_all(bind=database.engine)
+
+from sqlalchemy import text
+# Migraciones automáticas para base de datos en producción (PostgreSQL en Render)
+try:
+    with database.engine.connect() as conn:
+        conn.execute(text('ALTER TABLE evaluations ADD COLUMN client_name VARCHAR;'))
+        try: conn.commit() 
+        except: pass
+except Exception:
+    pass
+
+try:
+    with database.engine.connect() as conn:
+        conn.execute(text('ALTER TABLE evaluations ADD COLUMN client_id VARCHAR;'))
+        try: conn.commit() 
+        except: pass
+except Exception:
+    pass
 
 app = FastAPI(title="SCOREIA API", description="API para el modelo de Credit Scoring", version="1.0.0")
 
@@ -248,7 +267,7 @@ async def health_check(db: Session = Depends(database.get_db)):
     except:
         pass
     
-    motor_status = "ok" if model else "error"
+    motor_status = "ok" if predictor else "error"
     
     return {
         "status": "success",
@@ -259,6 +278,7 @@ async def health_check(db: Session = Depends(database.get_db)):
 @app.get("/api/stats")
 async def get_stats(db: Session = Depends(database.get_db)):
 
+    from sqlalchemy import func, case
     total = db.query(models.Evaluation).count()
     if total == 0:
         return {"total": 0, "aprobados": 0, "rechazados": 0, "monto_total": 0, "pd_promedio": 0, "history_dates": [], "history_aprobados": [], "history_rechazados": []}
@@ -270,12 +290,26 @@ async def get_stats(db: Session = Depends(database.get_db)):
 
     pd_promedio = db.query(func.avg(models.Evaluation.pd_value)).scalar() or 0
 
+    # Trend logic (Group by date)
+    daily_stats = db.query(
+        func.date(models.Evaluation.timestamp).label('eval_date'),
+        func.sum(case((models.Evaluation.decision == 'Aprobado', 1), else_=0)).label('aprobados'),
+        func.sum(case((models.Evaluation.decision == 'Rechazado', 1), else_=0)).label('rechazados')
+    ).group_by(func.date(models.Evaluation.timestamp)).order_by(func.date(models.Evaluation.timestamp).asc()).limit(14).all()
+
+    dates = [row.eval_date for row in daily_stats]
+    trend_aprobados = [row.aprobados for row in daily_stats]
+    trend_rechazados = [row.rechazados for row in daily_stats]
+
     return {
         "total": total,
         "aprobados": aprobados,
         "rechazados": rechazados,
         "monto_total": monto_total,
-        "pd_promedio": pd_promedio
+        "pd_promedio": pd_promedio,
+        "history_dates": dates,
+        "history_aprobados": trend_aprobados,
+        "history_rechazados": trend_rechazados
     }
 
 ui_dir = Path(__file__).parent / "ui"

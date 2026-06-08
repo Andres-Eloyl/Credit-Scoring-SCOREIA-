@@ -362,6 +362,64 @@ document.addEventListener('DOMContentLoaded', () => {
             chartDecisionsInstance = new ApexCharts(document.querySelector("#chartDecisions"), options);
             chartDecisionsInstance.render();
             
+            // Trend Chart
+            if (window.chartTrendInstance) {
+                window.chartTrendInstance.destroy();
+            }
+            
+            const datesFormatted = data.history_dates ? data.history_dates.map(d => {
+                const parts = d.split('-');
+                if(parts.length===3) return `${parts[2]}/${parts[1]}`;
+                return d;
+            }) : [];
+            
+            const trendOptions = {
+                series: [{
+                    name: 'Aprobados',
+                    data: data.history_aprobados || []
+                }, {
+                    name: 'Rechazados',
+                    data: data.history_rechazados || []
+                }],
+                chart: {
+                    type: 'area',
+                    height: 320,
+                    background: 'transparent',
+                    toolbar: { show: false },
+                    animations: { enabled: true, easing: 'easeinout', speed: 800 }
+                },
+                colors: ['#398a48', '#d65d5d'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.05,
+                        stops: [0, 90, 100]
+                    }
+                },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 2 },
+                markers: { size: 4, strokeWidth: 0, hover: { size: 6 } },
+                xaxis: {
+                    categories: datesFormatted,
+                    labels: { style: { colors: '#e0e4db' } },
+                    axisBorder: { show: false },
+                    axisTicks: { show: false }
+                },
+                yaxis: {
+                    labels: { style: { colors: '#e0e4db' } },
+                },
+                grid: {
+                    borderColor: 'rgba(245, 245, 220, 0.05)',
+                    strokeDashArray: 4
+                },
+                theme: { mode: 'dark' },
+                legend: { position: 'top', horizontalAlign: 'right', labels: { colors: '#e0e4db' } }
+            };
+            window.chartTrendInstance = new ApexCharts(document.querySelector("#chartTrend"), trendOptions);
+            window.chartTrendInstance.render();
+            
         } catch (err) {
             console.error("Error fetching stats:", err);
         }
