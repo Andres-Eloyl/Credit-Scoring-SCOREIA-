@@ -10,12 +10,14 @@ La plataforma no funciona como una caja negra; integra un modulo de interpretabi
 
 ## Caracteristicas Principales
 
-- Evaluacion instantanea de riesgo con modelos de Machine Learning predictivos.
+- Evaluación instantánea de riesgo con modelos de Machine Learning predictivos.
 - Simulador "What-If" para ajustar montos y plazos en tiempo real.
-- Panel de administracion y vista unificada de analisis.
-- Sistema de explicabilidad (XAI) para cumplimiento normativo.
-- Autenticacion segura mediante cifrado bcrypt nativo.
-- UI/UX premium con tipografia moderna y diseño de paneles de cristal oscuro.
+- Sistema de explicabilidad (XAI) basado en gráficos Waterfall de valores SHAP.
+- Módulo de Auditoría y Trazabilidad (Historial detallado por analista).
+- Generación y exportación de reportes dinámicos a PDF.
+- Panel de Soporte con monitoreo de estado y diagnóstico en vivo del servidor.
+- Autenticación segura mediante cifrado bcrypt nativo.
+- UI/UX premium con tipografía moderna y diseño de paneles de cristal oscuro.
 
 ## Arquitectura
 
@@ -39,17 +41,18 @@ La plataforma no funciona como una caja negra; integra un modulo de interpretabi
 3. Activar el entorno virtual:
    - Windows: venv\Scripts\activate
    - Unix/MacOS: source venv/bin/activate
-4. Instalar las dependencias necesarias (especificadas en el entorno o usando pip install fastapi uvicorn sqlalchemy bcrypt pydantic scikit-learn pandas shap jinja2).
-5. Configurar las credenciales SMTP en un archivo .env si se requiere la funcionalidad de envio de correos reales.
+4. Instalar las dependencias necesarias:
+   pip install -r requirements.txt
+5. Configurar las credenciales en un archivo `.env` (opcional).
 
 ## Ejecucion del Servidor
 
-Para iniciar la aplicacion, ejecutar el siguiente comando desde la raiz del proyecto:
+Para iniciar la aplicacion, ejecuta el servidor ASGI desde la raíz del proyecto:
 
-python -m app.main_api
+uvicorn app.main_api:app --host 127.0.0.1 --port 8000 --reload
 
-El servidor estara disponible en el puerto 8000 por defecto.
-La aplicacion estara accesible en: http://localhost:8000
+El servidor estara disponible en el puerto 8000.
+La aplicacion y la interfaz estarán accesibles en: http://localhost:8000
 
 ## Creditos
 
