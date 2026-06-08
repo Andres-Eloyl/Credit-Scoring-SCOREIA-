@@ -180,6 +180,7 @@
                         <span id="callIcon" class="material-symbols-outlined text-cream/40 ml-4">call</span>
                         <span id="flagIcon" class="ml-4 text-xl hidden"></span>
                         <select id="regCountryCode" required onchange="updateFlagIcon()" class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[100px]">
+                            <option value="+58" class="bg-background" selected>🇻🇪 +58</option>
                             <option value="+1" class="bg-background">🇺🇸 +1</option>
                             <option value="+34" class="bg-background">🇪🇸 +34</option>
                             <option value="+51" class="bg-background">🇵🇪 +51</option>
@@ -187,10 +188,9 @@
                             <option value="+54" class="bg-background">🇦🇷 +54</option>
                             <option value="+56" class="bg-background">🇨🇱 +56</option>
                             <option value="+57" class="bg-background">🇨🇴 +57</option>
-                            <option value="+58" class="bg-background">🇻🇪 +58</option>
                         </select>
                         <div class="w-px h-6 bg-cream/20"></div>
-                        <input id="regPhone" type="tel" placeholder="234 567 890" required
+                        <input id="regPhone" type="tel" placeholder="414 123 4567" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">País</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">public</span>
-                        <input id="regCountry" type="text" placeholder="Ej: México" required
+                        <input id="regCountry" type="text" placeholder="Ej: Venezuela" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Estado / Provincia</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">map</span>
-                        <input id="regState" type="text" placeholder="Ej: Jalisco" required
+                        <input id="regState" type="text" placeholder="Ej: Distrito Capital" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Municipio / Ciudad</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">location_city</span>
-                        <input id="regCity" type="text" placeholder="Ej: Guadalajara" required
+                        <input id="regCity" type="text" placeholder="Ej: Caracas" required
                             class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                     </div>
                 </div>
