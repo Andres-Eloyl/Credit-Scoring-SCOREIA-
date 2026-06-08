@@ -3,13 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>SCOREIA - Premium Risk Intelligence</title>
+    <title>SCOREIA — Inteligencia de Riesgo Crediticio</title>
+    <meta name="description" content="Plataforma avanzada de scoring crediticio con modelos predictivos, explicabilidad SHAP y análisis en tiempo real.">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
+    <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
@@ -17,784 +16,220 @@
             colors: {
                 "accent": "#398a48",
                 "cream": "#f5f5dc",
-                "primary-container": "#50a15c",
-                "inverse-on-surface": "#2d322c",
-                "secondary-container": "#304e32",
-                "surface-variant": "#323630",
-                "secondary-fixed": "#c8ecc7",
-                "tertiary": "#ffb1c3",
-                "on-primary": "#003912",
-                "tertiary-container": "#d9708c",
-                "surface-container-low": "#191d18",
-                "surface-container": "#1d211b",
-                "on-surface-variant": "#bfc9bb",
-                "primary-fixed-dim": "#85d98d",
-                "on-tertiary-fixed": "#3f0019",
-                "on-tertiary": "#600f2d",
-                "error-container": "#93000a",
-                "tertiary-fixed": "#ffd9e0",
                 "surface": "#101410",
-                "surface-dim": "#101410",
-                "outline-variant": "#40493f",
-                "on-secondary-container": "#9cbe9b",
-                "inverse-primary": "#156d2e",
-                "on-tertiary-fixed-variant": "#7d2743",
-                "on-background": "#e0e4db",
-                "surface-container-highest": "#323630",
-                "secondary-fixed-dim": "#adcfac",
-                "surface-tint": "#85d98d",
-                "surface-container-lowest": "#0b0f0b",
-                "inverse-surface": "#e0e4db",
-                "tertiary-fixed-dim": "#ffb1c3",
-                "on-primary-fixed": "#002108",
-                "on-tertiary-container": "#560626",
-                "on-secondary-fixed-variant": "#304e32",
-                "primary-fixed": "#a1f6a7",
-                "primary": "#85d98d",
-                "outline": "#899487",
-                "on-surface": "#e0e4db",
-                "secondary": "#adcfac",
-                "on-primary-container": "#00320f",
-                "on-secondary-fixed": "#03210a",
-                "on-secondary": "#19371d",
-                "error": "#ffb4ab",
-                "background": "#101410",
-                "surface-container-high": "#272b26",
-                "on-error": "#690005",
-                "on-primary-fixed-variant": "#00531e",
-                "surface-bright": "#363a34",
-                "on-error-container": "#ffdad6"
+                "background": "#0b1310",
+                "error": "#ffb4ab"
             },
             fontFamily: {
-                "headline-md": ["Sora", "sans-serif"],
-                "headline-lg": ["Sora", "sans-serif"],
-                "display-lg": ["Sora", "sans-serif"],
-                "body-md": ["DM Sans", "sans-serif"],
-                "label-md": ["DM Sans", "sans-serif"],
-                "label-sm": ["DM Sans", "sans-serif"]
+                "headline": ["Sora", "sans-serif"],
+                "body": ["DM Sans", "sans-serif"]
             }
           }
         }
       }
     </script>
     <style>
-        :root {
-            --glass-bg: rgba(245, 245, 220, 0.03);
-            --glass-border: rgba(245, 245, 220, 0.12);
-            --glass-glow: rgba(57, 138, 72, 0.15);
-            --forest-green: #398a48;
-            --cream: #f5f5dc;
-        }
-
-        .glass-panel-premium {
-            background: linear-gradient(135deg, rgba(245, 245, 220, 0.05) 0%, rgba(245, 245, 220, 0.01) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .glass-panel-premium:hover {
-            border-color: rgba(245, 245, 220, 0.25);
-            box-shadow: 0 0 20px var(--glass-glow);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .premium-input-container {
-            position: relative;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(245, 245, 220, 0.1);
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .premium-input-container:focus-within {
-            border-color: var(--forest-green);
-            background: rgba(0, 0, 0, 0.4);
-            box-shadow: 0 0 0 1px var(--forest-green);
-        }
-
-        .premium-input {
-            width: 100%;
-            background: transparent !important;
-            border: none !important;
-            color: var(--cream) !important;
-            padding: 1.75rem 1rem 0.5rem 1rem !important;
-            font-size: 1rem;
-        }
-
-        /* Ocultar flechas de los inputs numéricos */
-        .premium-input[type="number"]::-webkit-outer-spin-button,
-        .premium-input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .premium-input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        .premium-input:focus {
-            outline: none;
-            box-shadow: none !important;
-        }
-
-        .premium-label {
-            position: absolute;
-            top: 0.5rem;
-            left: 1rem;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(245, 245, 220, 0.7);
-            pointer-events: none;
-            font-weight: 700;
-        }
+        :root { --forest-green: #398a48; --cream: #f5f5dc; }
 
         .bg-mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #0b1310;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(57, 138, 72, 0.15) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, rgba(245, 245, 220, 0.05) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%), 
-                radial-gradient(at 0% 100%, rgba(245, 245, 220, 0.08) 0, transparent 50%);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(57, 138, 72, 0.15) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(245, 245, 220, 0.05) 0, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%);
         }
 
         .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(245,245,220,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(245,245,220,0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
-            pointer-events: none;
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
         }
 
-        .nav-item-active {
-            background: linear-gradient(90deg, rgba(57, 138, 72, 0.15) 0%, transparent 100%);
-            border-left: 3px solid var(--forest-green);
+        .glass-card {
+            background: linear-gradient(135deg, rgba(245, 245, 220, 0.04) 0%, rgba(245, 245, 220, 0.01) 100%);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(245, 245, 220, 0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(245, 245, 220, 0.2);
+            box-shadow: 0 0 25px rgba(57, 138, 72, 0.15);
+            transform: translateY(-4px);
         }
 
-        select.premium-input {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f5f5dc'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' opacity='0.7' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: right 1rem center !important;
-            background-size: 1.25rem !important;
-        }
+        @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
 
-        select.premium-input option {
-            background-color: #101410;
-            color: #f5f5dc;
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(57, 138, 72, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(57, 138, 72, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(57, 138, 72, 0); }
-        }
-        .animate-pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-            animation: fade-in-up 0.6s ease-out forwards;
-        }
-
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
+        .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
+        .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
     </style>
 </head>
-<body class="bg-background text-cream font-body-md overflow-x-hidden min-h-screen">
-
-<!-- LOGIN OVERLAY -->
-<div id="loginOverlay" class="fixed inset-0 z-[100] bg-[#0a0e0a] flex items-center justify-center">
-    <div class="w-full max-w-md px-8">
-        <div class="text-center mb-10">
-            <div class="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mx-auto mb-6">
-                <span class="material-symbols-outlined text-accent text-4xl">analytics</span>
-            </div>
-            <h1 class="text-4xl font-headline-lg font-extrabold text-cream tracking-tight">SCOREIA</h1>
-            <p class="text-sm text-cream/50 mt-2 font-body-md">Sistema de Inteligencia de Riesgo Crediticio</p>
-        </div>
-
-        <!-- Panel de Inicio de Sesión -->
-        <div id="loginPanel" class="glass-panel-premium p-8 rounded-3xl space-y-5">
-            <h2 class="text-lg font-bold text-cream text-center">Iniciar Sesión</h2>
-            <form id="loginForm" class="space-y-4">
-                <div>
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre de usuario</label>
-                    <input id="loginName" type="text" placeholder="Tu nombre" required
-                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
-                    <input id="loginPass" type="password" placeholder="••••••••" required
-                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                </div>
-                <p id="loginError" class="hidden text-error text-xs"></p>
-                <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
-                    Ingresar
-                </button>
-            </form>
-            <p class="text-center text-cream/40 text-xs">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline">Registrarse</button></p>
-        </div>
-
-        <!-- Panel de Registro -->
-        <div id="registerPanel" class="hidden glass-panel-premium p-8 rounded-3xl space-y-5">
-            <h2 class="text-lg font-bold text-cream text-center">Crear Cuenta</h2>
-            <form id="registerForm" class="space-y-4">
-                <div>
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre del analista</label>
-                    <input id="regName" type="text" placeholder="Ej: Andrés Eloyl" required
-                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
-                    <input id="regPass" type="password" placeholder="Mínimo 4 caracteres" required
-                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Confirmar contraseña</label>
-                    <input id="regPassConfirm" type="password" placeholder="Repite tu contraseña" required
-                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                </div>
-                <p id="regError" class="hidden text-error text-xs"></p>
-                <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
-                    Crear Cuenta
-                </button>
-            </form>
-            <p class="text-center text-cream/40 text-xs">¿Ya tienes cuenta? <button id="btnShowLogin" class="text-accent font-bold hover:underline">Iniciar Sesión</button></p>
-        </div>
-
-        <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
-    </div>
-</div>
+<body class="bg-background text-cream font-body overflow-x-hidden">
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
 
-<!-- Mobile Header -->
-<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-surface/80 backdrop-blur-2xl border-b border-cream/10 md:hidden">
-    <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-accent font-bold text-2xl">analytics</span>
-        <div>
-            <div class="text-xl font-headline-md font-extrabold tracking-tighter text-cream leading-tight">SCOREIA</div>
-            <div class="text-[9px] font-bold text-cream/50">Risk Intelligence</div>
+<!-- NAV -->
+<nav class="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-cream/5">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
+                <span class="material-symbols-outlined text-accent text-2xl">analytics</span>
+            </div>
+            <span class="text-xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</span>
         </div>
-    </div>
-    <button id="mobileMenuBtn" class="p-2 text-cream hover:text-accent transition-colors">
-        <span class="material-symbols-outlined text-3xl">menu</span>
-    </button>
-</header>
-
-<!-- Desktop / Mobile Sidebar -->
-<nav id="sidebar" class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-10 px-6 z-40 bg-[#0a0e0a] border-r border-cream/10 hidden md:flex transition-transform duration-300">
-    <div class="flex items-center gap-3 mb-8 px-2">
-        <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 shadow-inner">
-            <span class="material-symbols-outlined text-accent text-[28px] font-bold">analytics</span>
+        <div class="flex items-center gap-4">
+            <a href="#funcionalidades" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Funcionalidades</a>
+            <a href="#tecnologia" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Tecnología</a>
+            <a href="/login" class="px-6 py-2.5 rounded-xl bg-accent text-white font-bold text-sm hover:scale-105 transition-all shadow-lg shadow-accent/20">
+                Ingresar
+            </a>
         </div>
-        <div>
-            <h1 class="text-xl font-headline-md font-extrabold text-cream tracking-tight">SCOREIA</h1>
-            <p class="text-[10px] font-bold text-accent/80 uppercase tracking-[0.2em]">Risk Intelligence</p>
-        </div>
-    </div>
-    <!-- Welcome User -->
-    <div class="mb-8 px-2 py-3 rounded-xl bg-cream/5 border border-cream/10">
-        <p class="text-[10px] text-cream/40 uppercase tracking-widest font-bold">Sesión activa</p>
-        <p class="text-sm font-bold text-cream mt-1">Bienvenido, <span id="welcomeUser" class="text-accent">Analista</span></p>
-    </div>
-    <div class="flex-1 space-y-1">
-        <p class="px-4 text-[10px] font-bold text-cream/40 uppercase tracking-widest mb-4">Principal</p>
-        <a id="nav-eval" class="nav-item-active text-accent px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
-            <span class="text-base font-bold">Análisis Crediticio</span>
-        </a>
-        <a id="nav-dashboard" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-xl">dashboard</span>
-            <span class="text-base font-bold">Dashboard Analytics</span>
-        </a>
-        <a id="nav-config" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-xl">settings</span>
-            <span class="text-base font-bold">Configuración</span>
-        </a>
     </div>
 </nav>
 
-<!-- Main Canvas -->
-<main class="md:ml-[280px] pt-28 md:pt-12 px-6 lg:px-10 pb-20 max-w-[1600px] mx-auto min-h-screen relative">
-    
-    <!-- EVAL VIEW -->
-    <div id="eval-view">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-        <div>
-            <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
-                <span>Core Analytics</span>
-                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                <span class="text-accent/80">Nueva Evaluación</span>
-            </nav>
-            <h2 class="text-3xl font-headline-lg font-bold text-cream">Evaluación de Riesgo Crediticio</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Gestione la evaluación integral del perfil financiero del solicitante mediante motores de inferencia estadística avanzados.</p>
+<!-- HERO -->
+<section class="min-h-screen flex items-center justify-center pt-20 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+        <div class="animate-hero">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-8">
+                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-xs font-bold text-accent uppercase tracking-widest">Motor de Inferencia Activo</span>
+            </div>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-headline font-extrabold text-cream tracking-tight leading-tight animate-hero">
+            Inteligencia de Riesgo<br>
+            <span class="text-accent">Crediticio</span>
+        </h1>
+        <p class="text-lg md:text-xl text-cream/60 mt-6 max-w-2xl mx-auto leading-relaxed animate-hero-delay">
+            Plataforma avanzada de scoring crediticio que combina modelos predictivos de Machine Learning, explicabilidad SHAP y análisis en tiempo real para decisiones financieras precisas.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 animate-hero-delay2">
+            <a href="/login" class="px-10 py-4 rounded-2xl bg-accent text-white font-bold text-base hover:scale-105 transition-all shadow-2xl shadow-accent/30 flex items-center gap-3">
+                <span class="material-symbols-outlined">login</span>
+                Acceder al Sistema
+            </a>
+            <a href="#funcionalidades" class="px-10 py-4 rounded-2xl border border-cream/20 text-cream font-bold text-base hover:bg-cream/5 transition-all flex items-center gap-3">
+                <span class="material-symbols-outlined">info</span>
+                Más Información
+            </a>
+        </div>
+
+        <!-- Floating Gauge Preview -->
+        <div class="mt-20 animate-float">
+            <div class="glass-card rounded-3xl p-8 max-w-md mx-auto">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-cream/50 uppercase tracking-widest">Probabilidad de Impago</span>
+                    <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold border border-accent/30">Riesgo Bajo</span>
+                </div>
+                <div class="flex items-end gap-4">
+                    <span class="text-5xl font-headline font-extrabold text-accent">12.4%</span>
+                    <span class="text-sm text-cream/40 mb-2">Decisión: <strong class="text-accent">Aprobado</strong></span>
+                </div>
+                <div class="w-full h-2 bg-cream/10 rounded-full mt-4 overflow-hidden">
+                    <div class="w-[12.4%] h-full bg-accent rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="funcionalidades" class="py-32 px-6">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-headline font-extrabold text-cream">Funcionalidades Principales</h2>
+            <p class="text-cream/50 mt-4 max-w-xl mx-auto">Todo lo que necesitas para una evaluación crediticia integral, desde la captura de datos hasta la decisión automatizada.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">psychology</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Modelo Predictivo</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">Random Forest entrenado con validación cruzada para calcular la probabilidad de incumplimiento (PD) en tiempo real.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">monitoring</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Explicabilidad SHAP</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">Cada predicción viene acompañada de un desglose visual de los factores que más influyen en la decisión del modelo.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">tune</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Simulador What-If</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">Modifica monto y plazo en tiempo real para explorar escenarios hipotéticos sin reenviar el formulario completo.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">dashboard</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Dashboard Analítico</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">KPIs globales, distribución de decisiones y métricas de cartera con gráficos interactivos ApexCharts.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">picture_as_pdf</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Reportes PDF</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">Genera reportes profesionales en PDF con un clic, listos para auditoría o presentación a comités de crédito.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
+                    <span class="material-symbols-outlined text-accent text-2xl">settings</span>
+                </div>
+                <h3 class="text-lg font-headline font-bold text-cream mb-2">Configuración Dinámica</h3>
+                <p class="text-sm text-cream/50 leading-relaxed">Personaliza colores, temas y el umbral de aprobación del motor crediticio desde el panel de configuración.</p>
+            </div>
         </div>
     </div>
+</section>
 
-    <form id="evaluationForm" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Form Column -->
-        <div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-8">
-            
-            <!-- Section 1: Personal -->
-            <section class="glass-panel-premium rounded-2xl p-6 lg:p-8 mb-8 relative z-10">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="material-symbols-outlined text-accent text-[24px]">person</span>
-                    <h3 class="text-lg font-bold text-cream tracking-wide">Datos del Cliente</h3>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <div class="premium-input-container">
-                        <label class="premium-label">ID Cliente</label>
-                        <input class="premium-input" type="text" id="client_id" name="client_id" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Edad</label>
-                        <input class="premium-input" type="number" id="edad" name="edad" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Estado Civil</label>
-                        <select class="premium-input" id="estado_civil" name="estado_civil" required>
-                            <option disabled selected value="">Seleccione opción...</option>
-                            <option value="Soltero">Soltero/a</option>
-                            <option value="Casado">Casado/a</option>
-                            <option value="Divorciado">Divorciado/a</option>
-                            <option value="Viudo">Viudo/a</option>
-                        </select>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Nivel Educativo</label>
-                        <select class="premium-input" id="nivel_educativo" name="nivel_educativo" required>
-                            <option disabled selected value="">Seleccione grado...</option>
-                            <option value="Primaria">Primaria</option>
-                            <option value="Secundaria">Secundaria</option>
-                            <option value="Universidad">Universidad</option>
-                            <option value="Posgrado">Posgrado</option>
-                        </select>
-                    </div>
-                    <div class="premium-input-container md:col-span-2 lg:col-span-1">
-                        <label class="premium-label">Tipo de Vivienda</label>
-                        <select class="premium-input" id="tipo_vivienda" name="tipo_vivienda" required>
-                            <option disabled selected value="">Seleccione...</option>
-                            <option value="Propia">Propia</option>
-                            <option value="Arrendada">Arrendada</option>
-                            <option value="Familiar">Familiar</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 2: Laboral -->
-            <section class="glass-panel-premium rounded-2xl p-6 lg:p-8 mb-8 relative z-10">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="material-symbols-outlined text-accent text-[24px]">work</span>
-                    <h3 class="text-lg font-bold text-cream tracking-wide">Perfil Financiero y Laboral</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <div class="premium-input-container">
-                        <label class="premium-label">Ingreso Mensual (USD)</label>
-                        <input class="premium-input" type="number" step="0.01" id="ingreso_mensual" name="ingreso_mensual" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Antigüedad Laboral (Meses)</label>
-                        <input class="premium-input" type="number" id="antiguedad_laboral" name="antiguedad_laboral" required/>
-                    </div>
-                    <div class="premium-input-container md:col-span-2 lg:col-span-1">
-                        <label class="premium-label">Tipo de Contrato</label>
-                        <select class="premium-input" id="tipo_contrato" name="tipo_contrato" required>
-                            <option disabled selected value="">Régimen de contratación...</option>
-                            <option value="Indefinido">Indefinido</option>
-                            <option value="Temporal">Temporal</option>
-                            <option value="Independiente">Independiente</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 3: Crédito -->
-            <section class="glass-panel-premium rounded-2xl p-6 lg:p-8 mb-8 relative z-10">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="material-symbols-outlined text-accent text-[24px]">account_balance</span>
-                    <h3 class="text-lg font-bold text-cream tracking-wide">Detalles del Préstamo y Buró</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div class="premium-input-container">
-                        <label class="premium-label">Score Buró</label>
-                        <input class="premium-input" type="number" id="score_buro" name="score_buro" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Meses Mora Máx</label>
-                        <input class="premium-input" type="number" id="meses_mora_maxima" name="meses_mora_maxima" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Créditos Activos</label>
-                        <input class="premium-input" type="number" id="num_creditos_activos" name="num_creditos_activos" required/>
-                    </div>
-                    
-                    <div class="premium-input-container md:col-span-2">
-                        <label class="premium-label">Tipo de Préstamo</label>
-                        <select class="premium-input" id="tipo_prestamo" name="tipo_prestamo" required>
-                            <option disabled selected value="">Destino del crédito...</option>
-                            <option value="Personal">Personal</option>
-                            <option value="Hipotecario">Hipotecario</option>
-                            <option value="Automotriz">Automotriz</option>
-                            <option value="Tarjeta">Tarjeta</option>
-                        </select>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Plazo (Meses)</label>
-                        <select class="premium-input" id="plazo_meses" name="plazo_meses" required>
-                            <option disabled selected value="">Duración...</option>
-                            <option value="6">6</option>
-                            <option value="12">12</option>
-                            <option value="24">24</option>
-                            <option value="36">36</option>
-                            <option value="48">48</option>
-                            <option value="60">60</option>
-                            <option value="72">72</option>
-                            <option value="84">84</option>
-                        </select>
-                    </div>
-
-                    <div class="premium-input-container">
-                        <label class="premium-label">Monto Solicitado</label>
-                        <input class="premium-input" type="number" step="0.01" id="monto_solicitado" name="monto_solicitado" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Consultas 6M</label>
-                        <input class="premium-input" type="number" id="consultas_buro_6m" name="consultas_buro_6m" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Ratio Deuda</label>
-                        <input class="premium-input" type="number" step="0.01" id="ratio_deuda_ingreso" name="ratio_deuda_ingreso" required/>
-                    </div>
-                    <div class="premium-input-container">
-                        <label class="premium-label">Utilización</label>
-                        <input class="premium-input" type="number" step="0.01" id="utilizacion_credito" name="utilizacion_credito" required/>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Buttons -->
-            <div class="flex flex-col sm:flex-row justify-end items-center gap-4 mt-2">
-                <button id="btnHistory" class="w-full sm:w-auto px-4 py-3 rounded-xl border border-cream/10 text-cream hover:bg-cream/10 transition-all font-semibold flex justify-center items-center gap-2 text-sm" type="button" onclick="document.getElementById('historyModal').classList.remove('hidden')">
-                    <span class="material-symbols-outlined text-[18px]">history</span>
-                    Historial
-                </button>
-                <button id="btnFillDummy" class="w-full sm:w-auto px-6 py-3 rounded-xl border border-cream/30 text-cream hover:bg-accent/10 hover:border-accent transition-all font-semibold flex justify-center items-center gap-2 text-sm" type="button">
-                    Auto-completar
-                </button>
-                <button id="btn-evaluar" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-accent to-[#2d6e39] text-cream hover:scale-[1.02] active:scale-[0.98] transition-all font-bold flex justify-center items-center gap-2 shadow-xl shadow-accent/20 text-sm border border-accent/50" type="submit">
-                    <span id="evaluar-text">Generar Inferencia</span>
-                </button>
+<!-- TECH -->
+<section id="tecnologia" class="py-32 px-6 border-t border-cream/5">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-headline font-extrabold text-cream">Arquitectura Tecnológica</h2>
+            <p class="text-cream/50 mt-4 max-w-xl mx-auto">Construido con estándares de producción: API RESTful, persistencia en la nube y contenedorización Docker.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <p class="text-2xl font-headline font-extrabold text-accent">Python</p>
+                <p class="text-xs text-cream/40 mt-2">Motor de ML</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <p class="text-2xl font-headline font-extrabold text-accent">FastAPI</p>
+                <p class="text-xs text-cream/40 mt-2">API REST</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <p class="text-2xl font-headline font-extrabold text-accent">PostgreSQL</p>
+                <p class="text-xs text-cream/40 mt-2">Supabase Cloud</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <p class="text-2xl font-headline font-extrabold text-accent">Docker</p>
+                <p class="text-xs text-cream/40 mt-2">Contenedores</p>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- History Modal -->
-        <div id="historyModal" class="fixed inset-0 z-[100] hidden">
-            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('historyModal').classList.add('hidden')"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-surface border border-cream/10 rounded-3xl p-8 shadow-2xl flex flex-col max-h-[80vh]">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-headline-md font-bold text-cream flex items-center gap-2">
-                        <span class="material-symbols-outlined text-accent">history</span>
-                        Historial de Evaluaciones
-                    </h2>
-                    <button type="button" class="text-cream/50 hover:text-cream transition-colors" onclick="document.getElementById('historyModal').classList.add('hidden')">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
-                
-                <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                    <table class="w-full text-left text-sm text-cream/80">
-                        <thead class="text-[10px] uppercase tracking-widest text-cream/40 border-b border-cream/10">
-                            <tr>
-                                <th class="pb-3 font-bold">Fecha</th>
-                                <th class="pb-3 font-bold">Monto</th>
-                                <th class="pb-3 font-bold">Plazo</th>
-                                <th class="pb-3 font-bold text-center">PD</th>
-                                <th class="pb-3 font-bold text-center">Decisión</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyTableBody" class="divide-y divide-cream/5">
-                            <!-- JS fills this -->
-                        </tbody>
-                    </table>
-                    <div id="historyEmpty" class="py-10 text-center text-cream/40 text-sm hidden">
-                        No hay evaluaciones recientes.
-                    </div>
-                </div>
-            </div>
+<!-- FOOTER -->
+<footer class="border-t border-cream/5 py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-accent">analytics</span>
+            <span class="font-headline font-bold text-cream">SCOREIA</span>
+            <span class="text-cream/30 text-sm">v1.0</span>
         </div>
+        <p class="text-cream/30 text-sm">Desarrollado por <strong class="text-cream/60">Andres_Eloyl</strong> — Proyecto de Portafolio FinTech</p>
+    </div>
+</footer>
 
-        <!-- Right Column (Sticky Results) -->
-        <div class="lg:col-span-5 xl:col-span-4 relative">
-            <div class="sticky top-12 glass-panel-premium rounded-3xl p-8 min-h-[720px] flex flex-col overflow-hidden" id="results-container">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-xl font-headline-md font-semibold text-cream flex items-center gap-2">
-                        Outcome de Análisis
-                    </h3>
-                    <div class="flex items-center gap-2">
-                        <button id="btnDownloadPDF" class="hidden text-xs bg-cream/10 hover:bg-cream/20 text-cream px-3 py-1.5 rounded-lg border border-cream/20 transition-all flex items-center gap-1 font-bold shadow-md" type="button" title="Descargar Reporte PDF">
-                            <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
-                            PDF
-                        </button>
-                        <span class="material-symbols-outlined text-cream/30">monitoring</span>
-                    </div>
-                </div>
-
-                <!-- Report Header (Only visible in PDF) -->
-                <div id="pdfHeader" class="hidden flex-col mb-6 pb-6 border-b border-cream/20">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h2 class="text-2xl font-black text-cream tracking-tight mb-1">SCOREIA Report</h2>
-                            <p class="text-xs font-bold text-cream/50 uppercase tracking-widest">Inteligencia de Riesgo Crediticio</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-cream/70">Fecha: <span id="pdfDate" class="font-bold text-cream"></span></p>
-                            <p class="text-xs text-cream/70">Cliente ID: <span id="pdfClientId" class="font-bold text-cream"></span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sophisticated Empty State -->
-                <div class="flex-1 flex flex-col items-center justify-center text-center px-4" id="empty-state">
-                    <div class="relative w-40 h-40 mb-8 group">
-                        <div class="absolute inset-0 bg-accent/10 rounded-full blur-2xl animate-pulse"></div>
-                        <span class="material-symbols-outlined text-7xl text-accent/50 relative z-10">radar</span>
-                    </div>
-                    <p class="text-lg font-bold text-cream mb-2">Motor listo</p>
-                    <p class="text-sm text-cream/60 leading-relaxed">
-                        Ingrese los parámetros del cliente para activar el motor de procesamiento y obtener la probabilidad predictiva.
-                    </p>
-                </div>
-
-                <!-- Results Content (Hidden initially) -->
-                <div class="hidden flex-col gap-8 h-full" id="results-content">
-                    
-                    <!-- Probability Gauge -->
-                    <div class="flex flex-col items-center animate-fade-in-up">
-                        <span class="text-[10px] font-bold text-cream/50 uppercase tracking-[0.2em] mb-4">Probabilidad de Incumplimiento</span>
-                        <div class="relative w-48 h-48 flex items-center justify-center animate-pulse-ring rounded-full">
-                            <div class="absolute inset-0 rounded-full bg-surface-container/40 border border-cream/10 shadow-inner"></div>
-                            <!-- Circular progress -->
-                            <div id="pdGauge" class="absolute inset-0 rounded-full transition-all duration-1000" style="background: conic-gradient(from -90deg at 50% 50%, var(--forest-green) 0deg, transparent 0deg); -webkit-mask: radial-gradient(transparent 60%, black 60%); mask: radial-gradient(transparent 60%, black 60%);"></div>
-                            <div class="z-10 text-center flex flex-col items-center">
-                                <span id="pdValue" class="text-4xl font-extrabold text-accent">--%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Risk Badge -->
-                    <div class="flex flex-col items-center p-4 rounded-xl bg-cream/5 border border-cream/10">
-                        <span class="text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-2">Clasificación de Riesgo</span>
-                        <div id="riskBadge" class="px-6 py-2 rounded-full bg-accent/20 text-accent border border-accent/30 font-bold text-sm tracking-wide">
-                            --
-                        </div>
-                        <div id="decisionText" class="mt-4 text-sm font-semibold"></div>
-                    </div>
-
-                    <!-- What-If Simulator -->
-                    <div class="flex flex-col p-4 rounded-xl bg-cream/5 border border-cream/10">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="material-symbols-outlined text-[16px] text-accent">tune</span>
-                            <span class="text-sm font-bold text-cream">Simulador "What-if"</span>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-cream/70">Monto Solicitado</span>
-                                    <span id="simMontoText" class="font-bold text-accent">--</span>
-                                </div>
-                                <input type="range" id="simMonto" min="1000" max="100000" step="100" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent" disabled>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-cream/70">Plazo (Meses)</span>
-                                    <span id="simPlazoText" class="font-bold text-accent">--</span>
-                                </div>
-                                <input type="range" id="simPlazo" min="1" max="360" step="1" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SHAP Explanations -->
-                    <div class="flex-1 flex flex-col">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-sm font-bold text-cream flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[16px] text-accent">analytics</span>
-                                Explicabilidad SHAP
-                            </span>
-                        </div>
-                        <div class="flex-1 rounded-xl border border-cream/10 bg-black/40 p-2 flex flex-col items-center justify-center min-h-[300px]" id="shapChartContainer">
-                            <div id="shapChart" class="w-full h-full hidden"></div>
-                            <div id="shapPlaceholder" class="text-xs text-cream/40 text-center p-4">El gráfico de explicabilidad aparecerá aquí</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </form>
-    </div> <!-- END EVAL VIEW -->
-
-    <!-- DASHBOARD VIEW -->
-    <div id="dashboard-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
-        <div class="mb-12">
-            <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
-                <span>Core Analytics</span>
-                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                <span class="text-accent/80">Dashboard</span>
-            </nav>
-            <h2 class="text-3xl font-headline-lg font-bold text-cream">Dashboard Analítico</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Métricas globales y comportamiento de la cartera de evaluaciones.</p>
-        </div>
-
-        <!-- KPIs -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-accent">
-                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Total Evaluaciones</p>
-                <h4 id="kpi-total" class="text-3xl font-black text-cream">0</h4>
-            </div>
-            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-[#398a48]">
-                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Aprobados</p>
-                <h4 id="kpi-aprobados" class="text-3xl font-black text-[#398a48]">0%</h4>
-            </div>
-            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-error">
-                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Rechazados</p>
-                <h4 id="kpi-rechazados" class="text-3xl font-black text-error">0%</h4>
-            </div>
-            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-tertiary">
-                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Monto Total Solicitado</p>
-                <h4 id="kpi-monto" class="text-3xl font-black text-cream">$0</h4>
-            </div>
-        </div>
-
-        <!-- Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass-panel-premium p-6 rounded-3xl min-h-[400px] flex flex-col">
-                <h3 class="text-lg font-bold text-cream mb-6">Distribución de Decisiones</h3>
-                <div id="chartDecisions" class="flex-1 w-full flex items-center justify-center"></div>
-            </div>
-            <div class="glass-panel-premium p-6 rounded-3xl min-h-[400px] flex flex-col">
-                <h3 class="text-lg font-bold text-cream mb-6">PD Promedio vs Riesgo</h3>
-                <div class="flex-1 flex flex-col items-center justify-center">
-                    <div class="relative w-48 h-48">
-                        <svg class="w-full h-full transform -rotate-90">
-                            <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent" class="text-cream/10" />
-                            <circle id="kpi-pd-circle" cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent" stroke-dasharray="552.92" stroke-dashoffset="552.92" class="text-accent transition-all duration-1000 ease-out" />
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                            <span id="kpi-pd-text" class="text-3xl font-black text-cream">0%</span>
-                            <span class="text-xs text-cream/50 font-bold uppercase tracking-widest mt-1">PD Global</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- END DASHBOARD VIEW -->
-    
-    <!-- CONFIG VIEW -->
-    <div id="config-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
-        <div class="mb-12">
-            <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
-                <span>Core Analytics</span>
-                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                <span class="text-accent/80">Configuración</span>
-            </nav>
-            <h2 class="text-3xl font-headline-lg font-bold text-cream">Ajustes del Sistema</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Personaliza la interfaz visual y ajusta los parámetros del motor de inferencia.</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Interfaz Visual -->
-            <div class="glass-panel-premium p-8 rounded-3xl">
-                <h3 class="text-xl font-bold text-cream mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-accent">palette</span>
-                    Personalización Visual
-                </h3>
-                
-                <div class="space-y-8">
-                    <!-- Tema Claro/Oscuro -->
-                    <div>
-                        <p class="text-sm font-bold text-cream mb-3">Modo de Apariencia</p>
-                        <div class="flex items-center gap-4">
-                            <button id="btn-theme-dark" class="px-6 py-3 rounded-xl border border-accent bg-accent/20 text-cream font-bold transition-all flex items-center gap-2">
-                                <span class="material-symbols-outlined">dark_mode</span> Oscuro
-                            </button>
-                            <button id="btn-theme-light" class="px-6 py-3 rounded-xl border border-cream/20 bg-cream/5 text-cream hover:bg-cream/10 font-bold transition-all flex items-center gap-2">
-                                <span class="material-symbols-outlined">light_mode</span> Claro
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Color de Acento -->
-                    <div>
-                        <p class="text-sm font-bold text-cream mb-3">Color de Acento Principal</p>
-                        <div class="flex items-center gap-4" id="color-picker-group">
-                            <button class="color-btn w-10 h-10 rounded-full bg-[#398a48] ring-2 ring-white ring-offset-2 ring-offset-[#1e211d]" data-color="#398a48"></button>
-                            <button class="color-btn w-10 h-10 rounded-full bg-[#3b82f6] opacity-70 hover:opacity-100 transition-all" data-color="#3b82f6"></button>
-                            <button class="color-btn w-10 h-10 rounded-full bg-[#8b5cf6] opacity-70 hover:opacity-100 transition-all" data-color="#8b5cf6"></button>
-                            <button class="color-btn w-10 h-10 rounded-full bg-[#f97316] opacity-70 hover:opacity-100 transition-all" data-color="#f97316"></button>
-                        </div>
-                        <p class="text-[10px] text-cream/50 mt-2">Aplica instantáneamente a gráficas, botones y componentes destacados.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Parámetros del Motor -->
-            <div class="glass-panel-premium p-8 rounded-3xl">
-                <h3 class="text-xl font-bold text-cream mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-accent">memory</span>
-                    Parámetros del Motor
-                </h3>
-                
-                <div class="space-y-8">
-                    <div>
-                        <div class="flex justify-between items-end mb-2">
-                            <div>
-                                <p class="text-sm font-bold text-cream">Umbral de Aprobación (Riesgo Máximo)</p>
-                                <p class="text-[11px] text-cream/60 mt-1 max-w-sm">Si la Probabilidad de Default (PD) es mayor a este valor, el crédito será Rechazado. (Por defecto 60%)</p>
-                            </div>
-                            <span id="thresholdValueText" class="text-3xl font-black text-accent">60%</span>
-                        </div>
-                        <input type="range" id="riskThresholdSlider" min="10" max="90" step="1" value="60" class="w-full h-2 bg-black/40 rounded-lg appearance-none cursor-pointer accent-accent mt-4">
-                    </div>
-                    
-                    <div class="pt-4 border-t border-cream/10">
-                        <button id="btnSaveConfig" class="w-full px-6 py-4 rounded-xl bg-accent text-white font-bold hover:scale-[1.02] transition-all shadow-xl shadow-accent/20">
-                            Aplicar Configuración
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- END CONFIG VIEW -->
-    
-    <!-- Footer Global -->
-    <footer class="mt-16 pb-12 flex flex-col items-center justify-center border-t border-white/10 pt-10">
-        <p class="text-white/70 text-[11px] font-bold mb-6 uppercase tracking-[0.2em]">Creado Por @Andres_Eloyl</p>
-        <a href="https://github.com/Andres-Eloyl" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-16 h-16 rounded-full bg-white text-black hover:bg-gray-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-110 active:scale-95" title="Ir al GitHub de Andres Eloyl">
-            <svg viewBox="0 0 24 24" class="w-10 h-10 fill-current" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
-        </a>
-    </footer>
-</main>
-
-<script src="app.js?v=5"></script>
 </body>
 </html>

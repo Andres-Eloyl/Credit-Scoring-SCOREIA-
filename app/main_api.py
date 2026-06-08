@@ -149,12 +149,23 @@ async def get_stats(db: Session = Depends(database.get_db)):
         "pd_promedio": pd_promedio
     }
 
-# Montar los archivos estáticos de la UI generada
 ui_dir = Path(__file__).parent / "ui"
 if not ui_dir.exists():
     ui_dir.mkdir(parents=True, exist_ok=True)
 
-app.mount("/", StaticFiles(directory=str(ui_dir), html=True), name="ui")
+@app.get("/")
+async def root_view():
+    return FileResponse(ui_dir / "index.html")
+
+@app.get("/login")
+async def login_view():
+    return FileResponse(ui_dir / "login.html")
+
+@app.get("/app")
+async def app_view():
+    return FileResponse(ui_dir / "app.html")
+
+app.mount("/", StaticFiles(directory=str(ui_dir), html=False), name="ui")
 
 if __name__ == "__main__":
     import uvicorn

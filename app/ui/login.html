@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SCOREIA - Acceso al Sistema</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                "accent": "#398a48",
+                "cream": "#f5f5dc",
+                "surface": "#101410",
+                "background": "#0b1310",
+                "error": "#ffb4ab"
+            },
+            fontFamily: {
+                "headline-lg": ["Sora", "sans-serif"],
+                "body-md": ["DM Sans", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background-color: #0a0e0a;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(57, 138, 72, 0.15) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%);
+        }
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(245,245,220,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(245,245,220,0.02) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
+        }
+        .glass-panel-premium {
+            background: linear-gradient(135deg, rgba(245, 245, 220, 0.05) 0%, rgba(245, 245, 220, 0.01) 100%);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(245, 245, 220, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+    </style>
+</head>
+<body class="bg-background text-cream font-body-md overflow-hidden min-h-screen flex items-center justify-center">
+
+<div class="bg-mesh"></div>
+<div class="grid-overlay"></div>
+
+<div class="w-full max-w-md px-8 relative z-10">
+    <div class="text-center mb-10">
+        <a href="/" class="inline-flex w-16 h-16 rounded-2xl bg-accent/10 items-center justify-center border border-accent/20 mx-auto mb-6 hover:bg-accent/20 transition-colors">
+            <span class="material-symbols-outlined text-accent text-4xl">analytics</span>
+        </a>
+        <h1 class="text-4xl font-headline-lg font-extrabold text-cream tracking-tight">SCOREIA</h1>
+        <p class="text-sm text-cream/50 mt-2 font-body-md">Sistema de Inteligencia de Riesgo Crediticio</p>
+    </div>
+
+    <!-- Panel de Inicio de Sesión -->
+    <div id="loginPanel" class="glass-panel-premium p-8 rounded-3xl space-y-5">
+        <h2 class="text-lg font-bold text-cream text-center">Iniciar Sesión</h2>
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre de usuario</label>
+                <input id="loginName" type="text" placeholder="Tu nombre" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
+                <input id="loginPass" type="password" placeholder="••••••••" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+            </div>
+            <p id="loginError" class="hidden text-error text-xs"></p>
+            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
+                Ingresar al Sistema
+            </button>
+        </form>
+        <p class="text-center text-cream/40 text-xs">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline">Registrarse</button></p>
+    </div>
+
+    <!-- Panel de Registro -->
+    <div id="registerPanel" class="hidden glass-panel-premium p-8 rounded-3xl space-y-5">
+        <h2 class="text-lg font-bold text-cream text-center">Crear Cuenta</h2>
+        <form id="registerForm" class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre del analista</label>
+                <input id="regName" type="text" placeholder="Ej: Andrés Eloyl" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
+                <input id="regPass" type="password" placeholder="Mínimo 4 caracteres" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Confirmar contraseña</label>
+                <input id="regPassConfirm" type="password" placeholder="Repite tu contraseña" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+            </div>
+            <p id="regError" class="hidden text-error text-xs"></p>
+            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
+                Crear Cuenta
+            </button>
+        </form>
+        <p class="text-center text-cream/40 text-xs">¿Ya tienes cuenta? <button id="btnShowLogin" class="text-accent font-bold hover:underline">Iniciar Sesión</button></p>
+    </div>
+
+    <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
+</div>
+
+<script>
+    // Si ya hay sesión iniciada, redirigir directo a la app
+    if(localStorage.getItem('scoreia_user') && localStorage.getItem('scoreia_pass')) {
+        window.location.href = '/app';
+    }
+
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const btnShowRegister = document.getElementById('btnShowRegister');
+    const btnShowLogin = document.getElementById('btnShowLogin');
+    const loginPanel = document.getElementById('loginPanel');
+    const registerPanel = document.getElementById('registerPanel');
+    const loginError = document.getElementById('loginError');
+    const regError = document.getElementById('regError');
+
+    // Toggle Panels
+    btnShowRegister.addEventListener('click', () => {
+        loginPanel.classList.add('hidden');
+        registerPanel.classList.remove('hidden');
+    });
+    btnShowLogin.addEventListener('click', () => {
+        registerPanel.classList.add('hidden');
+        loginPanel.classList.remove('hidden');
+    });
+
+    // Handle Login
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('loginName').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        const savedName = localStorage.getItem('scoreia_user');
+        const savedPass = localStorage.getItem('scoreia_pass');
+
+        if (name === savedName && pass === savedPass) {
+            window.location.href = '/app';
+        } else {
+            loginError.innerText = 'Credenciales incorrectas o usuario no registrado.';
+            loginError.classList.remove('hidden');
+        }
+    });
+
+    // Handle Register
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const pass = document.getElementById('regPass').value;
+        const passC = document.getElementById('regPassConfirm').value;
+
+        if (name.length < 2 || pass.length < 4) {
+            regError.innerText = 'Nombre (min 2) y contraseña (min 4 caracteres).';
+            regError.classList.remove('hidden');
+            return;
+        }
+        if (pass !== passC) {
+            regError.innerText = 'Las contraseñas no coinciden.';
+            regError.classList.remove('hidden');
+            return;
+        }
+
+        localStorage.setItem('scoreia_user', name);
+        localStorage.setItem('scoreia_pass', pass);
+        window.location.href = '/app';
+    });
+</script>
+
+</body>
+</html>
