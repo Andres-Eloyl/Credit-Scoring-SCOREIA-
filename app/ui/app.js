@@ -15,8 +15,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const shapChartContainer = document.getElementById('shapChartContainer');
     const shapChart = document.getElementById('shapChart');
     const shapPlaceholder = document.getElementById('shapPlaceholder');
+    
+    // Simulator elements
+    const simMonto = document.getElementById('simMonto');
+    const simMontoText = document.getElementById('simMontoText');
+    const simPlazo = document.getElementById('simPlazo');
+    const simPlazoText = document.getElementById('simPlazoText');
+    
+    let latestFormData = null;
+    let simTimeout = null;
 
     const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // --- Simulator Logic ---
+    function formatCurrency(val) {
+        return "$" + Number(val).toLocaleString('en-US');
+    }
+
+    function handleSimChange() {
+        simMontoText.innerText = formatCurrency(simMonto.value);
+        simPlazoText.innerText = simPlazo.value + " Meses";
+        
+        // Sync with original form visually
+        document.getElementById('monto_solicitado').value = simMonto.value;
+        document.getElementById('plazo_meses').value = simPlazo.value;
+
+        // Debounce API call
+        if (simTimeout) clearTimeout(simTimeout);
+        simTimeout = setTimeout(async () => {
+            if (!latestFormData) return;
+            
+            // Create simulated data
+            const simData = { ...latestFormData };
+            simData.monto_solicitado = Number(simMonto.value);
+            simData.plazo_meses = Number(simPlazo.value);
+            
+            try {
+                // Add a visual cue that it's loading
+                riskBadge.textContent = "SIMULANDO...";
+                riskBadge.className = 'px-6 py-2 rounded-full font-bold text-sm tracking-wide border bg-surface text-cream border-cream/20 animate-pulse';
+                
+                const apiUrl = window.location.origin + '/api/predict';
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(simData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayResults(result, true); // true = isSimulation
+                }
+            } catch (err) {
+                console.error("Simulation error:", err);
+            }
+        }, 500); // 500ms debounce
+    }
+
+    simMonto.addEventListener('input', handleSimChange);
+    simPlazo.addEventListener('input', handleSimChange);
+
     const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
     const randomFloat = (min, max, decimals = 2) => Number((Math.random() * (max - min) + min).toFixed(decimals));
 
@@ -125,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            latestFormData = data; // Store for simulator
             const apiUrl = window.location.origin + '/api/predict';
             
             const response = await fetch(apiUrl, {
@@ -153,10 +215,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function displayResults(data) {
+    function displayResults(data, isSimulation = false) {
         // Unhide results
         resultsContent.classList.remove('hidden');
-        resultsContent.classList.add('flex', 'animate-in', 'fade-in', 'slide-in-from-bottom-4', 'duration-700');
+        if (!isSimulation) {
+            resultsContent.classList.add('flex', 'animate-in', 'fade-in', 'slide-in-from-bottom-4', 'duration-700');
+        } else {
+            resultsContent.classList.add('flex');
+        }
+        
+        // Initialize Simulator on first run
+        if (!isSimulation && latestFormData) {
+            simMonto.disabled = false;
+            simPlazo.disabled = false;
+            
+            simMonto.value = latestFormData.monto_solicitado;
+            simMontoText.innerText = "$" + Number(latestFormData.monto_solicitado).toLocaleString('en-US');
+            
+            simPlazo.value = latestFormData.plazo_meses;
+            simPlazoText.innerText = latestFormData.plazo_meses + " Meses";
+        }
         
         // Update PD with animation
         const targetPdPercent = data.pd * 100;
