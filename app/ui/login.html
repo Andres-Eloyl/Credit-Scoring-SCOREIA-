@@ -62,21 +62,72 @@
         }
     </style>
 </head>
-<body class="bg-background text-cream font-body-md overflow-x-hidden overflow-y-auto min-h-screen flex items-center justify-center py-12">
+<body class="bg-background text-cream font-body-md overflow-x-hidden overflow-y-auto min-h-screen">
 
 <!-- Particle Background -->
 <canvas id="particleCanvas"></canvas>
 
-<div class="w-full max-w-md px-6 md:px-8 relative-z transition-all duration-500 ease-in-out" id="mainContainer">
-    <div class="text-center mb-8">
-        <a href="/" class="inline-flex w-16 h-16 rounded-2xl bg-accent/10 items-center justify-center border border-accent/20 mx-auto mb-6 hover:bg-accent/20 transition-colors">
-            <span class="material-symbols-outlined text-accent text-4xl">blur_on</span>
-        </a>
-        <h1 class="text-4xl font-headline-lg font-extrabold text-cream tracking-tight">SCOREIA</h1>
-        <p class="text-sm text-cream/50 mt-2 font-body-md">Sistema de Inteligencia de Riesgo Crediticio</p>
+<div class="flex flex-col lg:flex-row min-h-screen relative-z">
+    
+    <!-- Lado Izquierdo: Marketing & Branding -->
+    <div class="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 lg:p-24 relative overflow-hidden bg-gradient-to-br from-black/80 to-[#13221c]/90 border-r border-cream/10">
+        <!-- Decoración de fondo abstracta -->
+        <div class="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#50c878]/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="relative z-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-surface border border-cream/10 mb-6 shadow-[0_0_30px_rgba(57,138,72,0.3)]">
+                <span class="material-symbols-outlined text-4xl text-accent">blur_on</span>
+            </div>
+            <h1 class="text-5xl xl:text-6xl font-headline font-extrabold text-cream tracking-tight leading-tight">
+                Decisiones de <br/><span class="text-accent">Crédito Inteligentes.</span>
+            </h1>
+            <p class="mt-6 text-lg text-cream/60 max-w-md font-body-md leading-relaxed">
+                El sistema definitivo impulsado por IA para analizar riesgo crediticio con precisión quirúrgica y explicabilidad total.
+            </p>
+        </div>
+
+        <!-- Tarjetas flotantes -->
+        <div class="relative z-10 mt-12 grid grid-cols-1 gap-6 max-w-lg">
+            <div class="glass-panel-premium p-6 rounded-2xl flex items-start gap-4 transform hover:translate-x-2 transition-transform duration-300">
+                <div class="bg-accent/20 p-3 rounded-xl border border-accent/30 flex-shrink-0">
+                    <span class="material-symbols-outlined text-accent">bolt</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-cream text-lg">Decisiones en < 200ms</h3>
+                    <p class="text-cream/50 text-sm mt-1">Nuestra IA procesa cientos de variables instantáneamente para darte un score preciso.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel-premium p-6 rounded-2xl flex items-start gap-4 transform hover:translate-x-2 transition-transform duration-300 delay-100">
+                <div class="bg-accent/20 p-3 rounded-xl border border-accent/30 flex-shrink-0">
+                    <span class="material-symbols-outlined text-accent">security</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-cream text-lg">Seguridad Nivel Bancario</h3>
+                    <p class="text-cream/50 text-sm mt-1">Encriptación de extremo a extremo y cumplimiento normativo en cada evaluación.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative z-10 mt-12 text-sm text-cream/30 font-bold tracking-widest uppercase">
+            Confiado por instituciones financieras en LATAM
+        </div>
     </div>
 
-    <!-- Panel de Inicio de Sesión -->
+    <!-- Lado Derecho: Formularios Auth -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative overflow-y-auto">
+        <div class="w-full max-w-md transition-all duration-500 ease-in-out py-8" id="mainContainer">
+            
+            <!-- Logo solo visible en movil -->
+            <div class="text-center mb-8 lg:hidden">
+                <a href="/" class="inline-flex w-16 h-16 rounded-2xl bg-accent/10 items-center justify-center border border-accent/20 mx-auto mb-6 hover:bg-accent/20 transition-colors">
+                    <span class="material-symbols-outlined text-accent text-4xl">blur_on</span>
+                </a>
+                <h1 class="text-4xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</h1>
+            </div>
+
+            <!-- Panel de Inicio de Sesión -->
     <div id="loginPanel" class="glass-panel-premium p-8 rounded-3xl space-y-6 animate-fade-in-up">
         <h2 class="text-xl font-bold text-cream text-center">Iniciar Sesión</h2>
         <form id="loginForm" class="space-y-5">
@@ -106,9 +157,34 @@
             <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(57,138,72,0.3)] hover:shadow-[0_0_30px_rgba(57,138,72,0.5)] text-sm uppercase tracking-widest">
                 Ingresar al Sistema
             </button>
+
+            <!-- Social Logins -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-cream/10"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-[#0b1310] text-cream/40 font-bold uppercase tracking-widest text-xs">O continuar con</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity">
+                </button>
+                <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Microsoft_logo_2012_%28present%29.svg" alt="Microsoft" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity">
+                </button>
+                <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                </button>
+            </div>
+            
         </form>
-        <p class="text-center text-cream/40 text-sm">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline transition-colors focus:outline-none">Registrarse</button></p>
-        <p class="text-center mt-4"><a href="/soporte" class="text-xs text-cream/30 hover:text-cream transition-colors">Contactar a Soporte</a></p>
+        <div class="pt-4 mt-2 border-t border-cream/5">
+            <p class="text-center text-cream/40 text-sm">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline transition-colors focus:outline-none">Registrarse</button></p>
+            <p class="text-center mt-4"><a href="/soporte" class="text-xs text-cream/30 hover:text-cream transition-colors">Contactar a Soporte</a></p>
+        </div>
     </div>
 
     <!-- Panel de Recuperación -->
@@ -284,15 +360,40 @@
                 </div>
             </div>
 
-            <p id="regError" class="hidden text-error text-xs text-center"></p>
-            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(57,138,72,0.3)] hover:shadow-[0_0_30px_rgba(57,138,72,0.5)] text-sm uppercase tracking-widest mt-2">
-                Crear Cuenta
+            <p id="regError" class="hidden text-error text-xs text-center col-span-1 md:col-span-2"></p>
+            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(57,138,72,0.3)] hover:shadow-[0_0_30px_rgba(57,138,72,0.5)] text-sm uppercase tracking-widest mt-2 col-span-1 md:col-span-2">
+                Completar Registro Seguro
             </button>
         </form>
-        <p class="text-center text-cream/40 text-sm">¿Ya tienes cuenta? <button id="btnShowLogin" class="text-accent font-bold hover:underline transition-colors focus:outline-none">Iniciar Sesión</button></p>
+
+        <!-- Social Logins -->
+        <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-cream/10"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-4 bg-[#0b1310] text-cream/40 font-bold uppercase tracking-widest text-xs">O registrarse con</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity">
+            </button>
+            <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Microsoft_logo_2012_%28present%29.svg" alt="Microsoft" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity">
+            </button>
+            <button type="button" class="flex justify-center items-center py-3 border border-cream/10 bg-black/40 rounded-xl hover:bg-cream/5 transition-colors focus:outline-none">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" class="w-5 h-5 opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+            </button>
+        </div>
+
+        <div class="pt-4 mt-2 border-t border-cream/5 text-center">
+            <p class="text-cream/40 text-sm">¿Ya tienes cuenta? <button id="btnShowLogin" class="text-accent font-bold hover:underline transition-colors focus:outline-none">Ingresar aquí</button></p>
+        </div>
     </div>
 
-    <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
+    <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest lg:hidden">Acceso restringido · Uso interno</p>
     
     <div class="mt-8 text-center">
         <a href="/" class="inline-flex items-center gap-2 text-base md:text-lg text-cream/50 hover:text-accent font-bold transition-colors">
@@ -300,6 +401,8 @@
             Volver a la página principal
         </a>
     </div>
+</div>
+</div>
 </div>
 
 <script>
