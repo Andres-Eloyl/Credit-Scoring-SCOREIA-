@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import pandas as pd
 import os
+import json
 import base64
 from pathlib import Path
 
@@ -202,15 +203,15 @@ async def predict(data: dict, db: Session = Depends(database.get_db)):
         decision_text = "Aprobado" if pd_val <= risk_threshold else "Rechazado"
 
         db_eval = models.Evaluation(
+            client_name=data.get("client_name", "Sin Nombre"),
             client_id=client_id,
-            edad=data.get("edad"),
-            ingreso_mensual=data.get("ingreso_mensual"),
-            score_buro=data.get("score_buro"),
             monto_solicitado=data.get("monto_solicitado"),
             plazo_meses=data.get("plazo_meses"),
             pd_value=pd_val,
             riesgo=riesgo,
-            decision=decision_text
+            decision=decision_text,
+            request_data=json.dumps(data_dict),
+            shap_data=json.dumps(shap_data)
         )
         db.add(db_eval)
         db.commit()

@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const historyTableBody = document.getElementById('historyTableBody');
     const historyEmpty = document.getElementById('historyEmpty');
-    const btnHistory = document.getElementById('btnHistory');
+    
 
     const btnDownloadPDF = document.getElementById('btnDownloadPDF');
     const pdfHeader = document.getElementById('pdfHeader');
@@ -96,9 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfClientId = document.getElementById('pdfClientId');
 
     const navEval = document.getElementById('nav-eval');
+    const navHistory = document.getElementById('nav-history');
     const navDashboard = document.getElementById('nav-dashboard');
     const navConfig = document.getElementById('nav-config');
     const evalView = document.getElementById('eval-view');
+    const historyView = document.getElementById('history-view');
     const dashboardView = document.getElementById('dashboard-view');
     const configView = document.getElementById('config-view');
     let chartDecisionsInstance = null;
@@ -122,12 +124,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const simPlazoText = document.getElementById('simPlazoText');
     
     let latestFormData = null;
+    window.historyCache = {};
     let simTimeout = null;
 
     const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+        window.closeAnalysisModal = function() {
+        document.getElementById('analysisModal').classList.add('hidden');
+    };
+
+    window.viewHistoricalAnalysis = function(id) {
+        const item = window.historyCache[id];
+        if(!item) return;
+        
+        const reqData = JSON.parse(item.request_data);
+        const shapData = JSON.parse(item.shap_data);
+        
+        // Populate Data
+        const clientName = item.client_name || reqData.client_name || 'Sin Nombre';
+        const clientId = item.client_id || reqData.client_id || 'N/A';
+        
+        const dateObj = new Date(item.timestamp + 'Z');
+        const dateStr = dateObj.toLocaleString('es-ES', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        
+        let clientDataHtml = `
+            <div><span class="text-cream/50 block text-[10px] uppercase">Nombre</span><span class="font-medium">${clientName}</span></div>
+            <div><span class="text-cream/50 block text-[10px] uppercase">Cédula</span><span class="font-medium">${clientId}</span></div>
+            <div><span class="text-cream/50 block text-[10px] uppercase">Monto Solicitado</span><span class="font-medium font-mono">$${Number(item.monto_solicitado).toLocaleString()}</span></div>
+            <div><span class="text-cream/50 block text-[10px] uppercase">Plazo</span><span class="font-medium">${item.plazo_meses} Meses</span></div>
+            <div><span class="text-cream/50 block text-[10px] uppercase">Puntaje Crediticio</span><span class="font-medium">${reqData.score_buro || '--'}</span></div>
+            <div><span class="text-cream/50 block text-[10px] uppercase">Ingreso Mensual</span><span class="font-medium font-mono">$${Number(reqData.ingreso_mensual || 0).toLocaleString()}</span></div>
+            <div class="col-span-2 mt-2 pt-2 border-t border-cream/10"><span class="text-cream/50 block text-[10px] uppercase">Fecha de Evaluación</span><span class="font-medium">${dateStr}</span></div>
+        `;
+        document.getElementById('modalClientData').innerHTML = clientDataHtml;
+        
+        // Result
+        const isApproved = item.decision === 'Aprobado';
+        const badge = document.getElementById('modalDecisionBadge');
+        badge.className = `px-6 py-2 rounded-full font-bold tracking-wide mb-3 ${isApproved ? 'bg-[#398a48]/20 text-[#398a48] border border-[#398a48]/30' : 'bg-error/20 text-error border border-error/30'}`;
+        badge.innerText = item.decision.toUpperCase();
+        
+        document.getElementById('modalPdValue').innerText = (item.pd_value * 100).toFixed(1) + '%';
+        
+        // Show Modal
+        document.getElementById('analysisModal').classList.remove('hidden');
+        
+        // Draw SHAP
+        setTimeout(() => {
+            renderShapChart(shapData, '#modalShapChart');
+        }, 100);
+        
+        // Setup PDF button
+        document.getElementById('btnModalPDF').onclick = () => {
+            const el = document.getElementById('modalExportContent');
+            const pdfHeader = document.getElementById('modalPdfHeader');
+            pdfHeader.classList.remove('hidden');
+            
+            // Prevent html2canvas from cropping overflow content
+            el.classList.remove('overflow-y-auto', 'flex-1');
+            el.style.maxHeight = 'none';
+            
+            const opt = {
+                margin:       0.3,
+                filename:     `Reporte_SCOREIA_Historial_${clientId}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 1.5, useCORS: true, backgroundColor: '#1e211d', scrollY: 0 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(el).save().then(() => {
+                pdfHeader.classList.add('hidden');
+                el.classList.add('overflow-y-auto', 'flex-1');
+                el.style.maxHeight = '';
+            });
+        };
+    };
+
+
 
     async function fetchHistory() {
         if (!historyTableBody) return;
@@ -146,20 +222,26 @@ document.addEventListener('DOMContentLoaded', () => {
             historyTableBody.innerHTML = '';
             
             data.forEach(item => {
+                window.historyCache[item.id] = item;
                 const tr = document.createElement('tr');
+                tr.className = "hover:bg-cream/5 transition-colors group";
                 const isApproved = item.decision === 'Aprobado';
-                const dateObj = new Date(item.timestamp + 'Z'); // parse UTC
+                const dateObj = new Date(item.timestamp + 'Z');
                 const dateStr = dateObj.toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
                 
                 tr.innerHTML = `
-                    <td class="py-4 text-xs">${dateStr}</td>
-                    <td class="py-4 font-bold">$${Number(item.monto_solicitado).toLocaleString()}</td>
-                    <td class="py-4">${item.plazo_meses}m</td>
-                    <td class="py-4 text-center font-bold ${isApproved ? 'text-accent' : 'text-error'}">${(item.pd_value * 100).toFixed(1)}%</td>
+                    <td class="py-4 pl-4 font-medium text-cream group-hover:text-accent transition-colors">${item.client_name || 'Sin Nombre'}</td>
+                    <td class="py-4 font-mono text-xs opacity-80">${item.client_id}</td>
+                    <td class="py-4 text-xs opacity-60">${dateStr}</td>
                     <td class="py-4 text-center">
                         <span class="px-3 py-1 rounded-full text-[10px] font-bold ${isApproved ? 'bg-accent/20 text-accent' : 'bg-error/20 text-error'}">
                             ${item.decision}
                         </span>
+                    </td>
+                    <td class="py-4 pr-4 text-right">
+                        <button onclick="viewHistoricalAnalysis(${item.id})" class="px-3 py-1.5 rounded bg-surface border border-cream/10 text-xs font-medium hover:border-accent hover:text-accent transition-colors">
+                            Ver Análisis
+                        </button>
                     </td>
                 `;
                 historyTableBody.appendChild(tr);
@@ -190,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setActiveNav(activeNav, activeView) {
-        [navEval, navDashboard, navConfig].forEach(nav => {
+        [navEval, navHistory, navDashboard, navConfig].forEach(nav => {
             if (!nav) return;
             if (nav === activeNav) {
                 nav.classList.add('nav-item-active', 'text-accent');
@@ -201,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        [evalView, dashboardView, configView].forEach(view => {
+        [evalView, historyView, dashboardView, configView].forEach(view => {
             if (!view) return;
             if (view === activeView) {
                 view.classList.remove('hidden');
@@ -215,8 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (navEval && navDashboard && navConfig) {
+    if (navEval && navHistory && navDashboard && navConfig) {
         navEval.addEventListener('click', () => setActiveNav(navEval, evalView));
+        navHistory.addEventListener('click', () => {
+            setActiveNav(navHistory, historyView);
+            fetchHistory();
+        });
         navDashboard.addEventListener('click', () => {
             setActiveNav(navDashboard, dashboardView);
             fetchStats();
@@ -286,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pdfHeader.classList.remove('hidden');
         pdfHeader.classList.add('flex');
         pdfDate.innerText = new Date().toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
-        pdfClientId.innerText = latestFormData.client_id || 'N/A';
+        pdfClientId.innerText = (latestFormData.client_name ? latestFormData.client_name + ' (V-' + latestFormData.client_id + ')' : latestFormData.client_id) || 'N/A';
 
         const opt = {
             margin:       0.5,
@@ -452,7 +538,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnFillDummy.addEventListener('click', () => {
         const dummyData = {
-            client_id: "C-" + randomInt(10000, 99999),
+            client_id: String(randomInt(10000000, 29999999)),
+            client_name: randomItem(["Juan", "Pedro", "María", "Ana", "Luis", "Carlos", "José", "Laura", "Carmen", "David"]),
+            client_lastname: randomItem(["Pérez", "Gómez", "Rodríguez", "López", "Martínez", "García", "Fernández", "González", "Díaz", "Sánchez"]),
             edad: randomInt(18, 75),
             estado_civil: randomItem(["Soltero", "Casado", "Divorciado", "Viudo"]),
             nivel_educativo: randomItem(["Primaria", "Secundaria", "Universidad", "Posgrado"]),
@@ -499,6 +587,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        
+        if (data.client_name && data.client_lastname) {
+            data.client_name = data.client_name.trim() + " " + data.client_lastname.trim();
+            delete data.client_lastname;
+        }
 
         const numberFields = [
             'edad', 'ingreso_mensual', 'antiguedad_laboral', 'score_buro',
@@ -663,7 +756,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let currentChart = null;
-    function renderShapChart(shapData) {
+    let modalChart = null;
+    function renderShapChart(shapData, targetId = "#shapChart") {
 
         const features = shapData.features.sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)).slice(0, 10);
         
@@ -730,11 +824,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        if (currentChart) {
-            currentChart.destroy();
+        if (targetId === "#shapChart") {
+            if (currentChart) currentChart.destroy();
+            currentChart = new ApexCharts(document.querySelector(targetId), options);
+            currentChart.render();
+        } else {
+            if (modalChart) modalChart.destroy();
+            modalChart = new ApexCharts(document.querySelector(targetId), options);
+            modalChart.render();
         }
-        
-        currentChart = new ApexCharts(document.querySelector("#shapChart"), options);
-        currentChart.render();
     }
 });
