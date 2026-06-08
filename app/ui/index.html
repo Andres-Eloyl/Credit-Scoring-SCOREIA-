@@ -33,12 +33,9 @@
 
         .bg-mesh {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background-color: #0b1310;
+            background-color: #050a08;
             background-image:
-                radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(57, 138, 72, 0.25) 0, transparent 45%),
-                radial-gradient(at 0% 0%, rgba(57, 138, 72, 0.15) 0, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%);
-            transition: background-image 0.2s ease;
+                radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(57, 138, 72, 0.15), transparent 40%);
         }
 
         .grid-overlay {
@@ -74,8 +71,8 @@
 <div class="grid-overlay"></div>
 
 <!-- NAV -->
-<nav class="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-cream/5">
-    <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+<div class="fixed top-6 left-0 w-full z-50 px-6 flex justify-center">
+    <nav class="w-full max-w-7xl h-24 bg-surface/60 backdrop-blur-3xl border border-cream/10 rounded-3xl flex items-center justify-between px-8 shadow-2xl shadow-background">
         <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
                 <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
@@ -89,8 +86,8 @@
                 Ingresar
             </a>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>
 
 <!-- HERO -->
 <section class="min-h-screen flex items-center justify-center pt-20 px-6">
@@ -140,7 +137,6 @@
         <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-accent">blur_on</span>
             <span class="font-headline font-bold text-cream">SCOREIA</span>
-            <span class="text-cream/30 text-sm">v1.0</span>
         </div>
         <div class="flex items-center gap-3">
             <span class="text-cream/60 text-lg">Desarrollado por</span>
@@ -154,10 +150,8 @@
 
 <script>
     document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth) * 100;
-        const y = (e.clientY / window.innerHeight) * 100;
-        document.documentElement.style.setProperty('--mouse-x', x + '%');
-        document.documentElement.style.setProperty('--mouse-y', y + '%');
+        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
     });
 </script>
 
