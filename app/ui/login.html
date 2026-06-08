@@ -81,10 +81,10 @@
         <h2 class="text-xl font-bold text-cream text-center">Iniciar Sesión</h2>
         <form id="loginForm" class="space-y-5">
             <div>
-                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre de usuario</label>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Correo institucional</label>
                 <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
-                    <span class="material-symbols-outlined text-cream/40 ml-4">person</span>
-                    <input id="loginName" type="text" placeholder="Tu nombre" required
+                    <span class="material-symbols-outlined text-cream/40 ml-4">mail</span>
+                    <input id="loginName" type="email" placeholder="correo@empresa.com" required
                         class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
                 </div>
             </div>
@@ -426,31 +426,67 @@
         }, 300);
     });
 
-    forgotForm.addEventListener('submit', (e) => {
+    forgotForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        forgotSuccess.classList.remove('hidden');
+        const email = document.getElementById('forgotEmail').value.trim();
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = "Enviando...";
+
+        try {
+            await fetch('/api/auth/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+            forgotSuccess.classList.remove('hidden');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Enviar Enlace";
+        }
     });
 
     // Manejar Login
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const name = document.getElementById('loginName').value.trim();
+        const email = document.getElementById('loginName').value.trim();
         const pass = document.getElementById('loginPass').value;
-        const savedName = localStorage.getItem('scoreia_user');
-        const savedPass = localStorage.getItem('scoreia_pass');
+        const btn = e.target.querySelector('button[type="submit"]');
+        
+        btn.disabled = true;
+        btn.textContent = "Verificando...";
 
-        if (name === savedName && pass === savedPass) {
-            window.location.href = '/app';
-        } else {
-            loginError.innerText = 'Credenciales incorrectas o usuario no registrado.';
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: pass })
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                localStorage.setItem('scoreia_user', data.user.name);
+                localStorage.setItem('scoreia_role', data.user.role);
+                window.location.href = '/app';
+            } else {
+                loginError.innerText = data.detail || 'Credenciales incorrectas.';
+                loginError.classList.remove('hidden');
+            }
+        } catch (error) {
+            loginError.innerText = 'Error de conexión con el servidor.';
             loginError.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Ingresar al Sistema";
         }
     });
 
     // Handle Register
-    registerForm.addEventListener('submit', (e) => {
+    registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const name = document.getElementById('regName').value.trim();
+        const btn = e.target.querySelector('button[type="submit"]');
         const pass = document.getElementById('regPass').value;
         const passC = document.getElementById('regPassConfirm').value;
 
@@ -460,9 +496,52 @@
             return;
         }
 
-        localStorage.setItem('scoreia_user', name);
-        localStorage.setItem('scoreia_pass', pass);
-        window.location.href = '/app';
+        const roleSelect = document.getElementById('regRole').value;
+        const role = roleSelect === 'otro' ? document.getElementById('regRoleCustom').value.trim() : roleSelect;
+        
+        const deptSelect = document.getElementById('regDept').value;
+        const dept = deptSelect === 'otro' ? document.getElementById('regDeptCustom').value.trim() : deptSelect;
+
+        const payload = {
+            name: document.getElementById('regName').value.trim(),
+            email: document.getElementById('regEmail').value.trim(),
+            password: pass,
+            role: role,
+            department: dept,
+            phone: document.getElementById('regCountryCode').value + " " + document.getElementById('regPhone').value.trim(),
+            country: document.getElementById('regCountry').value.trim(),
+            state: document.getElementById('regState').value.trim(),
+            city: document.getElementById('regCity').value.trim(),
+            address: document.getElementById('regAddress').value.trim()
+        };
+
+        btn.disabled = true;
+        btn.textContent = "Creando Cuenta...";
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Auto-login
+                localStorage.setItem('scoreia_user', payload.name);
+                localStorage.setItem('scoreia_role', payload.role);
+                window.location.href = '/app';
+            } else {
+                regError.innerText = data.detail || 'Error al registrar el usuario.';
+                regError.classList.remove('hidden');
+            }
+        } catch (error) {
+            regError.innerText = 'Error de conexión con el servidor.';
+            regError.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Completar Registro Seguro";
+        }
     });
 
     // --- Particle System (Igual que index.html) ---

@@ -12,6 +12,13 @@ from src.module4_inference.predictor import Predictor
 from src.module4_inference.risk_segmentor import RiskSegmentor
 from src.module4_inference.explainability import ModelExplainer
 
+import uuid
+from datetime import datetime, timedelta
+from passlib.context import CryptContext
+from app.email_service import send_recovery_email
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from app import models, database
@@ -59,6 +66,104 @@ class CreditRequest(BaseModel):
     monto_solicitado: float
     plazo_meses: int
     tipo_prestamo: str
+
+class UserRegister(BaseModel):
+    name: str
+    email: str
+    password: str
+    role: str
+    department: str
+    phone: str
+    country: str
+    state: str
+    city: str
+    address: str
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class ForgotPassword(BaseModel):
+    email: str
+
+class ResetPassword(BaseModel):
+    token: str
+    new_password: str
+
+@app.post("/api/auth/register")
+async def register(data: UserRegister, db: Session = Depends(database.get_db)):
+    if db.query(models.User).filter(models.User.email == data.email).first():
+        raise HTTPException(status_code=400, detail="El correo ya está registrado.")
+    
+    hashed_pwd = pwd_context.hash(data.password)
+    user = models.User(
+        name=data.name,
+        email=data.email,
+        password_hash=hashed_pwd,
+        role=data.role,
+        department=data.department,
+        phone=data.phone,
+        country=data.country,
+        state=data.state,
+        city=data.city,
+        address=data.address
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return {"status": "success", "message": "Usuario registrado exitosamente."}
+
+@app.post("/api/auth/login")
+async def login(data: UserLogin, db: Session = Depends(database.get_db)):
+    user = db.query(models.User).filter(models.User.email == data.email).first()
+    if not user or not pwd_context.verify(data.password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Credenciales inválidas.")
+    
+    return {
+        "status": "success",
+        "user": {
+            "name": user.name,
+            "email": user.email,
+            "role": user.role
+        }
+    }
+
+@app.post("/api/auth/forgot-password")
+async def forgot_password(data: ForgotPassword, request: Request, db: Session = Depends(database.get_db)):
+    user = db.query(models.User).filter(models.User.email == data.email).first()
+    if not user:
+        return {"status": "success"} # Prevent email enumeration
+    
+    token = str(uuid.uuid4())
+    expires = datetime.utcnow() + timedelta(hours=1)
+    
+    reset_record = models.PasswordReset(email=user.email, token=token, expires_at=expires)
+    db.add(reset_record)
+    db.commit()
+    
+    base_url = str(request.base_url).rstrip("/")
+    send_recovery_email(user.email, token, base_url)
+    
+    return {"status": "success"}
+
+@app.post("/api/auth/reset-password")
+async def reset_password(data: ResetPassword, db: Session = Depends(database.get_db)):
+    record = db.query(models.PasswordReset).filter(
+        models.PasswordReset.token == data.token,
+        models.PasswordReset.expires_at > datetime.utcnow()
+    ).first()
+    
+    if not record:
+        raise HTTPException(status_code=400, detail="Token inválido o expirado.")
+    
+    user = db.query(models.User).filter(models.User.email == record.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+        
+    user.password_hash = pwd_context.hash(data.new_password)
+    db.delete(record)
+    db.commit()
+    return {"status": "success", "message": "Contraseña actualizada exitosamente."}
 
 @app.get("/api/status")
 def read_root():
@@ -160,6 +265,10 @@ async def root_view():
 @app.get("/login")
 async def login_view():
     return FileResponse(ui_dir / "login.html")
+
+@app.get("/reset-password")
+async def reset_password_view():
+    return FileResponse(ui_dir / "reset_password.html")
 
 @app.get("/app")
 async def app_view():
