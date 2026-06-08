@@ -56,6 +56,22 @@ try:
 except Exception:
     pass
 
+try:
+    with database.engine.connect() as conn:
+        conn.execute(text('ALTER TABLE evaluations ADD COLUMN request_data VARCHAR;'))
+        try: conn.commit() 
+        except: pass
+except Exception:
+    pass
+
+try:
+    with database.engine.connect() as conn:
+        conn.execute(text('ALTER TABLE evaluations ADD COLUMN shap_data VARCHAR;'))
+        try: conn.commit() 
+        except: pass
+except Exception:
+    pass
+
 app = FastAPI(title="SCOREIA API", description="API para el modelo de Credit Scoring", version="1.0.0")
 
 app.add_middleware(
