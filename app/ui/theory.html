@@ -30,7 +30,7 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #050a08;
             background-image:
-                radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(57, 138, 72, 0.15), transparent 40%);
+                radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(var(--color-accent-comma), 0.15), transparent 40%);
         }
 
         .grid-overlay {
@@ -48,7 +48,7 @@
         }
         .glass-card:hover {
             border-color: rgba(245, 245, 220, 0.2);
-            box-shadow: 0 0 25px rgba(57, 138, 72, 0.15);
+            box-shadow: 0 0 25px rgba(var(--color-accent-comma), 0.15);
             transform: translateY(-4px);
         }
 

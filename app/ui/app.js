@@ -306,9 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hexToRgb(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? 
-            parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) 
-            : '57, 138, 72'; // fallback to green
+        if(!result) return { space: '57 138 72', comma: '57, 138, 72' };
+        return {
+            space: parseInt(result[1], 16) + ' ' + parseInt(result[2], 16) + ' ' + parseInt(result[3], 16),
+            comma: parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16)
+        };
     }
 
     function applyThemeConfig() {
@@ -318,34 +320,16 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.remove('dark');
         }
 
-        let styleTag = document.getElementById('dynamic-accent-style');
-        if (!styleTag) {
-            styleTag = document.createElement('style');
-            styleTag.id = 'dynamic-accent-style';
-            document.head.appendChild(styleTag);
-        }
         const c = currentConfig.accentColor;
-        const rgb = hexToRgb(c);
-
-        styleTag.innerHTML = 
-            'html body .bg-accent, html body .bg-accent\\/20 { background-color: ' + c + ' !important; }' +
-            'html body .text-accent { color: ' + c + ' !important; }' +
-            'html body .border-accent { border-color: ' + c + ' !important; }' +
-            'html body .accent-accent { accent-color: ' + c + ' !important; }' +
-            'html body .fill-accent { fill: ' + c + ' !important; }' +
-            'html body .shadow-accent\\/20 { --tw-shadow-color: ' + c + '33 !important; }' +
-            'html body .nav-item-active { border-left-color: ' + c + ' !important; background: linear-gradient(90deg, ' + c + '26 0%, transparent 100%) !important; }' +
-            ':root { --forest-green: ' + c + ' !important; --accent: ' + c + ' !important; --accent-glow: rgba(' + rgb + ', 0.4) !important; }' +
-            'html body .bg-accent\\/10 { background-color: ' + c + '1a !important; }' +
-            'html body .bg-accent\\/20 { background-color: ' + c + '33 !important; }' +
-            'html body .border-accent\\/20 { border-color: ' + c + '33 !important; }' +
-            'html body .border-accent\\/30 { border-color: ' + c + '4d !important; }' +
-            'html body .text-accent\\/80 { color: ' + c + 'cc !important; }' +
-            '@keyframes pulse-ring { ' +
-            '  0% { box-shadow: 0 0 0 0 rgba(' + rgb + ', 0.5); } ' +
-            '  70% { box-shadow: 0 0 0 15px rgba(' + rgb + ', 0); } ' +
-            '  100% { box-shadow: 0 0 0 0 rgba(' + rgb + ', 0); } ' +
-            '}';
+        const rgbVals = hexToRgb(c);
+        
+        document.documentElement.style.setProperty('--color-accent', rgbVals.space);
+        document.documentElement.style.setProperty('--color-accent-comma', rgbVals.comma);
+        
+        let styleTag = document.getElementById('dynamic-accent-style');
+        if (styleTag) {
+            styleTag.remove();
+        }
     }
     
     function syncConfigUI() {
@@ -396,6 +380,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 colorBtns.forEach(b => b.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]'));
 
                 e.target.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]');
+                
+                // Apply instantly without reloading or saving
+                applyThemeConfig();
             });
         });
     }
