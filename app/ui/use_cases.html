@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>SCOREIA — Teoría del Modelo</title>
+    <title>SCOREIA — Casos de Uso</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -71,8 +71,8 @@
             <span class="text-2xl font-headline font-extrabold text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
         </a>
         <div class="flex items-center gap-6">
+            <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Funcionalidades</a>
             <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
-            <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Casos de Uso</a>
             <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Acerca de</a>
             <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Soporte</a>
             <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide flex items-center gap-2">
@@ -84,58 +84,42 @@
 </nav>
 
 <section class="px-6 animate-hero">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-headline font-extrabold text-cream tracking-tight mb-4">Teoría del Modelo</h1>
-            <p class="text-cream/50 text-lg max-w-2xl mx-auto">Conoce los fundamentos matemáticos y estadísticos que dan vida al motor de riesgo de SCOREIA.</p>
+            <h1 class="text-4xl md:text-6xl font-headline font-extrabold text-cream tracking-tight mb-4">Casos de Uso</h1>
+            <p class="text-cream/50 text-lg max-w-2xl mx-auto">Conoce cómo SCOREIA revoluciona el análisis crediticio en distintos sectores de la industria financiera.</p>
         </div>
         
-        <div class="space-y-8">
-            <!-- Concepto 1 -->
-            <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
-                <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">finance</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center">
+                <div class="w-20 h-20 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-6">
+                    <span class="material-symbols-outlined text-accent text-4xl">account_balance</span>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-headline font-bold text-cream mb-3">Índice de Riesgo Crediticio (PD)</h3>
-                    <p class="text-cream/60 leading-relaxed text-lg">
-                        El <strong>Índice de Riesgo Crediticio</strong> (conocido en banca como Probability of Default) es la métrica principal del Credit Scoring. Representa estadísticamente la posibilidad de que un cliente no pueda cumplir con el pago de su deuda en un plazo determinado (generalmente 12 meses). 
-                        <br><br>
-                        SCOREIA calcula este valor entre 0% y 100%. Si un cliente obtiene, por ejemplo, un 12.4%, significa que tiene un riesgo bajo y el crédito se aprueba. Si el índice supera el umbral estricto definido por la institución (ej. 30%), la solicitud se marca como riesgo alto y es denegada.
-                    </p>
-                </div>
+                <h3 class="text-2xl font-headline font-bold text-cream mb-4">Bancos Tradicionales</h3>
+                <p class="text-cream/60 leading-relaxed">
+                    Optimiza la aprobación de tarjetas de crédito y préstamos hipotecarios. Reduce drásticamente los tiempos de espera del comité de evaluación automatizando el 80% de las solicitudes de bajo riesgo.
+                </p>
             </div>
 
-            <!-- Concepto 2 -->
-            <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
-                <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">park</span>
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center">
+                <div class="w-20 h-20 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-6">
+                    <span class="material-symbols-outlined text-accent text-4xl">rocket_launch</span>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-headline font-bold text-cream mb-3">Algoritmo Random Forest</h3>
-                    <p class="text-cream/60 leading-relaxed text-lg">
-                        En lugar de depender de reglas humanas básicas, SCOREIA utiliza <strong>Random Forest</strong>, un algoritmo de Machine Learning de tipo "Ensemble". Funciona creando cientos de <em>Árboles de Decisión</em> distintos durante el entrenamiento. 
-                        <br><br>
-                        Al evaluar a un nuevo cliente, cada árbol da su propio veredicto basado en diferentes variables (ingresos, edad, deudas previas). La decisión final (y el % de PD) se obtiene promediando las respuestas de todos los árboles, lo que lo hace increíblemente robusto contra el sobreajuste.
-                    </p>
-                </div>
+                <h3 class="text-2xl font-headline font-bold text-cream mb-4">Fintechs & Neobancos</h3>
+                <p class="text-cream/60 leading-relaxed">
+                    Ideal para la colocación de microcréditos 100% digitales. Se integra en la nube para procesar flujos de usuarios masivos en tiempo real, ofreciendo una experiencia sin fricción.
+                </p>
             </div>
 
-            <!-- Concepto 3 -->
-            <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
-                <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">psychology_alt</span>
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center">
+                <div class="w-20 h-20 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-6">
+                    <span class="material-symbols-outlined text-accent text-4xl">storefront</span>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-headline font-bold text-cream mb-3">Explicabilidad SHAP (Caja Blanca)</h3>
-                    <p class="text-cream/60 leading-relaxed text-lg">
-                        Las redes neuronales tradicionales son una "caja negra": dan un resultado pero no te dicen por qué. SCOREIA implementa <strong>Valores SHAP (SHapley Additive exPlanations)</strong> basados en la teoría de juegos cooperativos.
-                        <br><br>
-                        SHAP toma la decisión del modelo y la desglosa matemáticamente. Te permite ver exactamente cuántos puntos porcentuales sumó el "bajo salario" al riesgo, o cuántos restó el "buen historial crediticio". Esto es obligatorio para cumplir regulaciones bancarias y evitar sesgos.
-                    </p>
-                </div>
+                <h3 class="text-2xl font-headline font-bold text-cream mb-4">Microfinancieras</h3>
+                <p class="text-cream/60 leading-relaxed">
+                    Mejora la predicción de impago en sectores informales gracias a la robustez del algoritmo Random Forest, el cual detecta patrones de comportamiento sutiles que los modelos clásicos ignoran.
+                </p>
             </div>
-            
         </div>
     </div>
 </section>
@@ -146,7 +130,6 @@
         document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
     });
 
-    // --- Partículas (Efecto Constelación Antigravity) ---
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';

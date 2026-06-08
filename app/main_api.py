@@ -177,6 +177,14 @@ async def tech_view():
 async def support_view():
     return FileResponse(ui_dir / "support.html")
 
+@app.get("/casos-de-uso")
+async def use_cases_view():
+    return FileResponse(ui_dir / "use_cases.html")
+
+@app.get("/acerca-de")
+async def about_view():
+    return FileResponse(ui_dir / "about.html")
+
 app.mount("/", StaticFiles(directory=str(ui_dir), html=False), name="ui")
 
 if __name__ == "__main__":

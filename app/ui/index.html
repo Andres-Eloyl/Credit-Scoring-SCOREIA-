@@ -79,11 +79,13 @@
             </div>
             <span class="text-2xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</span>
         </div>
-        <div class="flex items-center gap-8">
-            <a href="/funcionalidades" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Funcionalidades</a>
-            <a href="/tecnologia" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
-            <a href="/soporte" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Soporte</a>
-            <a href="/login" class="px-10 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-lg hover:scale-105 transition-all shadow-lg shadow-accent/20">
+        <div class="flex items-center gap-6">
+            <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Funcionalidades</a>
+            <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
+            <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Casos de Uso</a>
+            <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Acerca de</a>
+            <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Soporte</a>
+            <a href="/login" class="px-8 py-3 rounded-2xl bg-accent text-white font-extrabold text-base hover:scale-105 transition-all shadow-lg shadow-accent/20">
                 Ingresar
             </a>
         </div>
@@ -113,23 +115,66 @@
 
         <!-- Floating Gauge Preview -->
         <div class="mt-20 animate-float">
-            <div class="glass-card rounded-3xl p-8 max-w-md mx-auto">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-cream/50 uppercase tracking-widest">Índice de Riesgo Crediticio</span>
-                    <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold border border-accent/30">Riesgo Bajo</span>
+            <div class="glass-card rounded-3xl p-8 max-w-md mx-auto group cursor-pointer relative overflow-hidden">
+                <!-- Base Info -->
+                <div class="relative z-10 transition-transform duration-500 group-hover:-translate-y-2">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-cream/50 uppercase tracking-widest">Índice de Riesgo Crediticio</span>
+                        <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold border border-accent/30 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">Riesgo Bajo</span>
+                    </div>
+                    <div class="flex items-end gap-4">
+                        <span class="text-7xl font-headline font-extrabold text-cream tracking-tighter">12.4<span class="text-4xl text-cream/30">%</span></span>
+                    </div>
+                    <div class="mt-6 h-3 bg-surface rounded-full overflow-hidden border border-cream/5 relative">
+                        <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-accent to-[#50c878] rounded-full w-[12.4%] shadow-[0_0_10px_#398a48]"></div>
+                    </div>
+                    <div class="mt-4 flex justify-between text-xs font-bold text-cream/40">
+                        <span>0% (Excelente)</span>
+                        <span>100% (Crítico)</span>
+                    </div>
                 </div>
-                <div class="flex items-end gap-4">
-                    <span class="text-5xl font-headline font-extrabold text-accent">12.4%</span>
-                    <span class="text-sm text-cream/40 mb-2">Decisión: <strong class="text-accent">Aprobado</strong></span>
-                </div>
-                <div class="w-full h-2 bg-cream/10 rounded-full mt-4 overflow-hidden">
-                    <div class="w-[12.4%] h-full bg-accent rounded-full"></div>
+                
+                <!-- SHAP Breakdown -->
+                <div class="max-h-0 opacity-0 group-hover:max-h-64 group-hover:opacity-100 group-hover:mt-6 group-hover:pt-6 border-t border-transparent group-hover:border-cream/10 transition-all duration-500 relative z-10 overflow-hidden">
+                    <h4 class="text-xs font-bold text-cream/60 mb-4 uppercase tracking-wider flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">psychology</span> Explicabilidad (SHAP)
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-cream">Ingresos Altos</span>
+                                <span class="text-accent">-5.2%</span>
+                            </div>
+                            <div class="h-1.5 bg-surface rounded-full overflow-hidden flex justify-end">
+                                <div class="h-full bg-accent w-0 group-hover:w-[40%] transition-all duration-1000 ease-out delay-100"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-cream">Edad > 30 años</span>
+                                <span class="text-accent">-2.1%</span>
+                            </div>
+                            <div class="h-1.5 bg-surface rounded-full overflow-hidden flex justify-end">
+                                <div class="h-full bg-accent w-0 group-hover:w-[15%] transition-all duration-1000 ease-out delay-200"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-cream">Historial Corto</span>
+                                <span class="text-red-500">+3.4%</span>
+                            </div>
+                            <div class="h-1.5 bg-surface rounded-full overflow-hidden">
+                                <div class="h-full bg-red-500 w-0 group-hover:w-[25%] transition-all duration-1000 ease-out delay-300"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-
 </section>
 
 <!-- FOOTER -->
