@@ -165,6 +165,14 @@ async def login_view():
 async def app_view():
     return FileResponse(ui_dir / "app.html")
 
+@app.get("/funcionalidades")
+async def features_view():
+    return FileResponse(ui_dir / "features.html")
+
+@app.get("/tecnologia")
+async def tech_view():
+    return FileResponse(ui_dir / "tech.html")
+
 app.mount("/", StaticFiles(directory=str(ui_dir), html=False), name="ui")
 
 if __name__ == "__main__":

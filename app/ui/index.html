@@ -35,9 +35,10 @@
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #0b1310;
             background-image:
+                radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(57, 138, 72, 0.25) 0, transparent 45%),
                 radial-gradient(at 0% 0%, rgba(57, 138, 72, 0.15) 0, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(245, 245, 220, 0.05) 0, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%);
+                radial-gradient(at 100% 100%, rgba(57, 138, 72, 0.1) 0, transparent 50%);
+            transition: background-image 0.2s ease;
         }
 
         .grid-overlay {
@@ -77,13 +78,13 @@
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                <span class="material-symbols-outlined text-accent text-2xl">analytics</span>
+                <span class="material-symbols-outlined text-accent text-2xl">blur_on</span>
             </div>
             <span class="text-xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</span>
         </div>
         <div class="flex items-center gap-4">
-            <a href="#funcionalidades" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Funcionalidades</a>
-            <a href="#tecnologia" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Tecnología</a>
+            <a href="/funcionalidades" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Funcionalidades</a>
+            <a href="/tecnologia" class="hidden md:block text-sm text-cream/60 hover:text-cream transition-colors font-medium">Tecnología</a>
             <a href="/login" class="px-6 py-2.5 rounded-xl bg-accent text-white font-bold text-sm hover:scale-105 transition-all shadow-lg shadow-accent/20">
                 Ingresar
             </a>
@@ -106,7 +107,7 @@
                 <span class="material-symbols-outlined">login</span>
                 Acceder al Sistema
             </a>
-            <a href="#funcionalidades" class="px-10 py-4 rounded-2xl border border-cream/20 text-cream font-bold text-base hover:bg-cream/5 transition-all flex items-center gap-3">
+            <a href="/funcionalidades" class="px-10 py-4 rounded-2xl border border-cream/20 text-cream font-bold text-base hover:bg-cream/5 transition-all flex items-center gap-3">
                 <span class="material-symbols-outlined">info</span>
                 Más Información
             </a>
@@ -131,99 +132,28 @@
     </div>
 </section>
 
-<!-- FEATURES -->
-<section id="funcionalidades" class="py-32 px-6">
-    <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-headline font-extrabold text-cream">Funcionalidades Principales</h2>
-            <p class="text-cream/50 mt-4 max-w-xl mx-auto">Todo lo que necesitas para una evaluación crediticia integral, desde la captura de datos hasta la decisión automatizada.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">psychology</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Modelo Predictivo</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">Random Forest entrenado con validación cruzada para calcular la probabilidad de incumplimiento (PD) en tiempo real.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">monitoring</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Explicabilidad SHAP</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">Cada predicción viene acompañada de un desglose visual de los factores que más influyen en la decisión del modelo.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">tune</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Simulador What-If</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">Modifica monto y plazo en tiempo real para explorar escenarios hipotéticos sin reenviar el formulario completo.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">dashboard</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Dashboard Analítico</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">KPIs globales, distribución de decisiones y métricas de cartera con gráficos interactivos ApexCharts.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">picture_as_pdf</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Reportes PDF</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">Genera reportes profesionales en PDF con un clic, listos para auditoría o presentación a comités de crédito.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">settings</span>
-                </div>
-                <h3 class="text-lg font-headline font-bold text-cream mb-2">Configuración Dinámica</h3>
-                <p class="text-sm text-cream/50 leading-relaxed">Personaliza colores, temas y el umbral de aprobación del motor crediticio desde el panel de configuración.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- TECH -->
-<section id="tecnologia" class="py-32 px-6 border-t border-cream/5">
-    <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-headline font-extrabold text-cream">Arquitectura Tecnológica</h2>
-            <p class="text-cream/50 mt-4 max-w-xl mx-auto">Construido con estándares de producción: API RESTful, persistencia en la nube y contenedorización Docker.</p>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="glass-card rounded-2xl p-6 text-center">
-                <p class="text-2xl font-headline font-extrabold text-accent">Python</p>
-                <p class="text-xs text-cream/40 mt-2">Motor de ML</p>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center">
-                <p class="text-2xl font-headline font-extrabold text-accent">FastAPI</p>
-                <p class="text-xs text-cream/40 mt-2">API REST</p>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center">
-                <p class="text-2xl font-headline font-extrabold text-accent">PostgreSQL</p>
-                <p class="text-xs text-cream/40 mt-2">Supabase Cloud</p>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center">
-                <p class="text-2xl font-headline font-extrabold text-accent">Docker</p>
-                <p class="text-xs text-cream/40 mt-2">Contenedores</p>
-            </div>
-        </div>
-    </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="border-t border-cream/5 py-12 px-6">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-accent">analytics</span>
+            <span class="material-symbols-outlined text-accent">blur_on</span>
             <span class="font-headline font-bold text-cream">SCOREIA</span>
             <span class="text-cream/30 text-sm">v1.0</span>
         </div>
-        <p class="text-cream/30 text-sm">Desarrollado por <strong class="text-cream/60">Andres_Eloyl</strong> — Proyecto de Portafolio FinTech</p>
+        <p class="text-cream/40 text-sm flex items-center gap-2">Desarrollado por <strong class="text-cream text-xl font-headline font-black ml-1">Andres_Eloyl</strong></p>
     </div>
 </footer>
+
+<script>
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        document.documentElement.style.setProperty('--mouse-x', x + '%');
+        document.documentElement.style.setProperty('--mouse-y', y + '%');
+    });
+</script>
 
 </body>
 </html>
