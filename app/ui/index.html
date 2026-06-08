@@ -79,10 +79,10 @@
             </div>
             <span class="text-2xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</span>
         </div>
-        <div class="flex items-center gap-6">
-            <a href="/funcionalidades" class="hidden md:block text-base text-cream/60 hover:text-cream transition-colors font-medium">Funcionalidades</a>
-            <a href="/tecnologia" class="hidden md:block text-base text-cream/60 hover:text-cream transition-colors font-medium">Tecnología</a>
-            <a href="/login" class="px-8 py-3 rounded-xl bg-accent text-white font-bold text-base hover:scale-105 transition-all shadow-lg shadow-accent/20">
+        <div class="flex items-center gap-8">
+            <a href="/funcionalidades" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Funcionalidades</a>
+            <a href="/tecnologia" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
+            <a href="/login" class="px-10 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-lg hover:scale-105 transition-all shadow-lg shadow-accent/20">
                 Ingresar
             </a>
         </div>
@@ -99,13 +99,13 @@
         <p class="text-lg md:text-xl text-cream/60 mt-6 max-w-2xl mx-auto leading-relaxed animate-hero-delay">
             Plataforma avanzada de scoring crediticio que combina modelos predictivos de Machine Learning, explicabilidad SHAP y análisis en tiempo real para decisiones financieras precisas.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 animate-hero-delay2">
-            <a href="/login" class="px-10 py-4 rounded-2xl bg-accent text-white font-bold text-base hover:scale-105 transition-all shadow-2xl shadow-accent/30 flex items-center gap-3">
-                <span class="material-symbols-outlined">login</span>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 animate-hero-delay2">
+            <a href="/login" class="px-12 py-5 rounded-2xl bg-accent text-white font-extrabold text-lg hover:scale-105 transition-all shadow-2xl shadow-accent/30 flex items-center gap-3">
+                <span class="material-symbols-outlined text-2xl">login</span>
                 Acceder al Sistema
             </a>
-            <a href="/funcionalidades" class="px-10 py-4 rounded-2xl border border-cream/20 text-cream font-bold text-base hover:bg-cream/5 transition-all flex items-center gap-3">
-                <span class="material-symbols-outlined">info</span>
+            <a href="/funcionalidades" class="px-12 py-5 rounded-2xl border-2 border-cream/20 text-cream font-extrabold text-lg hover:bg-cream/5 transition-all flex items-center gap-3">
+                <span class="material-symbols-outlined text-2xl">info</span>
                 Más Información
             </a>
         </div>
@@ -154,7 +154,7 @@
         document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
     });
 
-    // --- Partículas ---
+    // --- Partículas (Efecto Constelación Antigravity) ---
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
@@ -172,13 +172,13 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         particlesArray = [];
-        let numParticles = Math.floor((window.innerWidth * window.innerHeight) / 15000);
+        let numParticles = Math.floor((window.innerWidth * window.innerHeight) / 10000);
         for (let i = 0; i < numParticles; i++) {
-            let size = Math.random() * 1.5 + 0.5;
+            let size = Math.random() * 2 + 0.5;
             let x = Math.random() * innerWidth;
             let y = Math.random() * innerHeight;
-            let dirX = (Math.random() * 0.5) - 0.25;
-            let dirY = (Math.random() * 0.5) - 0.25;
+            let dirX = (Math.random() * 1) - 0.5;
+            let dirY = (Math.random() * 1) - 0.5;
             particlesArray.push({x, y, dirX, dirY, size});
         }
     }
@@ -186,16 +186,34 @@
     function animateParticles() {
         requestAnimationFrame(animateParticles);
         ctx.clearRect(0, 0, innerWidth, innerHeight);
-        ctx.fillStyle = 'rgba(57, 138, 72, 0.4)';
-        particlesArray.forEach(p => {
-            p.x += p.dirX;
-            p.y += p.dirY;
-            if (p.x < 0 || p.x > innerWidth) p.dirX = -p.dirX;
-            if (p.y < 0 || p.y > innerHeight) p.dirY = -p.dirY;
+        ctx.fillStyle = 'rgba(57, 138, 72, 0.5)';
+        ctx.lineWidth = 0.5;
+        
+        for (let i = 0; i < particlesArray.length; i++) {
+            let p1 = particlesArray[i];
+            p1.x += p1.dirX;
+            p1.y += p1.dirY;
+            if (p1.x < 0 || p1.x > innerWidth) p1.dirX = -p1.dirX;
+            if (p1.y < 0 || p1.y > innerHeight) p1.dirY = -p1.dirY;
+            
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
             ctx.fill();
-        });
+            
+            for (let j = i; j < particlesArray.length; j++) {
+                let p2 = particlesArray[j];
+                let dx = p1.x - p2.x;
+                let dy = p1.y - p2.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 120) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(57, 138, 72, ${1 - distance/120})`;
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+        }
     }
     
     window.addEventListener('resize', initParticles);
