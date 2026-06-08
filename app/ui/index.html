@@ -228,16 +228,23 @@
     </div>
     <div class="flex-1 space-y-1">
         <p class="px-4 text-[10px] font-bold text-cream/40 uppercase tracking-widest mb-4">Principal</p>
-        <a class="nav-item-active text-accent px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all" href="#">
+        <a id="nav-eval" class="nav-item-active text-accent px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
             <span class="text-sm font-bold">Análisis Crediticio</span>
+        </a>
+        <a id="nav-dashboard" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span class="text-sm font-bold">Dashboard Analytics</span>
         </a>
     </div>
 </nav>
 
 <!-- Main Canvas -->
-<main class="md:ml-[280px] pt-28 md:pt-12 px-6 lg:px-10 pb-20 max-w-[1600px] mx-auto min-h-screen">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<main class="md:ml-[280px] pt-28 md:pt-12 px-6 lg:px-10 pb-20 max-w-[1600px] mx-auto min-h-screen relative">
+    
+    <!-- EVAL VIEW -->
+    <div id="eval-view">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
             <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
                 <span>Core Analytics</span>
@@ -554,6 +561,63 @@
             </div>
         </div>
     </form>
+    </div> <!-- END EVAL VIEW -->
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+        <div class="mb-12">
+            <nav class="flex items-center gap-2 text-[10px] font-bold text-cream/50 uppercase tracking-widest mb-4">
+                <span>Core Analytics</span>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-accent/80">Dashboard</span>
+            </nav>
+            <h2 class="text-3xl font-headline-lg font-bold text-cream">Dashboard Analítico</h2>
+            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Métricas globales y comportamiento de la cartera de evaluaciones.</p>
+        </div>
+
+        <!-- KPIs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-accent">
+                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Total Evaluaciones</p>
+                <h4 id="kpi-total" class="text-3xl font-black text-cream">0</h4>
+            </div>
+            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-[#398a48]">
+                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Aprobados</p>
+                <h4 id="kpi-aprobados" class="text-3xl font-black text-[#398a48]">0%</h4>
+            </div>
+            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-error">
+                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Rechazados</p>
+                <h4 id="kpi-rechazados" class="text-3xl font-black text-error">0%</h4>
+            </div>
+            <div class="glass-panel-premium p-6 rounded-2xl border-l-4 border-tertiary">
+                <p class="text-xs text-cream/50 uppercase tracking-widest font-bold mb-1">Monto Total Solicitado</p>
+                <h4 id="kpi-monto" class="text-3xl font-black text-cream">$0</h4>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-panel-premium p-6 rounded-3xl min-h-[400px] flex flex-col">
+                <h3 class="text-lg font-bold text-cream mb-6">Distribución de Decisiones</h3>
+                <div id="chartDecisions" class="flex-1 w-full flex items-center justify-center"></div>
+            </div>
+            <div class="glass-panel-premium p-6 rounded-3xl min-h-[400px] flex flex-col">
+                <h3 class="text-lg font-bold text-cream mb-6">PD Promedio vs Riesgo</h3>
+                <div class="flex-1 flex flex-col items-center justify-center">
+                    <div class="relative w-48 h-48">
+                        <svg class="w-full h-full transform -rotate-90">
+                            <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent" class="text-cream/10" />
+                            <circle id="kpi-pd-circle" cx="96" cy="96" r="88" stroke="currentColor" stroke-width="12" fill="transparent" stroke-dasharray="552.92" stroke-dashoffset="552.92" class="text-accent transition-all duration-1000 ease-out" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                            <span id="kpi-pd-text" class="text-3xl font-black text-cream">0%</span>
+                            <span class="text-xs text-cream/50 font-bold uppercase tracking-widest mt-1">PD Global</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END DASHBOARD VIEW -->
     
     <!-- Footer Global -->
     <footer class="mt-16 pb-12 flex flex-col items-center justify-center border-t border-white/10 pt-10">

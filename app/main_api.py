@@ -119,6 +119,33 @@ async def get_history(limit: int = 10, db: Session = Depends(database.get_db)):
     evals = db.query(models.Evaluation).order_by(models.Evaluation.timestamp.desc()).limit(limit).all()
     return evals
 
+from sqlalchemy import func
+
+@app.get("/api/stats")
+async def get_stats(db: Session = Depends(database.get_db)):
+    # Total evaluaciones
+    total = db.query(models.Evaluation).count()
+    if total == 0:
+        return {"total": 0, "aprobados": 0, "rechazados": 0, "monto_total": 0, "pd_promedio": 0, "history_dates": [], "history_aprobados": [], "history_rechazados": []}
+    
+    # Aprobados vs Rechazados
+    aprobados = db.query(models.Evaluation).filter(models.Evaluation.decision == "Aprobado").count()
+    rechazados = total - aprobados
+    
+    # Monto total
+    monto_total = db.query(func.sum(models.Evaluation.monto_solicitado)).scalar() or 0
+    
+    # PD promedio
+    pd_promedio = db.query(func.avg(models.Evaluation.pd_value)).scalar() or 0
+
+    return {
+        "total": total,
+        "aprobados": aprobados,
+        "rechazados": rechazados,
+        "monto_total": monto_total,
+        "pd_promedio": pd_promedio
+    }
+
 # Montar los archivos estáticos de la UI generada
 ui_dir = Path(__file__).parent / "ui"
 if not ui_dir.exists():

@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfDate = document.getElementById('pdfDate');
     const pdfClientId = document.getElementById('pdfClientId');
     
+    // Navigation & Views
+    const navEval = document.getElementById('nav-eval');
+    const navDashboard = document.getElementById('nav-dashboard');
+    const evalView = document.getElementById('eval-view');
+    const dashboardView = document.getElementById('dashboard-view');
+    let chartDecisionsInstance = null;
+    
     // Simulator elements
     const simMonto = document.getElementById('simMonto');
     const simMontoText = document.getElementById('simMontoText');
@@ -84,6 +91,81 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initial fetch
     fetchHistory();
+
+    // --- Navigation Logic ---
+    if (navEval && navDashboard) {
+        navEval.addEventListener('click', () => {
+            navEval.classList.add('nav-item-active', 'text-accent');
+            navEval.classList.remove('text-cream/50');
+            navDashboard.classList.remove('nav-item-active', 'text-accent');
+            navDashboard.classList.add('text-cream/50');
+            evalView.classList.remove('hidden');
+            dashboardView.classList.add('hidden');
+        });
+
+        navDashboard.addEventListener('click', () => {
+            navDashboard.classList.add('nav-item-active', 'text-accent');
+            navDashboard.classList.remove('text-cream/50');
+            navEval.classList.remove('nav-item-active', 'text-accent');
+            navEval.classList.add('text-cream/50');
+            evalView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+            fetchStats();
+        });
+    }
+
+    // --- Dashboard Logic ---
+    async function fetchStats() {
+        try {
+            const res = await fetch('/api/stats');
+            if (!res.ok) return;
+            const data = await res.json();
+            
+            // Update KPIs
+            document.getElementById('kpi-total').innerText = data.total;
+            const pctAprobados = data.total > 0 ? ((data.aprobados / data.total) * 100).toFixed(1) : 0;
+            const pctRechazados = data.total > 0 ? ((data.rechazados / data.total) * 100).toFixed(1) : 0;
+            document.getElementById('kpi-aprobados').innerText = pctAprobados + '%';
+            document.getElementById('kpi-rechazados').innerText = pctRechazados + '%';
+            document.getElementById('kpi-monto').innerText = formatCurrency(data.monto_total);
+            
+            // Update PD Circle
+            const pdPct = data.pd_promedio * 100;
+            document.getElementById('kpi-pd-text').innerText = pdPct.toFixed(1) + '%';
+            const offset = 552.92 - (552.92 * pdPct) / 100;
+            document.getElementById('kpi-pd-circle').style.strokeDashoffset = offset;
+            
+            // Update Chart
+            if (chartDecisionsInstance) {
+                chartDecisionsInstance.destroy();
+            }
+            const options = {
+                series: [data.aprobados, data.rechazados],
+                chart: { type: 'donut', height: 320, background: 'transparent' },
+                labels: ['Aprobados', 'Rechazados'],
+                colors: ['#398a48', '#d65d5d'],
+                stroke: { show: false },
+                dataLabels: { enabled: true, style: { colors: ['#f5f5dc'] } },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            labels: {
+                                show: true,
+                                name: { color: '#f5f5dc' },
+                                value: { color: '#f5f5dc', fontSize: '24px', fontWeight: 'bold' }
+                            }
+                        }
+                    }
+                },
+                theme: { mode: 'dark' }
+            };
+            chartDecisionsInstance = new ApexCharts(document.querySelector("#chartDecisions"), options);
+            chartDecisionsInstance.render();
+            
+        } catch (err) {
+            console.error("Error fetching stats:", err);
+        }
+    }
 
     // --- PDF Logic ---
     btnDownloadPDF.addEventListener('click', () => {
