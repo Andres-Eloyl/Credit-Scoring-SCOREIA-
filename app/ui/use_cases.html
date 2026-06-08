@@ -71,10 +71,6 @@
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
 
-
-
-
-
 <!-- NAV -->
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="w-full px-8 xl:px-12 h-20 flex items-center justify-between">
@@ -96,16 +92,29 @@
         </div>
 
         <!-- Acceso -->
-        <a href="/login" class="flex items-center gap-2 text-[15px] text-cream/70 hover:text-cream transition-colors tracking-wide font-medium">
-            <span class="material-symbols-outlined text-xl">login</span>
-            Ingresar
-        </a>
+        <div class="flex items-center gap-6">
+            <a href="/" class="flex items-center gap-2 text-[15px] text-cream/70 hover:text-cream transition-colors tracking-wide font-medium">
+                <span class="material-symbols-outlined text-xl">home</span>
+                Volver al inicio
+            </a>
+            <a href="/login" class="flex items-center gap-2 text-[15px] text-cream/70 hover:text-cream transition-colors tracking-wide font-medium">
+                <span class="material-symbols-outlined text-xl">login</span>
+                Ingresar
+            </a>
+        </div>
     </div>
 </nav>
 
-<section class="px-6 animate-hero">
+
+
+
+
+
+
+
+<section class="px-6 animate-hero pt-12">
     <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
+        <div class="max-w-4xl mx-auto text-center mb-16">
             <h1 class="text-4xl md:text-6xl text-cream tracking-tight mb-4 font-headline">Casos de Uso</h1>
             <p class="text-cream/50 text-lg max-w-2xl mx-auto">Conoce cómo SCOREIA revoluciona el análisis crediticio en distintos sectores de la industria financiera.</p>
         </div>
@@ -167,7 +176,7 @@
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = '-2';
+    canvas.style.zIndex = '0';
     canvas.style.pointerEvents = 'none';
     document.body.prepend(canvas);
     
@@ -202,6 +211,17 @@
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(245, 245, 220, 0.3)';
             ctx.fill();
+            let dxMouse = mouse.x - p.x;
+            let dyMouse = mouse.y - p.y;
+            let distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
+            if (distMouse < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
+            
             for (let j = i; j < particlesArray.length; j++) {
                 let p2 = particlesArray[j];
                 let dx = p.x - p2.x;

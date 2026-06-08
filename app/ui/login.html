@@ -86,20 +86,40 @@
         <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#50c878]/10 rounded-full blur-[100px] pointer-events-none"></div>
         
         <div class="relative z-10">
-            <a href="/" class="inline-block hover:scale-105 transition-transform">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-surface border border-cream/10 mb-6 shadow-[0_0_30px_rgba(57,138,72,0.3)]">
-                    <span class="material-symbols-outlined text-4xl text-accent">blur_on</span>
+            <a href="/" class="inline-flex items-center gap-4 hover:scale-105 transition-transform mb-8 group">
+                <div class="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center border border-cream/10 shadow-[0_0_25px_rgba(57,138,72,0.3)] group-hover:shadow-[0_0_35px_rgba(57,138,72,0.5)] transition-shadow">
+                    <span class="material-symbols-outlined text-3xl text-accent font-bold">blur_on</span>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-2xl font-bold text-cream tracking-wide font-headline leading-tight">SCOREIA</h1>
+                    <div class="text-[10px] font-medium text-cream/50 uppercase tracking-widest">Riesgo Crediticio</div>
                 </div>
             </a>
             <h1 class="text-4xl xl:text-5xl font-bold text-cream tracking-wide leading-tight font-headline">
                 Acceso al Portal de <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-[#50c878]">Riesgo Institucional</span>
             </h1>
-            <p class="mt-6 text-base text-cream/60 max-w-md font-body-md leading-relaxed tracking-wide">
+            <p class="mt-6 text-base text-cream/60 max-w-md font-body text-sm leading-relaxed tracking-wide">
                 Identifícate para ingresar al panel de control de SCOREIA. Análisis predictivo y generación de reportes SHAP.
             </p>
         </div>
 
         
+        
+        <!-- Relleno: Por qué es importante -->
+        <div class="relative z-10 my-auto py-12 max-w-md animate-hero-delay hidden transition-all duration-700" id="whyRegisterSection">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center border border-accent/30">
+                    <span class="material-symbols-outlined text-accent text-sm">vpn_key</span>
+                </div>
+                <h3 class="text-xl font-bold font-headline text-cream tracking-wide">¿Por qué es importante el registro?</h3>
+            </div>
+            <p class="text-cream/60 font-body text-sm leading-relaxed text-sm pl-11">
+                Al crear una cuenta institucional, garantizamos la trazabilidad y seguridad bancaria de todas las evaluaciones. 
+                <br><br>
+                Obtendrás acceso a un entorno privado donde SCOREIA procesa historiales crediticios en tiempo real, generando modelos explicables (XAI) exclusivos para tu departamento.
+            </p>
+        </div>
+
         <div class="relative z-10 mt-12 max-w-xl w-full">
             <div id="infoCarousel" class="glass-panel-premium p-6 rounded-2xl flex items-start gap-6 transition-all duration-500 min-h-[140px] border border-cream/10">
                 <div class="bg-surface p-4 rounded-xl border border-cream/10 flex-shrink-0 shadow-sm flex items-center justify-center">
@@ -132,11 +152,14 @@
             
             
             <div class="text-center mb-8 lg:hidden">
-                <div class="flex items-center gap-3">
+                <div class="flex items-center justify-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center border border-cream/10 shadow-[0_0_15px_rgba(57,138,72,0.2)]">
                         <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
                     </div>
-                    <h1 class="text-3xl font-bold text-cream tracking-wide font-headline">SCOREIA</h1>
+                    <div class="flex flex-col text-left">
+                        <h1 class="text-2xl font-bold text-cream tracking-wide font-headline leading-tight">SCOREIA</h1>
+                        <div class="text-[9px] font-medium text-cream/50 uppercase tracking-widest">Riesgo Crediticio</div>
+                    </div>
                 </div>
             </div>
 
@@ -149,7 +172,7 @@
                 <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                     <span class="material-symbols-outlined text-cream/40 ml-4">person</span>
                     <input id="loginName" type="text" placeholder="Tu correo o nombre de usuario" required
-                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                 </div>
             </div>
             <div>
@@ -157,7 +180,7 @@
                 <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                     <span class="material-symbols-outlined text-cream/40 ml-4">lock</span>
                     <input id="loginPass" type="password" placeholder="••••••••" required
-                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     <button type="button" onclick="togglePassword('loginPass', 'loginEye')" class="mr-4 text-cream/40 hover:text-cream transition-colors flex items-center justify-center focus:outline-none">
                         <span id="loginEye" class="material-symbols-outlined">visibility</span>
                     </button>
@@ -221,7 +244,7 @@
                 <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                     <span class="material-symbols-outlined text-cream/40 ml-4">mail</span>
                     <input id="forgotEmail" type="email" placeholder="correo@empresa.com" required
-                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                 </div>
             </div>
             <p id="forgotSuccess" class="hidden text-accent text-xs text-center font-bold">¡Enlace enviado! Revisa tu bandeja de entrada.</p>
@@ -245,7 +268,7 @@
                 <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                     <span class="material-symbols-outlined text-cream/40 ml-4">badge</span>
                     <input id="regName" type="text" placeholder="Ej: Juan Pérez" required
-                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                 </div>
             </div>
             
@@ -256,7 +279,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">mail</span>
                         <input id="regEmail" type="email" placeholder="correo@empresa.com" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     </div>
                 </div>
                 
@@ -265,7 +288,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">work</span>
                         <select id="regRole" required onchange="toggleRoleCustom()"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm">
                             <option value="" disabled selected class="bg-background">Selecciona tu rol</option>
                             <option value="analista" class="bg-background text-cream">Analista de Riesgo</option>
                             <option value="gerente" class="bg-background text-cream">Gerente de Crédito</option>
@@ -277,7 +300,7 @@
                     <div id="customRoleContainer" class="hidden mt-3 relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">edit</span>
                         <input id="regRoleCustom" type="text" placeholder="Especifique rol"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     </div>
                 </div>
                 
@@ -286,7 +309,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">corporate_fare</span>
                         <select id="regDept" required onchange="toggleDeptCustom()"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm">
                             <option value="" disabled selected class="bg-background">Selecciona departamento</option>
                             <option value="riesgos" class="bg-background text-cream">Riesgos Corporativos</option>
                             <option value="finanzas" class="bg-background text-cream">Finanzas</option>
@@ -298,7 +321,7 @@
                     <div id="customDeptContainer" class="hidden mt-3 relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">edit</span>
                         <input id="regDeptCustom" type="text" placeholder="Especifique departamento"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     </div>
                 </div>
                 
@@ -307,7 +330,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span id="callIcon" class="material-symbols-outlined text-cream/40 ml-4">call</span>
                         <span id="flagIcon" class="ml-4 text-xl hidden"></span>
-                        <select id="regCountryCode" required onchange="updateFlagIcon()" class="bg-transparent border-none py-3.5 pl-2 pr-1 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body-md w-[100px]">
+                        <select id="regCountryCode" required onchange="updateFlagIcon()" class="bg-transparent border-none py-3.5 pl-2 pr-6 text-cream/60 focus:text-cream focus:outline-none focus:ring-0 font-body text-sm w-[120px]">
                             <option value="+58" class="bg-background" selected>🇻🇪 +58</option>
                             <option value="+1" class="bg-background">🇺🇸 +1</option>
                             <option value="+34" class="bg-background">🇪🇸 +34</option>
@@ -319,7 +342,7 @@
                         </select>
                         <div class="w-px h-6 bg-cream/20"></div>
                         <input id="regPhone" type="tel" placeholder="414 123 4567" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     </div>
                 </div>
                 
@@ -327,8 +350,10 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">País</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">public</span>
-                        <input id="regCountry" type="text" placeholder="Ej: Venezuela" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        <select id="regCountry" required onchange="fetchStates()"
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm">
+                            <option value="" disabled selected class="bg-background">Cargando países...</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -336,8 +361,10 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Estado / Provincia</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">map</span>
-                        <input id="regState" type="text" placeholder="Ej: Distrito Capital" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        <select id="regState" required onchange="fetchCities()" disabled
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm">
+                            <option value="" disabled selected class="bg-background">Selecciona un país primero</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -345,8 +372,10 @@
                     <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Municipio / Ciudad</label>
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">location_city</span>
-                        <input id="regCity" type="text" placeholder="Ej: Caracas" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                        <select id="regCity" required disabled
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm">
+                            <option value="" disabled selected class="bg-background">Selecciona un estado primero</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -355,7 +384,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">signpost</span>
                         <input id="regAddress" type="text" placeholder="Calle, Número, Colonia" required
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                     </div>
                 </div>
                 
@@ -364,7 +393,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">lock</span>
                         <input id="regPass" type="password" placeholder="Mínimo 8 caracteres" required minlength="8"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                         <button type="button" onclick="togglePassword('regPass', 'regEye')" class="mr-4 text-cream/40 hover:text-cream transition-colors flex items-center justify-center focus:outline-none">
                             <span id="regEye" class="material-symbols-outlined">visibility</span>
                         </button>
@@ -376,7 +405,7 @@
                     <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
                         <span class="material-symbols-outlined text-cream/40 ml-4">lock_reset</span>
                         <input id="regPassConfirm" type="password" placeholder="Repite tu contraseña" required minlength="8"
-                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                            class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm">
                         <button type="button" onclick="togglePassword('regPassConfirm', 'regConfEye')" class="mr-4 text-cream/40 hover:text-cream transition-colors flex items-center justify-center focus:outline-none">
                             <span id="regConfEye" class="material-symbols-outlined">visibility</span>
                         </button>
@@ -513,6 +542,143 @@
     });
 
     // Toggle Panels con animaciones y ajustes de tamaño
+    
+        // --- Location Fetching API ---
+    async function fetchCountries() {
+        try {
+            const res = await fetch('https://restcountries.com/v3.1/all?fields=name,translations');
+            const data = await res.json();
+            
+            let countries = data.map(c => ({
+                es: c.translations.spa ? c.translations.spa.common : c.name.common,
+                en: c.name.common
+            })).sort((a, b) => a.es.localeCompare(b.es));
+            
+            const select = document.getElementById('regCountry');
+            select.innerHTML = '<option value="" disabled selected class="bg-background">Selecciona un país</option>';
+            
+            countries.forEach(c => {
+                select.innerHTML += `<option value="${c.en}" class="bg-background text-cream">${c.es}</option>`;
+            });
+        } catch(e) {
+            console.error(e);
+            document.getElementById('regCountry').innerHTML = '<option value="" disabled selected class="bg-background">Error al cargar</option>';
+        }
+    }
+
+    function convertToInput(id, placeholder) {
+        const select = document.getElementById(id);
+        if(select && select.tagName === 'SELECT') {
+            const input = document.createElement('input');
+            input.id = id;
+            input.type = 'text';
+            input.placeholder = placeholder;
+            input.required = true;
+            input.className = "w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body text-sm";
+            if(id === 'regState') {
+                input.oninput = () => convertToInput('regCity', 'Ej: Ciudad o Municipio');
+            }
+            select.parentNode.replaceChild(input, select);
+            return input;
+        }
+        return select;
+    }
+
+    function convertToSelect(id, defaultText) {
+        const el = document.getElementById(id);
+        if(el && el.tagName === 'INPUT') {
+            const select = document.createElement('select');
+            select.id = id;
+            select.required = true;
+            select.className = "w-full bg-transparent border-none px-3 py-3.5 text-cream focus:text-cream focus:outline-none focus:ring-0 font-body text-sm";
+            if(id === 'regState') {
+                select.onchange = fetchCities;
+            }
+            select.innerHTML = `<option value="" disabled selected class="bg-background">${defaultText}</option>`;
+            el.parentNode.replaceChild(select, el);
+            return select;
+        }
+        return el;
+    }
+
+    async function fetchStates() {
+        const country = document.getElementById('regCountry').value;
+        let select = convertToSelect('regState', 'Cargando estados...');
+        let citySelect = convertToSelect('regCity', 'Selecciona un estado primero');
+        
+        select.disabled = true;
+        citySelect.disabled = true;
+        
+        try {
+            const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ country })
+            });
+            const json = await res.json();
+            
+            if(json.data && json.data.states && json.data.states.length > 0) {
+                select.innerHTML = '<option value="" disabled selected class="bg-background">Selecciona un estado</option>';
+                json.data.states.forEach(s => {
+                    select.innerHTML += `<option value="${s.name}" class="bg-background text-cream">${s.name}</option>`;
+                });
+                select.disabled = false;
+            } else {
+                convertToInput('regState', 'Ej: Estado o Provincia');
+                convertToInput('regCity', 'Ej: Ciudad o Municipio');
+            }
+        } catch(e) {
+            console.error(e);
+            convertToInput('regState', 'Ej: Estado o Provincia');
+            convertToInput('regCity', 'Ej: Ciudad o Municipio');
+        }
+    }
+
+    async function fetchCities() {
+        const country = document.getElementById('regCountry').value;
+        const stateEl = document.getElementById('regState');
+        const state = stateEl.value;
+        
+        if(stateEl.tagName === 'INPUT') {
+            convertToInput('regCity', 'Ej: Ciudad o Municipio');
+            return;
+        }
+
+        let select = convertToSelect('regCity', 'Cargando ciudades...');
+        select.disabled = true;
+        
+        try {
+            const res = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ country, state })
+            });
+            const json = await res.json();
+            
+            if(json.data && json.data.length > 0) {
+                select.innerHTML = '<option value="" disabled selected class="bg-background">Selecciona una ciudad</option>';
+                json.data.forEach(c => {
+                    select.innerHTML += `<option value="${c}" class="bg-background text-cream">${c}</option>`;
+                });
+                select.disabled = false;
+            } else {
+                convertToInput('regCity', 'Ej: Ciudad o Municipio');
+            }
+        } catch(e) {
+            console.error(e);
+            convertToInput('regCity', 'Ej: Ciudad o Municipio');
+        }
+    }
+
+    // Inicializar países al cargar el panel de registro
+    btnShowRegister.addEventListener('click', (e) => {
+        // ... (existing code handles animation) ...
+        // Only load if not already loaded
+        if(document.getElementById('regCountry').options.length <= 1) {
+            fetchCountries();
+        }
+    });
+
     btnShowRegister.addEventListener('click', (e) => {
         e.preventDefault();
         loginPanel.classList.add('hidden');
@@ -520,6 +686,8 @@
         
         registerPanel.classList.remove('hidden');
         registerPanel.classList.add('animate-fade-in-up');
+        const whySec = document.getElementById('whyRegisterSection');
+        if(whySec) { whySec.classList.remove('hidden'); }
         mainContainer.classList.remove('max-w-md');
         mainContainer.classList.add('max-w-2xl');
     });
@@ -531,6 +699,8 @@
         
         loginPanel.classList.remove('hidden');
         loginPanel.classList.add('animate-fade-in-up');
+        const whySec = document.getElementById('whyRegisterSection');
+        if(whySec) { whySec.classList.add('hidden'); }
         mainContainer.classList.remove('max-w-2xl');
         mainContainer.classList.add('max-w-md');
     });
@@ -682,93 +852,6 @@
         }
     });
 
-    // --- Particle System (Igual que index.html) ---
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let width, height;
-    
-    let mouse = { x: -1000, y: -1000 };
-
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-
-    window.addEventListener('mouseout', () => {
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
-
-    function initParticles() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        particles = [];
-        const numParticles = Math.floor((width * height) / 12000); 
-        
-        for (let i = 0; i < numParticles; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                radius: Math.random() * 1.5 + 0.5
-            });
-        }
-    }
-
-    function drawParticles() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = 'rgba(57, 138, 72, 0.4)'; 
-        ctx.strokeStyle = 'rgba(57, 138, 72, 0.1)';
-
-        for (let i = 0; i < particles.length; i++) {
-            let p = particles[i];
-            
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < 0 || p.x > width) p.vx *= -1;
-            if (p.y < 0 || p.y > height) p.vy *= -1;
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            const dxMouse = mouse.x - p.x;
-            const dyMouse = mouse.y - p.y;
-            const distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
-            if (distMouse < 150) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-
-            for (let j = i + 1; j < particles.length; j++) {
-                let p2 = particles[j];
-                let dx = p.x - p2.x;
-                let dy = p.y - p2.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(57, 138, 72, ${0.15 - dist/1000})`;
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(drawParticles);
-    }
-
-    window.addEventListener('resize', initParticles);
-    
-    initParticles();
-    drawParticles();
-
     // --- Carrusel de Información ---
     const slides = [
         {
@@ -883,7 +966,7 @@
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = '-2';
+    canvas.style.zIndex = '0';
     canvas.style.pointerEvents = 'none';
     document.body.prepend(canvas);
     
@@ -918,6 +1001,17 @@
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(245, 245, 220, 0.3)';
             ctx.fill();
+            let dxMouse = mouse.x - p.x;
+            let dyMouse = mouse.y - p.y;
+            let distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
+            if (distMouse < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
+            
             for (let j = i; j < particlesArray.length; j++) {
                 let p2 = particlesArray[j];
                 let dx = p.x - p2.x;

@@ -103,12 +103,55 @@
         .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
         .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
         
+
         .glass-panel-premium {
             background: linear-gradient(145deg, rgba(20,28,22,0.6) 0%, rgba(10,14,10,0.8) 100%);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(245, 245, 220, 0.05);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
+
+        /* --- Premium Input Styles --- */
+        .premium-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .premium-label {
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            color: rgba(245, 245, 220, 0.6); 
+            text-transform: uppercase;
+            letter-spacing: 0.1em; 
+            font-family: "Outfit", sans-serif;
+        }
+        .premium-input {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4) !important; 
+            border: 1px solid rgba(245, 245, 220, 0.1) !important; 
+            border-radius: 0.75rem; 
+            padding: 0.875rem 1rem; 
+            color: #f5f5dc !important; 
+            font-family: "Outfit", sans-serif;
+            font-size: 0.875rem; 
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: none !important;
+        }
+        .premium-input:focus {
+            border-color: rgba(57, 138, 72, 0.5) !important; 
+            box-shadow: 0 0 15px rgba(57, 138, 72, 0.2) !important;
+            outline: none !important;
+            ring: 0 !important;
+        }
+        .premium-input::placeholder {
+            color: rgba(245, 245, 220, 0.3) !important;
+        }
+        select.premium-input option {
+            background-color: #101410; 
+            color: #f5f5dc;
+        }
+
     </style>
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -143,8 +186,9 @@
             <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center border border-cream/10 shadow-[0_0_15px_rgba(57,138,72,0.2)]">
                 <span class="material-symbols-outlined text-accent text-2xl font-bold">blur_on</span>
             </div>
-            <div>
-                <h1 class="text-lg font-headline font-medium text-cream tracking-wide tracking-tight">SCOREIA</h1>
+            <div class="flex flex-col">
+                <h1 class="text-lg font-headline font-medium text-cream tracking-wide tracking-tight leading-tight">SCOREIA</h1>
+                <div class="text-[9px] font-medium text-cream/50 uppercase tracking-widest">Riesgo Crediticio</div>
             </div>
         </div>
         <button id="closeSidebarBtn" class="text-cream/50 hover:text-accent transition-colors p-1 bg-cream/5 rounded-lg border border-cream/10">
@@ -653,107 +697,7 @@
 
 <script src="app.js?v=8"></script>
 <script>
-    // --- Particle System ---
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let width, height;
-    
-    let mouse = { x: -1000, y: -1000 };
-
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-
-    window.addEventListener('mouseout', () => {
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
-
-    function initParticles() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        particles = [];
-        const numParticles = Math.floor((width * height) / 12000); 
-        
-        for (let i = 0; i < numParticles; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                radius: Math.random() * 1.5 + 0.5
-            });
-        }
-    }
-
-    function hexToRgb(hex) {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : {r: 57, g: 138, b: 72};
-    }
-
-    function getParticleColor(alpha) {
-        const hex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#398a48';
-        const rgb = hexToRgb(hex);
-        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
-    }
-
-    function drawParticles() {
-        ctx.clearRect(0, 0, width, height);
-        
-        for (let i = 0; i < particles.length; i++) {
-            let p = particles[i];
-            
-            p.x += p.vx;
-            p.y += p.vy;
-            
-            if (p.x < 0 || p.x > width) p.vx *= -1;
-            if (p.y < 0 || p.y > height) p.vy *= -1;
-            
-            ctx.fillStyle = getParticleColor(0.5);
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            const dxMouse = mouse.x - p.x;
-            const dyMouse = mouse.y - p.y;
-            const distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
-            if (distMouse < 150) {
-                ctx.beginPath();
-                ctx.strokeStyle = getParticleColor(0.3 - distMouse/500);
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-
-            for (let j = i + 1; j < particles.length; j++) {
-                let p2 = particles[j];
-                let dx = p.x - p2.x;
-                let dy = p.y - p2.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = getParticleColor(0.15 - dist/1000);
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(drawParticles);
-    }
-
-    window.addEventListener('resize', initParticles);
-    
-    initParticles();
-    drawParticles();
-</script>
+    </script>
 
 
 
@@ -776,7 +720,7 @@
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = '-2';
+    canvas.style.zIndex = '0';
     canvas.style.pointerEvents = 'none';
     document.body.prepend(canvas);
     
@@ -811,6 +755,17 @@
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(245, 245, 220, 0.3)';
             ctx.fill();
+            let dxMouse = mouse.x - p.x;
+            let dyMouse = mouse.y - p.y;
+            let distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
+            if (distMouse < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
+            
             for (let j = i; j < particlesArray.length; j++) {
                 let p2 = particlesArray[j];
                 let dx = p.x - p2.x;
