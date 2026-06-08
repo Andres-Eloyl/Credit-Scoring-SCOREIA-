@@ -99,12 +99,40 @@
                     </button>
                 </div>
             </div>
+            <div class="flex justify-end mt-2">
+                <button type="button" id="btnShowForgot" class="text-xs text-cream/40 hover:text-accent font-bold transition-colors focus:outline-none">¿Olvidaste tu contraseña?</button>
+            </div>
             <p id="loginError" class="hidden text-error text-xs text-center"></p>
             <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(57,138,72,0.3)] hover:shadow-[0_0_30px_rgba(57,138,72,0.5)] text-sm uppercase tracking-widest">
                 Ingresar al Sistema
             </button>
         </form>
         <p class="text-center text-cream/40 text-sm">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline transition-colors focus:outline-none">Registrarse</button></p>
+        <p class="text-center mt-4"><a href="/soporte" class="text-xs text-cream/30 hover:text-cream transition-colors">Contactar a Soporte</a></p>
+    </div>
+
+    <!-- Panel de Recuperación -->
+    <div id="forgotPanel" class="hidden glass-panel-premium p-8 rounded-3xl space-y-6">
+        <h2 class="text-xl font-bold text-cream text-center">Recuperar Contraseña</h2>
+        <p class="text-xs text-cream/60 text-center max-w-sm">Ingresa tu correo institucional y te enviaremos las instrucciones para restablecer tu acceso.</p>
+        <form id="forgotForm" class="space-y-5">
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Correo institucional</label>
+                <div class="relative input-glow rounded-xl transition-all border border-cream/10 bg-black/40 flex items-center">
+                    <span class="material-symbols-outlined text-cream/40 ml-4">mail</span>
+                    <input id="forgotEmail" type="email" placeholder="correo@empresa.com" required
+                        class="w-full bg-transparent border-none px-3 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:ring-0 font-body-md">
+                </div>
+            </div>
+            <p id="forgotSuccess" class="hidden text-accent text-xs text-center font-bold">¡Enlace enviado! Revisa tu bandeja de entrada.</p>
+            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(57,138,72,0.3)] hover:shadow-[0_0_30px_rgba(57,138,72,0.5)] text-sm uppercase tracking-widest">
+                Enviar Enlace
+            </button>
+        </form>
+        <button id="btnBackToLoginForgot" class="w-full px-4 py-3 rounded-xl border border-cream/10 text-cream hover:bg-cream/5 transition-all text-sm font-bold flex justify-center items-center gap-2">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Volver
+        </button>
     </div>
 
     <!-- Panel de Registro -->
@@ -369,7 +397,41 @@
         mainContainer.classList.add('max-w-md');
     });
 
-    // Handle Login
+    // Panel de Recuperación de Contraseña
+    const forgotPanel = document.getElementById('forgotPanel');
+    const btnShowForgot = document.getElementById('btnShowForgot');
+    const btnBackToLoginForgot = document.getElementById('btnBackToLoginForgot');
+    const forgotForm = document.getElementById('forgotForm');
+    const forgotSuccess = document.getElementById('forgotSuccess');
+
+    btnShowForgot.addEventListener('click', (e) => {
+        e.preventDefault();
+        mainContainer.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            loginPanel.classList.add('hidden');
+            forgotPanel.classList.remove('hidden');
+            mainContainer.classList.remove('opacity-0', 'scale-95');
+        }, 300);
+    });
+
+    btnBackToLoginForgot.addEventListener('click', (e) => {
+        e.preventDefault();
+        mainContainer.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            forgotPanel.classList.add('hidden');
+            loginPanel.classList.remove('hidden');
+            mainContainer.classList.remove('opacity-0', 'scale-95');
+            forgotSuccess.classList.add('hidden');
+            forgotForm.reset();
+        }, 300);
+    });
+
+    forgotForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        forgotSuccess.classList.remove('hidden');
+    });
+
+    // Manejar Login
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('loginName').value.trim();
