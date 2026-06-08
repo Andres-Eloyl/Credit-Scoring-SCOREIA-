@@ -12,6 +12,13 @@ from src.module4_inference.predictor import Predictor
 from src.module4_inference.risk_segmentor import RiskSegmentor
 from src.module4_inference.explainability import ModelExplainer
 
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from app import models, database
+
+# Crear las tablas en la BD
+models.Base.metadata.create_all(bind=database.engine)
+
 app = FastAPI(title="SCOREIA API", description="API para el modelo de Credit Scoring", version="1.0.0")
 
 # Permitir CORS
@@ -58,12 +65,14 @@ def read_root():
     return {"status": "ok", "model_loaded": predictor is not None}
 
 @app.post("/api/predict")
-def predict_credit(req: CreditRequest):
+async def predict(data: dict, db: Session = Depends(database.get_db)):
     if not predictor:
         raise HTTPException(status_code=500, detail="El modelo no está disponible.")
-        
-    data_dict = req.model_dump()
-    client_id = data_dict.pop("client_id")
+    
+    # Extraer client_id y quitarlo de features
+    client_id = data.get("client_id", "Unknown")
+    data_dict = data.copy()
+    data_dict.pop("client_id", None)
     
     # Realizar predicción
     try:
@@ -75,17 +84,40 @@ def predict_credit(req: CreditRequest):
         
         # Explicabilidad: Extraer datos crudos para dashboard interactivo
         shap_data = explainer.get_shap_values_dict(data_dict)
-                
+        decision_text = "Aprobado" if pd_val < 0.60 else "Rechazado"
+
+        # Guardar en base de datos
+        db_eval = models.Evaluation(
+            client_id=client_id,
+            edad=data.get("edad"),
+            ingreso_mensual=data.get("ingreso_mensual"),
+            score_buro=data.get("score_buro"),
+            monto_solicitado=data.get("monto_solicitado"),
+            plazo_meses=data.get("plazo_meses"),
+            pd_value=pd_val,
+            riesgo=riesgo,
+            decision=decision_text
+        )
+        db.add(db_eval)
+        db.commit()
+        db.refresh(db_eval)
+
         return {
+            "status": "success",
             "client_id": client_id,
             "pd": pd_val,
             "riesgo": riesgo,
-            "decision": "Aprobado" if pd_val < 0.60 else "Rechazado",
+            "decision": decision_text,
             "shap_data": shap_data
         }
         
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/api/history")
+async def get_history(limit: int = 10, db: Session = Depends(database.get_db)):
+    evals = db.query(models.Evaluation).order_by(models.Evaluation.timestamp.desc()).limit(limit).all()
+    return evals
 
 # Montar los archivos estáticos de la UI generada
 ui_dir = Path(__file__).parent / "ui"

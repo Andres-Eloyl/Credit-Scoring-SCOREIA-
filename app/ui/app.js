@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const shapChart = document.getElementById('shapChart');
     const shapPlaceholder = document.getElementById('shapPlaceholder');
     
+    // History elements
+    const historyTableBody = document.getElementById('historyTableBody');
+    const historyEmpty = document.getElementById('historyEmpty');
+    const btnHistory = document.getElementById('btnHistory');
+    
     // Simulator elements
     const simMonto = document.getElementById('simMonto');
     const simMontoText = document.getElementById('simMontoText');
@@ -29,6 +34,50 @@ document.addEventListener('DOMContentLoaded', () => {
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    // --- History Logic ---
+    async function fetchHistory() {
+        if (!historyTableBody) return;
+        try {
+            const res = await fetch(window.location.origin + '/api/history?limit=15');
+            if (!res.ok) return;
+            const data = await res.json();
+            
+            if (data.length === 0) {
+                historyTableBody.innerHTML = '';
+                historyEmpty.classList.remove('hidden');
+                return;
+            }
+            
+            historyEmpty.classList.add('hidden');
+            historyTableBody.innerHTML = '';
+            
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                const isApproved = item.decision === 'Aprobado';
+                const dateObj = new Date(item.timestamp + 'Z'); // parse UTC
+                const dateStr = dateObj.toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                
+                tr.innerHTML = `
+                    <td class="py-4 text-xs">${dateStr}</td>
+                    <td class="py-4 font-bold">$${Number(item.monto_solicitado).toLocaleString()}</td>
+                    <td class="py-4">${item.plazo_meses}m</td>
+                    <td class="py-4 text-center font-bold ${isApproved ? 'text-accent' : 'text-error'}">${(item.pd_value * 100).toFixed(1)}%</td>
+                    <td class="py-4 text-center">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-bold ${isApproved ? 'bg-accent/20 text-accent' : 'bg-error/20 text-error'}">
+                            ${item.decision}
+                        </span>
+                    </td>
+                `;
+                historyTableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error fetching history:", err);
+        }
+    }
+    
+    // Initial fetch
+    fetchHistory();
 
     // --- Simulator Logic ---
     function formatCurrency(val) {
@@ -68,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const result = await response.json();
                     displayResults(result, true); // true = isSimulation
+                    fetchHistory(); // Update history silently
                 }
             } catch (err) {
                 console.error("Simulation error:", err);
@@ -202,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             displayResults(result);
+            fetchHistory(); // Refresh history table
 
         } catch (error) {
             console.error('Error:', error);

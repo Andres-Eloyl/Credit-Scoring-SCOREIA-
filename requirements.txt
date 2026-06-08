@@ -33,6 +33,7 @@ plotly>=5.18.0
 # ─── Interfaz Demo ────────────────────────────────────────────────────────────
 fastapi>=0.100.0             # Backend API
 uvicorn>=0.23.0              # Servidor ASGI para FastAPI
+SQLAlchemy>=2.0.0            # Base de Datos ORM
 
 # ─── Generación de Datos Sintéticos ───────────────────────────────────────────
 Faker>=22.0.0
