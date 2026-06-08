@@ -332,6 +332,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Convert HEX to RGB for box-shadow animations
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? 
+            parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) 
+            : '57, 138, 72'; // fallback to green
+    }
+
     // --- Config Logic ---
     function applyThemeConfig() {
         if (currentConfig.theme === 'dark') {
@@ -348,6 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(styleTag);
         }
         const c = currentConfig.accentColor;
+        const rgb = hexToRgb(c);
+
         styleTag.innerHTML = 
             'html body .bg-accent, html body .bg-accent\\/20 { background-color: ' + c + ' !important; }' +
             'html body .text-accent { color: ' + c + ' !important; }' +
@@ -361,7 +371,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'html body .bg-accent\\/20 { background-color: ' + c + '33 !important; }' +
             'html body .border-accent\\/20 { border-color: ' + c + '33 !important; }' +
             'html body .border-accent\\/30 { border-color: ' + c + '4d !important; }' +
-            'html body .text-accent\\/80 { color: ' + c + 'cc !important; }';
+            'html body .text-accent\\/80 { color: ' + c + 'cc !important; }' +
+            '@keyframes pulse-ring { ' +
+            '  0% { box-shadow: 0 0 0 0 rgba(' + rgb + ', 0.5); } ' +
+            '  70% { box-shadow: 0 0 0 15px rgba(' + rgb + ', 0); } ' +
+            '  100% { box-shadow: 0 0 0 0 rgba(' + rgb + ', 0); } ' +
+            '}';
     }
     
     function syncConfigUI() {
