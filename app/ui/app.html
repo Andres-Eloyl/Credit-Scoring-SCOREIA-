@@ -66,12 +66,8 @@
                 "on-error-container": "#ffdad6"
             },
             fontFamily: {
-                "headline-md": ["Space Grotesk", "sans-serif"],
-                "headline-lg": ["Space Grotesk", "sans-serif"],
-                "display-lg": ["Space Grotesk", "sans-serif"],
-                "body-md": ["Outfit", "sans-serif"],
-                "label-md": ["Outfit", "sans-serif"],
-                "label-sm": ["Outfit", "sans-serif"]
+                "headline": ["Space Grotesk", "sans-serif"],
+                "body": ["Outfit", "sans-serif"]
             }
           }
         }
@@ -222,7 +218,7 @@
 
     </style>
 </head>
-<body class="bg-background text-cream font-body-md overflow-x-hidden min-h-screen">
+<body class="bg-background text-cream font-body overflow-x-hidden min-h-screen">
 <script>if(!localStorage.getItem('scoreia_user')){window.location.href='/login';}</script>
 <canvas id="particleCanvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
@@ -234,7 +230,7 @@
     <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-accent text-2xl">blur_on</span>
         <div>
-            <div class="text-xl font-headline-md font-extrabold text-cream tracking-tighter leading-tight">SCOREIA</div>
+            <div class="text-xl font-headline font-bold text-cream tracking-tighter leading-tight">SCOREIA</div>
             <div class="text-[9px] font-bold text-cream/50 uppercase tracking-widest">Riesgo Crediticio</div>
         </div>
     </div>
@@ -248,7 +244,7 @@
                 <span class="material-symbols-outlined text-accent text-2xl font-bold">blur_on</span>
             </div>
             <div>
-                <h1 class="text-lg font-headline-md font-extrabold text-cream tracking-tight">SCOREIA</h1>
+                <h1 class="text-lg font-headline font-bold text-cream tracking-tight">SCOREIA</h1>
             </div>
         </div>
         <button id="closeSidebarBtn" class="text-cream/50 hover:text-accent transition-colors p-1 bg-cream/5 rounded-lg border border-cream/10">
@@ -291,8 +287,8 @@
     <div id="eval-view">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
-            <h2 class="text-3xl font-headline-lg font-bold text-cream mt-2">Evaluación de Riesgo Crediticio</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Gestione la evaluación integral del perfil financiero del solicitante mediante motores de inferencia estadística avanzados.</p>
+            <h2 class="text-3xl font-headline font-bold text-cream mt-2">Evaluación de Riesgo Crediticio</h2>
+            <p class="text-sm font-body text-cream/70 mt-2 max-w-2xl">Gestione la evaluación integral del perfil financiero del solicitante mediante motores de inferencia estadística avanzados.</p>
         </div>
     </div>
 
@@ -448,8 +444,8 @@
                 <button id="btnFillDummy" class="w-full sm:w-auto px-6 py-3 rounded-xl border border-cream/30 text-cream hover:bg-accent/10 hover:border-accent transition-all font-semibold flex justify-center items-center gap-2 text-sm" type="button">
                     Auto-completar
                 </button>
-                <button id="btn-evaluar" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-accent to-[#2d6e39] text-cream hover:scale-[1.02] active:scale-[0.98] transition-all font-bold flex justify-center items-center gap-2 shadow-xl shadow-accent/20 text-sm border border-accent/50" type="submit">
-                    <span id="evaluar-text">Generar Inferencia</span>
+                <button id="btn-evaluar" class="w-full sm:w-auto px-6 py-3 rounded-lg bg-accent text-white hover:bg-[#2e713a] transition-colors font-medium flex justify-center items-center gap-2 shadow-sm text-sm tracking-wide" type="submit">
+                    <span class="material-symbols-outlined">analytics</span>
                 </button>
             </div>
         </div>
@@ -459,7 +455,7 @@
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('historyModal').classList.add('hidden')"></div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-surface border border-cream/10 rounded-3xl p-8 shadow-2xl flex flex-col max-h-[80vh]">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-headline-md font-bold text-cream flex items-center gap-2">
+                    <h2 class="text-2xl font-headline font-bold text-cream flex items-center gap-2">
                         <span class="material-symbols-outlined text-accent">history</span>
                         Historial de Evaluaciones
                     </h2>
@@ -495,7 +491,7 @@
             <div class="sticky top-12 glass-panel-premium rounded-3xl p-8 min-h-[720px] flex flex-col overflow-hidden" id="results-container">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
                 <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-xl font-headline-md font-semibold text-cream flex items-center gap-2">
+                    <h3 class="text-xl font-headline font-semibold text-cream flex items-center gap-2">
                         Resultado del Análisis
                     </h3>
                     <div class="flex items-center gap-2">
@@ -544,7 +540,7 @@
                             
                             <div id="pdGauge" class="absolute inset-0 rounded-full transition-all duration-1000" style="background: conic-gradient(from -90deg at 50% 50%, var(--forest-green) 0deg, transparent 0deg); -webkit-mask: radial-gradient(transparent 60%, black 60%); mask: radial-gradient(transparent 60%, black 60%);"></div>
                             <div class="z-10 text-center flex flex-col items-center">
-                                <span id="pdValue" class="text-4xl font-extrabold text-accent">--%</span>
+                                <span id="pdValue" class="text-4xl font-bold text-accent">--%</span>
                             </div>
                         </div>
                     </div>
@@ -571,14 +567,14 @@
                                     <span class="text-cream/70">Monto Solicitado</span>
                                     <span id="simMontoText" class="font-bold text-accent">--</span>
                                 </div>
-                                <input type="range" id="simMonto" min="1000" max="100000" step="100" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent" disabled>
+                                <input type="range" id="simMonto" min="1000" max="100000" step="100" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent disabled:opacity-50" disabled>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
                                     <span class="text-cream/70">Plazo (Meses)</span>
                                     <span id="simPlazoText" class="font-bold text-accent">--</span>
                                 </div>
-                                <input type="range" id="simPlazo" min="1" max="360" step="1" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent" disabled>
+                                <input type="range" id="simPlazo" min="1" max="360" step="1" class="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-accent disabled:opacity-50" disabled>
                             </div>
                         </div>
                     </div>
@@ -606,8 +602,8 @@
     
     <div id="dashboard-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
         <div class="mb-12">
-            <h2 class="text-3xl font-headline-lg font-bold text-cream mt-2">Dashboard Analítico</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Métricas globales y comportamiento de la cartera de evaluaciones.</p>
+            <h2 class="text-3xl font-headline font-bold text-cream mt-2">Dashboard Analítico</h2>
+            <p class="text-sm font-body text-cream/70 mt-2 max-w-2xl">Métricas globales y comportamiento de la cartera de evaluaciones.</p>
         </div>
 
         
@@ -657,8 +653,8 @@
     
     <div id="config-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
         <div class="mb-12">
-            <h2 class="text-3xl font-headline-lg font-bold text-cream mt-2">Ajustes del Sistema</h2>
-            <p class="text-sm font-body-md text-cream/70 mt-2 max-w-2xl">Personaliza la interfaz visual y ajusta los parámetros del motor de inferencia.</p>
+            <h2 class="text-3xl font-headline font-bold text-cream mt-2">Ajustes del Sistema</h2>
+            <p class="text-sm font-body text-cream/70 mt-2 max-w-2xl">Personaliza la interfaz visual y ajusta los parámetros del motor de inferencia.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -717,8 +713,8 @@
                     </div>
                     
                     <div class="pt-4 border-t border-cream/10">
-                        <button id="btnSaveConfig" class="w-full px-6 py-4 rounded-xl bg-accent text-white font-bold hover:scale-[1.02] transition-all shadow-xl shadow-accent/20">
-                            Aplicar Configuración
+                        <button id="btnSaveConfig" class="w-full px-6 py-3 rounded-lg bg-accent text-white font-medium hover:bg-[#2e713a] transition-colors shadow-sm tracking-wide mt-4">
+                            Guardar Preferencias
                         </button>
                     </div>
                 </div>
@@ -745,7 +741,7 @@
         </div>
         <h3 class="text-xl font-bold text-cream mb-2">Sesión Inactiva</h3>
         <p class="text-sm text-cream/60 mb-6">Por seguridad, tu sesión está a punto de cerrarse por inactividad.</p>
-        <button id="btnExtendSession" class="w-full bg-accent text-white font-bold py-3 rounded-xl hover:scale-[1.02] transition-all shadow-lg text-sm mb-3">
+        <button id="btnExtendSession" class="w-full bg-accent text-white font-medium py-3 rounded-lg hover:bg-[#2e713a] transition-colors shadow-sm tracking-wide text-sm mb-3">
             Extender Sesión
         </button>
         <button id="btnForceLogout" class="w-full text-cream/40 font-bold py-2 hover:text-cream text-sm transition-colors">
