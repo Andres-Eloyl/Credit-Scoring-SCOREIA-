@@ -62,22 +62,29 @@
     <div class="bg-mesh"></div>
     <canvas id="particleCanvas" class="fixed inset-0 z-[-1] pointer-events-none"></canvas>
 
-<nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
-    <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between w-full">
-        <a href="/" class="flex items-center gap-3 group">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
-                <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
+<!-- NAV -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-[#0a0e0a] border-b border-cream/5">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-4 group">
+            <div class="w-10 h-10 rounded-xl bg-[#0e1410] flex items-center justify-center border border-[#1a261d] transition-all">
+                <span class="material-symbols-outlined text-accent text-2xl">blur_on</span>
             </div>
-            <span class="text-2xl font-headline font-extrabold text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
+            <span class="text-xl font-headline font-bold text-cream tracking-wide">SCOREIA</span>
         </a>
         
-        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Funcionalidades</a>
-        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
-        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Casos de Uso</a>
-        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Acerca de</a>
-        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Soporte</a>
+        <!-- Links Centro -->
+        <div class="hidden lg:flex items-center gap-8">
+            <a href="/funcionalidades" class="text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">Funcionalidades</a>
+            <a href="/tecnologia" class="text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">Tecnología</a>
+            <a href="/casos-de-uso" class="text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">Casos de Uso</a>
+            <a href="/acerca-de" class="text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">Acerca de</a>
+            <a href="/soporte" class="text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">Soporte</a>
+        </div>
 
-        <a href="/login" class="px-8 py-3 rounded-2xl bg-accent text-white font-extrabold text-base hover:scale-105 transition-all shadow-lg shadow-accent/20">
+        <!-- Acceso -->
+        <a href="/login" class="flex items-center gap-2 text-sm text-cream/50 hover:text-cream transition-colors tracking-wide font-medium">
+            <span class="material-symbols-outlined text-lg">login</span>
             Ingresar
         </a>
     </div>
