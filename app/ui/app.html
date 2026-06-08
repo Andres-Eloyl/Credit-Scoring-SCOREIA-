@@ -245,6 +245,10 @@
             <span class="material-symbols-outlined text-xl">settings</span>
             <span class="text-base font-medium tracking-wide font-headline">Configuración</span>
         </a>
+        <a id="nav-support" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-xl">support_agent</span>
+            <span class="text-base font-medium tracking-wide font-headline">Soporte y Ayuda</span>
+        </a>
     </div>
     
     <div class="mt-auto px-2">
@@ -576,6 +580,131 @@
             </div>
         </div>
     </div> 
+
+    
+    <!-- SUPPORT VIEW -->
+    <div id="support-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+        <div class="mb-12">
+            <h2 class="text-3xl font-medium text-cream tracking-wide mt-2 font-headline">Soporte y Ayuda</h2>
+            <p class="text-sm font-body text-cream/70 mt-2 max-w-2xl">Manual de usuario y canales de asistencia técnica del sistema.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Contact Info -->
+            <div class="col-span-1 flex flex-col gap-6 h-full">
+                <div class="glass-panel-premium rounded-3xl p-8 border-t-4 border-accent h-full flex flex-col">
+                    <h3 class="text-xl font-headline font-bold text-cream mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-accent">headset_mic</span>
+                        Soporte Técnico
+                    </h3>
+                    <div class="space-y-6 text-sm">
+                        <div>
+                            <p class="text-cream/50 uppercase tracking-widest text-[10px] font-bold mb-1">Horario de Atención</p>
+                            <p class="text-cream font-medium">Lunes a Viernes, 8:00 AM - 6:00 PM</p>
+                        </div>
+                        <div>
+                            <p class="text-cream/50 uppercase tracking-widest text-[10px] font-bold mb-1">Correo Electrónico</p>
+                            <a href="mailto:soporte@scoreia.com" class="text-accent hover:underline font-medium">soporte@scoreia.com</a>
+                        </div>
+                        <div>
+                            <p class="text-cream/50 uppercase tracking-widest text-[10px] font-bold mb-1">Línea de Emergencia (Caídas)</p>
+                            <p class="text-cream font-medium">+58 800-SCOREIA</p>
+                        </div>
+                        <div>
+                            <p class="text-cream/50 uppercase tracking-widest text-[10px] font-bold mb-1">WhatsApp Técnico</p>
+                            <a href="https://wa.me/584140000000" target="_blank" class="text-accent hover:underline font-medium flex items-center gap-1">
+                                +58 414-0000000 <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-8">
+                        <p class="text-cream/50 uppercase tracking-widest text-[10px] font-bold mb-4 flex items-center gap-2">
+                            Estado del Sistema
+                            <span class="material-symbols-outlined text-[12px] animate-spin text-cream/30" id="healthSpinner">sync</span>
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center justify-between bg-black/20 p-3 rounded-xl border border-cream/5">
+                                <span class="text-xs text-cream/70 flex items-center gap-2">
+                                    <span id="motorDot" class="w-2 h-2 rounded-full bg-cream/20 shadow-none"></span>
+                                    Motor Predictivo
+                                </span>
+                                <span id="motorText" class="text-xs font-bold text-cream/50 tracking-widest uppercase">Conectando...</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-black/20 p-3 rounded-xl border border-cream/5">
+                                <span class="text-xs text-cream/70 flex items-center gap-2">
+                                    <span id="dbDot" class="w-2 h-2 rounded-full bg-cream/20 shadow-none"></span>
+                                    Base de Datos
+                                </span>
+                                <span id="dbText" class="text-xs font-bold text-cream/50 tracking-widest uppercase">Conectando...</span>
+                            </div>
+                        </div>
+                        
+                        <button id="btnGenerateReport" class="w-full py-3 rounded-xl bg-cream/5 hover:bg-cream/10 border border-cream/10 text-cream font-bold text-xs tracking-wide transition-all flex items-center justify-center gap-2 shadow-md" type="button">
+                            <span class="material-symbols-outlined text-[16px]">description</span>
+                            Generar Reporte de Diagnóstico
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Manual -->
+            <div class="col-span-1 lg:col-span-2 h-full">
+                <div class="glass-panel-premium rounded-3xl p-8 h-full">
+                    <h3 class="text-xl font-headline font-bold text-cream mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-accent">menu_book</span>
+                        Manual de Usuario Rápido
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Accordion 1 -->
+                        <div class="border border-cream/10 rounded-xl bg-black/20 p-4">
+                            <h4 class="font-bold text-cream flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-accent text-sm">analytics</span>
+                                1. Generar un Análisis
+                            </h4>
+                            <p class="text-sm text-cream/70 leading-relaxed">
+                                Ve al "Análisis Crediticio", llena los campos de los datos del cliente (incluyendo nombre, apellido y parámetros crediticios). Presiona "Evaluar" para que el modelo predictivo genere la Probabilidad de Incumplimiento y la decisión sugerida.
+                            </p>
+                        </div>
+
+                        <!-- Accordion 2 -->
+                        <div class="border border-cream/10 rounded-xl bg-black/20 p-4">
+                            <h4 class="font-bold text-cream flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-accent text-sm">tune</span>
+                                2. Uso del Simulador (What-If)
+                            </h4>
+                            <p class="text-sm text-cream/70 leading-relaxed">
+                                Una vez obtenido el resultado, puedes ajustar el "Monto Solicitado" y el "Plazo" con los deslizadores del panel inferior. Esto recalcula la evaluación en tiempo real sin tener que recargar la página, ideal para proponer condiciones alternativas a un cliente rechazado.
+                            </p>
+                        </div>
+
+                        <!-- Accordion 3 -->
+                        <div class="border border-cream/10 rounded-xl bg-black/20 p-4">
+                            <h4 class="font-bold text-cream flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-accent text-sm">waterfall_chart</span>
+                                3. Gráfico SHAP
+                            </h4>
+                            <p class="text-sm text-cream/70 leading-relaxed">
+                                El gráfico explica cómo llegó el modelo a la decisión. Las barras rojas (+) indican factores que incrementaron el riesgo del cliente, mientras que las barras verdes (-) indican factores positivos que bajaron el riesgo.
+                            </p>
+                        </div>
+
+                        <!-- Accordion 4 -->
+                        <div class="border border-cream/10 rounded-xl bg-black/20 p-4">
+                            <h4 class="font-bold text-cream flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-accent text-sm">history</span>
+                                4. Auditoría y Reportes Históricos
+                            </h4>
+                            <p class="text-sm text-cream/70 leading-relaxed">
+                                En la pestaña "Historial" queda el rastro de todas las evaluaciones, marcadas con el nombre del analista y fecha. Puedes pulsar "Ver Análisis" para viajar en el tiempo a una evaluación pasada y desde allí "Exportar a PDF" el reporte oficial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="dashboard-view" class="hidden w-full animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
         <div class="mb-12">

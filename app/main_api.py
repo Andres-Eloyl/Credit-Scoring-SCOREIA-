@@ -236,6 +236,26 @@ async def get_history(limit: int = 10, db: Session = Depends(database.get_db)):
 
 from sqlalchemy import func
 
+
+@app.get("/api/health")
+async def health_check(db: Session = Depends(database.get_db)):
+    db_status = "error"
+    try:
+        # Simple query to check db
+        from sqlalchemy import text
+        db.execute(text("SELECT 1"))
+        db_status = "ok"
+    except:
+        pass
+    
+    motor_status = "ok" if model else "error"
+    
+    return {
+        "status": "success",
+        "motor": motor_status,
+        "db": db_status
+    }
+
 @app.get("/api/stats")
 async def get_stats(db: Session = Depends(database.get_db)):
 

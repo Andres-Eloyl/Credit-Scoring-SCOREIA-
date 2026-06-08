@@ -99,10 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const navHistory = document.getElementById('nav-history');
     const navDashboard = document.getElementById('nav-dashboard');
     const navConfig = document.getElementById('nav-config');
+    const navSupport = document.getElementById('nav-support');
     const evalView = document.getElementById('eval-view');
     const historyView = document.getElementById('history-view');
     const dashboardView = document.getElementById('dashboard-view');
     const configView = document.getElementById('config-view');
+    const supportView = document.getElementById('support-view');
     let chartDecisionsInstance = null;
 
     const btnThemeDark = document.getElementById('btn-theme-dark');
@@ -272,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setActiveNav(activeNav, activeView) {
-        [navEval, navHistory, navDashboard, navConfig].forEach(nav => {
+        [navEval, navHistory, navDashboard, navConfig, navSupport].forEach(nav => {
             if (!nav) return;
             if (nav === activeNav) {
                 nav.classList.add('nav-item-active', 'text-accent');
@@ -283,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        [evalView, historyView, dashboardView, configView].forEach(view => {
+        [evalView, historyView, dashboardView, configView, supportView].forEach(view => {
             if (!view) return;
             if (view === activeView) {
                 view.classList.remove('hidden');
@@ -297,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (navEval && navHistory && navDashboard && navConfig) {
+    if (navEval && navHistory && navDashboard && navConfig && navSupport) {
         navEval.addEventListener('click', () => setActiveNav(navEval, evalView));
         navHistory.addEventListener('click', () => {
             setActiveNav(navHistory, historyView);
@@ -310,6 +312,9 @@ document.addEventListener('DOMContentLoaded', () => {
         navConfig.addEventListener('click', () => {
             setActiveNav(navConfig, configView);
             syncConfigUI();
+        });
+        navSupport.addEventListener('click', () => {
+            setActiveNav(navSupport, supportView);
         });
     }
 
@@ -835,3 +840,87 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+
+    // --- Health Check & Diagnostics ---
+    const motorDot = document.getElementById('motorDot');
+    const motorText = document.getElementById('motorText');
+    const dbDot = document.getElementById('dbDot');
+    const dbText = document.getElementById('dbText');
+    const btnGenerateReport = document.getElementById('btnGenerateReport');
+    
+    let lastHealthStatus = { motor: 'unknown', db: 'unknown' };
+
+    async function checkHealth() {
+        if (!motorDot) return;
+        try {
+            const res = await fetch('/api/health');
+            if (res.ok) {
+                const data = await res.json();
+                lastHealthStatus = data;
+                
+                if (data.motor === 'ok') {
+                    motorDot.className = "w-2 h-2 rounded-full bg-[#398a48] shadow-[0_0_8px_rgba(57,138,72,0.8)] animate-pulse";
+                    motorText.className = "text-xs font-bold text-[#398a48] tracking-widest uppercase";
+                    motorText.innerText = "Operativo";
+                } else {
+                    motorDot.className = "w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse";
+                    motorText.className = "text-xs font-bold text-error tracking-widest uppercase";
+                    motorText.innerText = "Error";
+                }
+                
+                if (data.db === 'ok') {
+                    dbDot.className = "w-2 h-2 rounded-full bg-[#398a48] shadow-[0_0_8px_rgba(57,138,72,0.8)] animate-pulse";
+                    dbText.className = "text-xs font-bold text-[#398a48] tracking-widest uppercase";
+                    dbText.innerText = "En Línea";
+                } else {
+                    dbDot.className = "w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse";
+                    dbText.className = "text-xs font-bold text-error tracking-widest uppercase";
+                    dbText.innerText = "Desconectada";
+                }
+            }
+        } catch(e) {
+            motorDot.className = "w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse";
+            motorText.className = "text-xs font-bold text-error tracking-widest uppercase";
+            motorText.innerText = "Fuera de Línea";
+            dbDot.className = "w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse";
+            dbText.className = "text-xs font-bold text-error tracking-widest uppercase";
+            dbText.innerText = "Fuera de Línea";
+        }
+    }
+    
+    // Check health every 30 seconds
+    setInterval(checkHealth, 30000);
+    // Initial check
+    setTimeout(checkHealth, 1000);
+
+    if (btnGenerateReport) {
+        btnGenerateReport.addEventListener('click', () => {
+            const dateStr = new Date().toLocaleString('es-ES');
+            const ua = navigator.userAgent;
+            const content = `===========================================
+REPORTE DE DIAGNÓSTICO SCOREIA
+===========================================
+Fecha de Generación : ${dateStr}
+Agente de Usuario   : ${ua}
+Pantalla            : ${window.innerWidth}x${window.innerHeight}
+
+ESTADO DE SERVICIOS:
+Motor Predictivo    : ${lastHealthStatus.motor.toUpperCase()}
+Base de Datos       : ${lastHealthStatus.db.toUpperCase()}
+
+Si experimenta problemas, por favor adjunte 
+este archivo al contactar a soporte@scoreia.com
+===========================================
+`;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Diagnostico_SCOREIA_${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
