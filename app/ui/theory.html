@@ -5,8 +5,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>SCOREIA — Teoría del Modelo</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -19,8 +17,8 @@
                 "background": "#0b1310"
             },
             fontFamily: {
-                "headline": ["Sora", "sans-serif"],
-                "body": ["DM Sans", "sans-serif"]
+                "headline": ["Space Grotesk", "sans-serif"],
+                "body": ["Outfit", "sans-serif"]
             }
           }
         }
@@ -56,26 +54,27 @@
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
-<body class="bg-background text-cream font-body overflow-x-hidden pt-32 pb-20">
+<body class="bg-background text-cream overflow-x-hidden pt-32 pb-20 font-body">
 
 
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between w-full">
         <a href="/" class="flex items-center gap-3 group">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
-                <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
+                <span class= font-headline"material-symbols-outlined text-accent text-3xl font-headline">blur_on</span>
             </div>
-            <span class="text-2xl font-headline  text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
+            <span class= font-headline"text-2xl  text-cream tracking-tight group-hover:text-accent transition-colors font-headline">SCOREIA</span>
         </a>
         
-        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Funcionalidades</a>
-        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Tecnología</a>
-        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Casos de Uso</a>
-        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Acerca de</a>
-        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Soporte</a>
+        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Funcionalidades</a>
+        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Tecnología</a>
+        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Casos de Uso</a>
+        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Acerca de</a>
+        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Soporte</a>
 
-        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors  tracking-wide flex items-center gap-2">
+        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors tracking-wide flex items-center gap-2">
             <span class="material-symbols-outlined text-xl">arrow_back</span>
             Inicio
         </a>
@@ -85,7 +84,7 @@
 <section class="px-6 animate-hero">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-headline  text-cream tracking-tight mb-4">Teoría del Modelo</h1>
+            <h1 class= font-headline"text-4xl md:text-6xl  text-cream tracking-tight mb-4 font-headline">Teoría del Modelo</h1>
             <p class="text-cream/50 text-lg max-w-2xl mx-auto">Conoce los fundamentos matemáticos y estadísticos que dan vida al motor de riesgo de SCOREIA.</p>
         </div>
         
@@ -93,10 +92,10 @@
             
             <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
                 <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">finance</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-4xl font-headline">finance</span>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-headline  text-cream mb-3">Índice de Riesgo Crediticio (PD)</h3>
+                    <h3 class= font-headline"text-2xl  text-cream mb-3 font-headline">Índice de Riesgo Crediticio (PD)</h3>
                     <p class="text-cream/60 leading-relaxed text-lg">
                         El <strong>Índice de Riesgo Crediticio</strong> (conocido en banca como Probability of Default) es la métrica principal del Credit Scoring. Representa estadísticamente la posibilidad de que un cliente no pueda cumplir con el pago de su deuda en un plazo determinado (generalmente 12 meses). 
                         <br><br>
@@ -108,10 +107,10 @@
             
             <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
                 <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">park</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-4xl font-headline">park</span>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-headline  text-cream mb-3">Algoritmo Random Forest</h3>
+                    <h3 class= font-headline"text-2xl  text-cream mb-3 font-headline">Algoritmo Random Forest</h3>
                     <p class="text-cream/60 leading-relaxed text-lg">
                         En lugar de depender de reglas humanas básicas, SCOREIA utiliza <strong>Random Forest</strong>, un algoritmo de Machine Learning de tipo "Ensemble". Funciona creando cientos de <em>Árboles de Decisión</em> distintos durante el entrenamiento. 
                         <br><br>
@@ -123,10 +122,10 @@
             
             <div class="glass-card rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center">
                 <div class="w-20 h-20 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span class="material-symbols-outlined text-accent text-4xl">psychology_alt</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-4xl font-headline">psychology_alt</span>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-headline  text-cream mb-3">Explicabilidad SHAP (Caja Blanca)</h3>
+                    <h3 class= font-headline"text-2xl  text-cream mb-3 font-headline">Explicabilidad SHAP (Caja Blanca)</h3>
                     <p class="text-cream/60 leading-relaxed text-lg">
                         Las redes neuronales tradicionales son una "caja negra": dan un resultado pero no te dicen por qué. SCOREIA implementa <strong>Valores SHAP (SHapley Additive exPlanations)</strong> basados en la teoría de juegos cooperativos.
                         <br><br>

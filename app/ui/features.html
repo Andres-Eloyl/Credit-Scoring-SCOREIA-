@@ -5,8 +5,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>SCOREIA — Funcionalidades</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -19,8 +17,8 @@
                 "background": "#0b1310"
             },
             fontFamily: {
-                "headline": ["Sora", "sans-serif"],
-                "body": ["DM Sans", "sans-serif"]
+                "headline": ["Space Grotesk", "sans-serif"],
+                "body": ["Outfit", "sans-serif"]
             }
           }
         }
@@ -56,26 +54,27 @@
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
-<body class="bg-background text-cream font-body overflow-x-hidden pt-32 pb-20">
+<body class="bg-background text-cream overflow-x-hidden pt-32 pb-20 font-body">
 
 
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between w-full">
         <a href="/" class="flex items-center gap-3 group">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
-                <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
+                <span class= font-headline"material-symbols-outlined text-accent text-3xl font-headline">blur_on</span>
             </div>
-            <span class="text-2xl font-headline  text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
+            <span class= font-headline"text-2xl  text-cream tracking-tight group-hover:text-accent transition-colors font-headline">SCOREIA</span>
         </a>
         
-        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Funcionalidades</a>
-        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Tecnología</a>
-        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Casos de Uso</a>
-        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Acerca de</a>
-        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Soporte</a>
+        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Funcionalidades</a>
+        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Tecnología</a>
+        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Casos de Uso</a>
+        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Acerca de</a>
+        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Soporte</a>
 
-        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors  tracking-wide flex items-center gap-2">
+        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors tracking-wide flex items-center gap-2">
             <span class="material-symbols-outlined text-xl">arrow_back</span>
             Inicio
         </a>
@@ -85,50 +84,50 @@
 <section class="px-6 animate-hero">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-headline  text-cream tracking-tight mb-4">Funcionalidades</h1>
+            <h1 class= font-headline"text-4xl md:text-6xl  text-cream tracking-tight mb-4 font-headline">Funcionalidades</h1>
             <p class="text-cream/50 text-lg max-w-2xl mx-auto">Todo lo que necesitas para una evaluación crediticia integral, desde la captura de datos hasta la decisión automatizada.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">psychology</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">psychology</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Motor Predictivo</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Motor Predictivo</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">Modelo Random Forest entrenado con validación cruzada para calcular la probabilidad de impago en tiempo real.</p>
             </div>
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">monitoring</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">monitoring</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Explicabilidad (Caja Blanca)</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Explicabilidad (Caja Blanca)</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">Cada predicción incluye un desglose SHAP visual que justifica exactamente por qué un crédito fue aprobado o denegado.</p>
             </div>
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">tune</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">tune</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Simulador What-If</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Simulador What-If</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">Modifica monto, plazos o ingresos del cliente sobre la marcha para explorar escenarios sin tener que reenviar el formulario.</p>
             </div>
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">dashboard</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">dashboard</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Dashboard Administrativo</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Dashboard Administrativo</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">KPIs globales, distribución de riesgo de la cartera y gráficos interactivos con ApexCharts para gerentes de crédito.</p>
             </div>
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">picture_as_pdf</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">picture_as_pdf</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Reportes Descargables</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Reportes Descargables</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">Genera dictámenes técnicos en formato PDF con un solo clic, listos para ser presentados a un comité de evaluación.</p>
             </div>
             <div class="glass-card rounded-2xl p-8">
                 <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-5">
-                    <span class="material-symbols-outlined text-accent text-2xl">settings</span>
+                    <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">settings</span>
                 </div>
-                <h3 class="text-lg font-headline  text-cream mb-2">Configuración Dinámica</h3>
+                <h3 class= font-headline"text-lg  text-cream mb-2 font-headline">Configuración Dinámica</h3>
                 <p class="text-sm text-cream/50 leading-relaxed">Ajusta el umbral de riesgo permitido, y personaliza colores y temas desde el panel central.</p>
             </div>
         </div>

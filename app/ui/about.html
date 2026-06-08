@@ -5,8 +5,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>SCOREIA — Acerca de</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -19,8 +17,8 @@
                 "background": "#0b1310"
             },
             fontFamily: {
-                "headline": ["Sora", "sans-serif"],
-                "body": ["DM Sans", "sans-serif"]
+                "headline": ["Space Grotesk", "sans-serif"],
+                "body": ["Outfit", "sans-serif"]
             }
           }
         }
@@ -51,26 +49,27 @@
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
-<body class="bg-background text-cream font-body overflow-x-hidden pt-32 pb-20">
+<body class="bg-background text-cream overflow-x-hidden pt-32 pb-20 font-body">
 
 
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between w-full">
         <a href="/" class="flex items-center gap-3 group">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
-                <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
+                <span class= font-headline"material-symbols-outlined text-accent text-3xl font-headline">blur_on</span>
             </div>
-            <span class="text-2xl font-headline  text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
+            <span class= font-headline"text-2xl  text-cream tracking-tight group-hover:text-accent transition-colors font-headline">SCOREIA</span>
         </a>
         
-        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Funcionalidades</a>
-        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Tecnología</a>
-        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Casos de Uso</a>
-        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Acerca de</a>
-        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors  tracking-wide">Soporte</a>
+        <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Funcionalidades</a>
+        <a href="/tecnologia" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Tecnología</a>
+        <a href="/casos-de-uso" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Casos de Uso</a>
+        <a href="/acerca-de" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Acerca de</a>
+        <a href="/soporte" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Soporte</a>
 
-        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors  tracking-wide flex items-center gap-2">
+        <a href="/" class="text-base text-cream/60 hover:text-cream transition-colors tracking-wide flex items-center gap-2">
             <span class="material-symbols-outlined text-xl">arrow_back</span>
             Inicio
         </a>
@@ -80,11 +79,11 @@
 <section class="px-6 animate-hero">
     <div class="max-w-3xl mx-auto text-center">
         <div class="mb-10 inline-flex items-center justify-center p-2 bg-accent/10 rounded-full border border-accent/20 backdrop-blur-md">
-            <span class="px-4 py-2 rounded-full bg-accent text-white text-sm  shadow-lg">Desarrollado por</span>
-            <span class="px-4 py-2 text-cream  tracking-widest">Andrés Eloy López</span>
+            <span class="px-4 py-2 rounded-full bg-accent text-white text-sm shadow-lg">Desarrollado por</span>
+            <span class="px-4 py-2 text-cream tracking-widest">Andrés Eloy López</span>
         </div>
         
-        <h1 class="text-5xl md:text-7xl font-headline  text-cream tracking-tight mb-8">
+        <h1 class= font-headline"text-5xl md:text-7xl  text-cream tracking-tight mb-8 font-headline">
             Diseñando el Futuro de las <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-[#50c878]">Finanzas</span>
         </h1>
         
@@ -95,12 +94,12 @@
         </p>
         
         <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a href="https://github.com/Andres-Eloyl" target="_blank" class="glass-card px-8 py-4 rounded-2xl flex items-center gap-3 text-cream  hover:scale-105 hover:bg-cream/5 transition-all">
-                <span class="material-symbols-outlined text-3xl text-accent">code</span>
+            <a href="https://github.com/Andres-Eloyl" target="_blank" class="glass-card px-8 py-4 rounded-2xl flex items-center gap-3 text-cream hover:scale-105 hover:bg-cream/5 transition-all">
+                <span class= font-headline"material-symbols-outlined text-3xl text-accent font-headline">code</span>
                 Ver en GitHub
             </a>
-            <a href="https://linkedin.com/in/andres-eloy-lopez" target="_blank" class="px-8 py-4 rounded-2xl bg-accent text-white  hover:scale-105 transition-all shadow-[0_0_20px_#398a4880] flex items-center gap-3">
-                <span class="material-symbols-outlined text-3xl">work</span>
+            <a href="https://linkedin.com/in/andres-eloy-lopez" target="_blank" class="px-8 py-4 rounded-2xl bg-accent text-white hover:scale-105 transition-all shadow-[0_0_20px_#398a4880] flex items-center gap-3">
+                <span class= font-headline"material-symbols-outlined text-3xl font-headline">work</span>
                 Mi LinkedIn
             </a>
         </div>

@@ -6,8 +6,6 @@
     <title>SCOREIA — Inteligencia de Riesgo Crediticio</title>
     <meta name="description" content="Plataforma avanzada de scoring crediticio con modelos predictivos, explicabilidad SHAP y análisis en tiempo real.">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -57,8 +55,9 @@
         .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
         .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
-<body class="bg-background text-cream font-body overflow-x-hidden">
+<body class="bg-background text-cream overflow-x-hidden font-body">
     <div class="bg-mesh"></div>
     <canvas id="particleCanvas" class="fixed inset-0 z-[-1] pointer-events-none"></canvas>
 
@@ -68,7 +67,7 @@
         <!-- Logo -->
         <a href="/" class="flex items-center gap-4 group">
             <div class="w-10 h-10 rounded-xl bg-[#0e1410] flex items-center justify-center border border-[#1a261d] transition-all">
-                <span class="material-symbols-outlined text-accent text-2xl">blur_on</span>
+                <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">blur_on</span>
             </div>
             <span class="text-xl font-headline font-bold text-cream tracking-wide">SCOREIA</span>
         </a>
@@ -93,7 +92,7 @@
 
 <section class="min-h-screen flex items-center justify-center pt-20 px-6">
     <div class="max-w-4xl mx-auto text-center mt-24">
-        <h1 class="text-4xl md:text-5xl font-headline font-extrabold text-cream tracking-wide leading-tight animate-hero">
+        <h1 class= font-headline"text-4xl md:text-5xl font-bold text-cream tracking-wide leading-tight animate-hero font-headline">
             Inteligencia de Riesgo<br>
             <span class="text-accent">Crediticio</span>
         </h1>
@@ -121,8 +120,8 @@
                         <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-[10px] font-bold border border-accent/30 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">Riesgo Bajo</span>
                     </div>
                     <div class="flex items-baseline gap-2 whitespace-nowrap">
-                        <span class="text-5xl font-headline font-extrabold text-cream tracking-wide">12.4</span>
-                        <span class="text-2xl font-headline font-extrabold text-white">%</span>
+                        <span class= font-headline"text-5xl font-bold text-cream tracking-wide font-headline">12.4</span>
+                        <span class= font-headline"text-2xl font-bold text-white font-headline">%</span>
                     </div>
                     <div class="mt-6 h-3 bg-surface rounded-full overflow-hidden border border-cream/5 relative">
                         <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-accent to-[#50c878] rounded-full w-[12.4%] shadow-[0_0_10px_#398a48]"></div>
@@ -181,7 +180,7 @@
     <a href="https://github.com/Andres-Eloyl" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-surface border border-cream/10 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(57,138,72,0.2)] transition-all">
         <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current text-cream/50 group-hover:text-cream transition-colors" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
         <span class="text-sm font-bold text-cream/50 group-hover:text-cream transition-colors">SCOREIA by</span>
-        <span class="text-sm font-black text-accent tracking-wider">Andrés Eloy López</span>
+        <span class="text-sm font-bold text-accent tracking-wider">Andrés Eloy López</span>
     </a>
 </footer>
 <script>
