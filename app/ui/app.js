@@ -1,4 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- LOGIN CHECK ---
+    const loginOverlay = document.getElementById('loginOverlay');
+    const loginForm = document.getElementById('loginForm');
+    const loginNameInput = document.getElementById('loginName');
+    const loginError = document.getElementById('loginError');
+    const welcomeUser = document.getElementById('welcomeUser');
+    
+    const storedUser = localStorage.getItem('scoreia_user');
+    if (storedUser) {
+        loginOverlay.classList.add('hidden');
+        if (welcomeUser) welcomeUser.innerText = storedUser;
+    }
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = loginNameInput.value.trim();
+            if (name.length < 2) {
+                loginError.classList.remove('hidden');
+                return;
+            }
+            localStorage.setItem('scoreia_user', name);
+            loginOverlay.classList.add('hidden');
+            if (welcomeUser) welcomeUser.innerText = name;
+        });
+    }
+
+    // --- SHAP LABEL MAP (variables -> español legible) ---
+    const shapLabelMap = {
+        'edad': 'Edad',
+        'ingreso_mensual': 'Ingreso Mensual',
+        'antiguedad_laboral': 'Antigüedad Laboral',
+        'score_buro': 'Puntaje Buró',
+        'monto_solicitado': 'Monto Solicitado',
+        'plazo_meses': 'Plazo en Meses',
+        'meses_mora_maxima': 'Meses en Mora Máxima',
+        'num_creditos_activos': 'Créditos Activos',
+        'consultas_buro_6m': 'Consultas Buró (6m)',
+        'ratio_deuda_ingreso': 'Ratio Deuda/Ingreso',
+        'utilizacion_credito': 'Utilización de Crédito',
+        'estado_civil': 'Estado Civil',
+        'nivel_educativo': 'Nivel Educativo',
+        'tipo_vivienda': 'Tipo de Vivienda',
+        'tipo_contrato': 'Tipo de Contrato',
+        'tipo_prestamo': 'Tipo de Préstamo'
+    };
+
     const form = document.getElementById('evaluationForm');
     const btnFillDummy = document.getElementById('btnFillDummy');
     const btnCalculate = document.getElementById('btn-evaluar');
@@ -110,6 +158,22 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchHistory();
 
     // --- Navigation Logic ---
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            if (!sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('md:flex');
+                sidebar.classList.add('flex', 'w-full', 'z-50', 'bg-[#0a0e0a]');
+            } else {
+                sidebar.classList.remove('flex', 'w-full', 'z-50');
+                sidebar.classList.add('md:flex');
+            }
+        });
+    }
+
     function setActiveNav(activeNav, activeView) {
         [navEval, navDashboard, navConfig].forEach(nav => {
             if (!nav) return;
@@ -130,6 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 view.classList.add('hidden');
             }
         });
+
+        // Close sidebar on mobile after clicking
+        if (window.innerWidth < 768 && sidebar && !sidebar.classList.contains('hidden')) {
+            sidebar.classList.add('hidden');
+            sidebar.classList.remove('flex', 'w-full', 'z-50');
+            sidebar.classList.add('md:flex');
+        }
     }
 
     if (navEval && navDashboard && navConfig) {
@@ -240,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.remove('dark');
         }
         
-        // Color
+        // Color — inject dynamic CSS overrides
         let styleTag = document.getElementById('dynamic-accent-style');
         if (!styleTag) {
             styleTag = document.createElement('style');
@@ -248,16 +319,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(styleTag);
         }
         const c = currentConfig.accentColor;
-        styleTag.innerHTML = `
-            .bg-accent { background-color: \${c} !important; }
-            .text-accent { color: \${c} !important; }
-            .border-accent { border-color: \${c} !important; }
-            .ring-accent { --tw-ring-color: \${c} !important; }
-            .from-accent { --tw-gradient-from: \${c} !important; }
-            .to-accent { --tw-gradient-to: \${c} !important; }
-            .accent-accent { accent-color: \${c} !important; }
-            .fill-accent { fill: \${c} !important; }
-        `;
+        styleTag.innerHTML = 
+            '.bg-accent { background-color: ' + c + ' !important; }' +
+            '.text-accent { color: ' + c + ' !important; }' +
+            '.border-accent { border-color: ' + c + ' !important; }' +
+            '.ring-accent { --tw-ring-color: ' + c + ' !important; }' +
+            '.from-accent { --tw-gradient-from: ' + c + ' !important; }' +
+            '.to-accent { --tw-gradient-to: ' + c + ' !important; }' +
+            '.accent-accent { accent-color: ' + c + ' !important; }' +
+            '.fill-accent { fill: ' + c + ' !important; }' +
+            '.nav-item-active { border-left-color: ' + c + ' !important; background: linear-gradient(90deg, ' + c + '26 0%, transparent 100%) !important; }' +
+            ':root { --forest-green: ' + c + '; }';
     }
     
     function syncConfigUI() {
@@ -614,10 +686,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const features = shapData.features.sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)).slice(0, 10);
         
         const seriesData = features.map(f => {
+            const label = shapLabelMap[f.name] || f.name;
             return {
-                x: f.name,
+                x: label,
                 y: Number(f.contribution.toFixed(4)),
-                fillColor: f.contribution > 0 ? '#ffb4ab' : '#398a48'
+                fillColor: f.contribution > 0 ? '#ffb4ab' : (currentConfig.accentColor || '#398a48')
             };
         });
 
@@ -642,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
             plotOptions: {
                 bar: {
                     horizontal: true,
-                    borderRadius: 2
+                    borderRadius: 4
                 }
             },
             dataLabels: { enabled: false },
@@ -651,12 +724,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     style: {
                         colors: '#e0e4db',
                         fontSize: '11px',
-                        fontFamily: 'Inter, sans-serif'
+                        fontFamily: 'DM Sans, sans-serif'
                     }
                 }
             },
             xaxis: {
-                labels: { style: { colors: '#e0e4db' } }
+                labels: { style: { colors: '#e0e4db' } },
+                title: { text: 'Contribución al riesgo', style: { color: '#e0e4db', fontFamily: 'DM Sans, sans-serif', fontSize: '11px' } }
             },
             grid: {
                 borderColor: 'rgba(245, 245, 220, 0.1)',
@@ -667,7 +741,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 theme: 'dark',
                 y: {
                     formatter: function (val) {
-                        return val > 0 ? "+" + val : val;
+                        const prefix = val > 0 ? 'Incrementa riesgo: +' : 'Reduce riesgo: ';
+                        return prefix + val;
                     }
                 }
             }

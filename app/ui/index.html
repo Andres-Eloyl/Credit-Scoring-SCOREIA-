@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
       tailwind.config = {
@@ -66,12 +66,12 @@
                 "on-error-container": "#ffdad6"
             },
             fontFamily: {
-                "headline-md": ["Hanken Grotesk"],
-                "headline-lg": ["Hanken Grotesk"],
-                "display-lg": ["Hanken Grotesk"],
-                "body-md": ["Inter"],
-                "label-md": ["Inter"],
-                "label-sm": ["Inter"]
+                "headline-md": ["Sora", "sans-serif"],
+                "headline-lg": ["Sora", "sans-serif"],
+                "display-lg": ["Sora", "sans-serif"],
+                "body-md": ["DM Sans", "sans-serif"],
+                "label-md": ["DM Sans", "sans-serif"],
+                "label-sm": ["DM Sans", "sans-serif"]
             }
           }
         }
@@ -194,13 +194,52 @@
             background-color: #101410;
             color: #f5f5dc;
         }
-        
-        .hidden {
-            display: none !important;
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(57, 138, 72, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(57, 138, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 138, 72, 0); }
         }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+
     </style>
 </head>
 <body class="bg-background text-cream font-body-md overflow-x-hidden min-h-screen">
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay" class="fixed inset-0 z-[100] bg-[#0a0e0a] flex items-center justify-center">
+    <div class="w-full max-w-md px-8">
+        <div class="text-center mb-10">
+            <div class="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mx-auto mb-6">
+                <span class="material-symbols-outlined text-accent text-4xl">analytics</span>
+            </div>
+            <h1 class="text-4xl font-headline-lg font-extrabold text-cream tracking-tight">SCOREIA</h1>
+            <p class="text-sm text-cream/50 mt-2 font-body-md">Sistema de Inteligencia de Riesgo Crediticio</p>
+        </div>
+        <form id="loginForm" class="glass-panel-premium p-8 rounded-3xl space-y-6">
+            <div>
+                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre del Analista</label>
+                <input id="loginName" type="text" placeholder="Ej: Andrés Eloyl" required
+                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                <p id="loginError" class="hidden text-error text-xs mt-2">El nombre debe tener al menos 2 caracteres.</p>
+            </div>
+            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
+                Ingresar al Sistema
+            </button>
+        </form>
+        <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
+    </div>
+</div>
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
 
@@ -213,11 +252,14 @@
             <div class="text-[9px] font-bold text-cream/50">Risk Intelligence</div>
         </div>
     </div>
+    <button id="mobileMenuBtn" class="p-2 text-cream hover:text-accent transition-colors">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+    </button>
 </header>
 
-<!-- Desktop Sidebar -->
-<nav class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-10 px-6 z-40 bg-surface-container-lowest/20 backdrop-blur-3xl border-r border-cream/10 hidden md:flex">
-    <div class="flex items-center gap-3 mb-12 px-2">
+<!-- Desktop / Mobile Sidebar -->
+<nav id="sidebar" class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-10 px-6 z-40 bg-[#0a0e0a] border-r border-cream/10 hidden md:flex transition-transform duration-300">
+    <div class="flex items-center gap-3 mb-8 px-2">
         <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 shadow-inner">
             <span class="material-symbols-outlined text-accent text-[28px] font-bold">analytics</span>
         </div>
@@ -225,6 +267,11 @@
             <h1 class="text-xl font-headline-md font-extrabold text-cream tracking-tight">SCOREIA</h1>
             <p class="text-[10px] font-bold text-accent/80 uppercase tracking-[0.2em]">Risk Intelligence</p>
         </div>
+    </div>
+    <!-- Welcome User -->
+    <div class="mb-8 px-2 py-3 rounded-xl bg-cream/5 border border-cream/10">
+        <p class="text-[10px] text-cream/40 uppercase tracking-widest font-bold">Sesión activa</p>
+        <p class="text-sm font-bold text-cream mt-1">Bienvenido, <span id="welcomeUser" class="text-accent">Analista</span></p>
     </div>
     <div class="flex-1 space-y-1">
         <p class="px-4 text-[10px] font-bold text-cream/40 uppercase tracking-widest mb-4">Principal</p>
@@ -501,9 +548,9 @@
                 <div class="hidden flex-col gap-8 h-full" id="results-content">
                     
                     <!-- Probability Gauge -->
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col items-center animate-fade-in-up">
                         <span class="text-[10px] font-bold text-cream/50 uppercase tracking-[0.2em] mb-4">Probabilidad de Incumplimiento</span>
-                        <div class="relative w-48 h-48 flex items-center justify-center">
+                        <div class="relative w-48 h-48 flex items-center justify-center animate-pulse-ring rounded-full">
                             <div class="absolute inset-0 rounded-full bg-surface-container/40 border border-cream/10 shadow-inner"></div>
                             <!-- Circular progress -->
                             <div id="pdGauge" class="absolute inset-0 rounded-full transition-all duration-1000" style="background: conic-gradient(from -90deg at 50% 50%, var(--forest-green) 0deg, transparent 0deg); -webkit-mask: radial-gradient(transparent 60%, black 60%); mask: radial-gradient(transparent 60%, black 60%);"></div>
@@ -709,6 +756,6 @@
     </footer>
 </main>
 
-<script src="app.js"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
