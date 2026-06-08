@@ -2,18 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const welcomeUser = document.getElementById('welcomeUser');
     const storedUser = localStorage.getItem('scoreia_user');
-    
-    // Set username if logged in
+
     if (storedUser && welcomeUser) {
         welcomeUser.innerText = storedUser;
     }
 
-    // Handle orange color cleanup (if user had it saved)
     if (localStorage.getItem('accentColor') === '#f97316') {
         localStorage.setItem('accentColor', '#398a48');
     }
 
-    // --- SESSION INACTIVITY & LOGOUT ---
     let inactivityTimer;
     let logoutWarningTimer;
     const INACTIVITY_LIMIT = 10 * 60 * 1000; // 10 minutes
@@ -44,20 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
         inactivityTimer = setTimeout(showInactivityWarning, INACTIVITY_LIMIT);
     }
 
-    // Reset timer on user interaction
     ['mousemove', 'keydown', 'click', 'scroll'].forEach(evt => {
         document.addEventListener(evt, resetInactivityTimer);
     });
 
-    // Initial start
     resetInactivityTimer();
 
     if (btnExtendSession) btnExtendSession.addEventListener('click', resetInactivityTimer);
     if (btnForceLogout) btnForceLogout.addEventListener('click', performLogout);
     if (btnLogout) btnLogout.addEventListener('click', performLogout);
 
-
-    // --- SHAP LABEL MAP ---
     const shapLabelMap = {
         'edad': 'Edad',
         'ingreso_mensual': 'Ingreso Mensual',
@@ -81,8 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFillDummy = document.getElementById('btnFillDummy');
     const btnCalculate = document.getElementById('btn-evaluar');
     const evaluarText = document.getElementById('evaluar-text');
-    
-    // Results elements
+
     const emptyState = document.getElementById('empty-state');
     const resultsContent = document.getElementById('results-content');
     
@@ -93,19 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const shapChartContainer = document.getElementById('shapChartContainer');
     const shapChart = document.getElementById('shapChart');
     const shapPlaceholder = document.getElementById('shapPlaceholder');
-    
-    // History elements
+
     const historyTableBody = document.getElementById('historyTableBody');
     const historyEmpty = document.getElementById('historyEmpty');
     const btnHistory = document.getElementById('btnHistory');
-    
-    // PDF elements
+
     const btnDownloadPDF = document.getElementById('btnDownloadPDF');
     const pdfHeader = document.getElementById('pdfHeader');
     const pdfDate = document.getElementById('pdfDate');
     const pdfClientId = document.getElementById('pdfClientId');
-    
-    // Navigation & Views
+
     const navEval = document.getElementById('nav-eval');
     const navDashboard = document.getElementById('nav-dashboard');
     const navConfig = document.getElementById('nav-config');
@@ -113,23 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardView = document.getElementById('dashboard-view');
     const configView = document.getElementById('config-view');
     let chartDecisionsInstance = null;
-    
-    // Config Elements
+
     const btnThemeDark = document.getElementById('btn-theme-dark');
     const btnThemeLight = document.getElementById('btn-theme-light');
     const colorBtns = document.querySelectorAll('.color-btn');
     const riskThresholdSlider = document.getElementById('riskThresholdSlider');
     const thresholdValueText = document.getElementById('thresholdValueText');
     const btnSaveConfig = document.getElementById('btnSaveConfig');
-    
-    // Global Config State
+
     let currentConfig = {
         theme: localStorage.getItem('theme') || 'dark',
         accentColor: localStorage.getItem('accentColor') || '#398a48',
         riskThreshold: parseFloat(localStorage.getItem('riskThreshold')) || 60
     };
-    
-    // Simulator elements
+
     const simMonto = document.getElementById('simMonto');
     const simMontoText = document.getElementById('simMontoText');
     const simPlazo = document.getElementById('simPlazo');
@@ -143,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // --- History Logic ---
     async function fetchHistory() {
         if (!historyTableBody) return;
         try {
@@ -183,11 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error fetching history:", err);
         }
     }
-    
-    // Initial fetch
+
     fetchHistory();
 
-    // --- Navigation Logic ---
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
     const closeSidebarBtn = document.getElementById('closeSidebarBtn');
@@ -227,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close sidebar after clicking
         if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
             sidebar.classList.add('-translate-x-full');
         }
@@ -245,28 +227,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Dashboard Logic ---
     async function fetchStats() {
         try {
             const res = await fetch('/api/stats');
             if (!res.ok) return;
             const data = await res.json();
-            
-            // Update KPIs
+
             document.getElementById('kpi-total').innerText = data.total;
             const pctAprobados = data.total > 0 ? ((data.aprobados / data.total) * 100).toFixed(1) : 0;
             const pctRechazados = data.total > 0 ? ((data.rechazados / data.total) * 100).toFixed(1) : 0;
             document.getElementById('kpi-aprobados').innerText = pctAprobados + '%';
             document.getElementById('kpi-rechazados').innerText = pctRechazados + '%';
             document.getElementById('kpi-monto').innerText = formatCurrency(data.monto_total);
-            
-            // Update PD Circle
+
             const pdPct = data.pd_promedio * 100;
             document.getElementById('kpi-pd-text').innerText = pdPct.toFixed(1) + '%';
             const offset = 552.92 - (552.92 * pdPct) / 100;
             document.getElementById('kpi-pd-circle').style.strokeDashoffset = offset;
-            
-            // Update Chart
+
             if (chartDecisionsInstance) {
                 chartDecisionsInstance.destroy();
             }
@@ -298,23 +276,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- PDF Logic ---
     btnDownloadPDF.addEventListener('click', () => {
         if (!latestFormData) return;
-        
-        // Prepare DOM for printing
+
         const element = document.getElementById('results-container');
-        
-        // Hide UI elements we don't want in PDF
+
         btnDownloadPDF.classList.add('hidden');
-        
-        // Show PDF header and fill data
+
         pdfHeader.classList.remove('hidden');
         pdfHeader.classList.add('flex');
         pdfDate.innerText = new Date().toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
         pdfClientId.innerText = latestFormData.client_id || 'N/A';
-        
-        // Configure html2pdf
+
         const opt = {
             margin:       0.5,
             filename:     'Reporte_SCOREIA_' + (latestFormData.client_id || 'Cliente') + '.pdf',
@@ -322,17 +295,15 @@ document.addEventListener('DOMContentLoaded', () => {
             html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#1e211d' }, // match surface color
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-        
-        // Generate PDF
+
         html2pdf().set(opt).from(element).save().then(() => {
-            // Restore UI
+
             btnDownloadPDF.classList.remove('hidden');
             pdfHeader.classList.add('hidden');
             pdfHeader.classList.remove('flex');
         });
     });
 
-    // Convert HEX to RGB for box-shadow animations
     function hexToRgb(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? 
@@ -340,15 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
             : '57, 138, 72'; // fallback to green
     }
 
-    // --- Config Logic ---
     function applyThemeConfig() {
         if (currentConfig.theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
-        
-        // Color — inject with max specificity to beat Tailwind CDN
+
         let styleTag = document.getElementById('dynamic-accent-style');
         if (!styleTag) {
             styleTag = document.createElement('style');
@@ -380,11 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function syncConfigUI() {
-        // Slider
+
         riskThresholdSlider.value = currentConfig.riskThreshold;
         thresholdValueText.innerText = currentConfig.riskThreshold + '%';
-        
-        // Buttons Theme
+
         if (currentConfig.theme === 'dark') {
             btnThemeDark.classList.add('border-accent', 'bg-accent/20');
             btnThemeDark.classList.remove('border-cream/20', 'bg-cream/5');
@@ -397,11 +365,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btnThemeDark.classList.add('border-cream/20', 'bg-cream/5');
         }
     }
-    
-    // Apply on load
+
     applyThemeConfig();
-    
-    // Listeners
+
     if (riskThresholdSlider) {
         riskThresholdSlider.addEventListener('input', (e) => {
             thresholdValueText.innerText = e.target.value + '%';
@@ -426,9 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
         colorBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 currentConfig.accentColor = e.target.dataset.color;
-                // remove ring from all
+
                 colorBtns.forEach(b => b.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]'));
-                // add ring to clicked
+
                 e.target.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-[#1e211d]');
             });
         });
@@ -448,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Simulator Logic ---
     function formatCurrency(val) {
         return "$" + Number(val).toLocaleString('en-US');
     }
@@ -456,23 +421,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSimChange() {
         simMontoText.innerText = formatCurrency(simMonto.value);
         simPlazoText.innerText = simPlazo.value + " Meses";
-        
-        // Sync with original form visually
+
         document.getElementById('monto_solicitado').value = simMonto.value;
         document.getElementById('plazo_meses').value = simPlazo.value;
 
-        // Debounce API call
         if (simTimeout) clearTimeout(simTimeout);
         simTimeout = setTimeout(async () => {
             if (!latestFormData) return;
-            
-            // Create simulated data
+
             const simData = { ...latestFormData };
             simData.monto_solicitado = Number(simMonto.value);
             simData.plazo_meses = Number(simPlazo.value);
             
             try {
-                // Add a visual cue that it's loading
+
                 riskBadge.textContent = "SIMULANDO...";
                 riskBadge.className = 'px-6 py-2 rounded-full font-bold text-sm tracking-wide border bg-surface text-cream border-cream/20 animate-pulse';
                 
@@ -501,7 +463,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
     const randomFloat = (min, max, decimals = 2) => Number((Math.random() * (max - min) + min).toFixed(decimals));
 
-    // Pre-fill with dummy data for testing
     btnFillDummy.addEventListener('click', () => {
         const dummyData = {
             client_id: "C-" + randomInt(10000, 99999),
@@ -531,11 +492,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle Form Submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Show loading state
+
         const originalText = evaluarText.innerHTML;
         evaluarText.innerHTML = `
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-cream inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -550,12 +509,10 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyState.classList.add('hidden');
         resultsContent.classList.add('hidden');
         resultsContent.classList.remove('flex');
-        
-        // Gather data
+
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        
-        // Convert number fields to correct types
+
         const numberFields = [
             'edad', 'ingreso_mensual', 'antiguedad_laboral', 'score_buro',
             'monto_solicitado', 'plazo_meses', 'meses_mora_maxima',
@@ -569,12 +526,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Clear previous validations
         document.querySelectorAll('.premium-input-container').forEach(el => {
             el.classList.remove('!border-error', '!bg-error/10');
         });
-        
-        // Basic Validation
+
         let isValid = true;
         let errors = [];
 
@@ -631,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Ocurrió un error al evaluar el riesgo: ' + error.message);
             emptyState.classList.remove('hidden');
         } finally {
-            // Restore button
+
             evaluarText.innerHTML = originalText;
             btnCalculate.disabled = false;
             btnCalculate.classList.remove('opacity-80');
@@ -639,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function displayResults(data, isSimulation = false) {
-        // Unhide results
+
         resultsContent.classList.remove('hidden');
         btnDownloadPDF.classList.remove('hidden'); // Show PDF button
         
@@ -648,8 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             resultsContent.classList.add('flex');
         }
-        
-        // Initialize Simulator on first run
+
         if (!isSimulation && latestFormData) {
             simMonto.disabled = false;
             simPlazo.disabled = false;
@@ -660,12 +614,10 @@ document.addEventListener('DOMContentLoaded', () => {
             simPlazo.value = latestFormData.plazo_meses;
             simPlazoText.innerText = latestFormData.plazo_meses + " Meses";
         }
-        
-        // Update PD with animation
+
         const targetPdPercent = data.pd * 100;
         animateValue(pdValue, 0, targetPdPercent, 1000, "%");
-        
-        // Gauge colors based on risk
+
         let color = '#398a48'; // forest-green (low risk)
         if (data.pd >= 0.6) {
             color = '#ffb4ab'; // error red (high risk)
@@ -677,13 +629,11 @@ document.addEventListener('DOMContentLoaded', () => {
             pdValue.className = 'text-4xl font-extrabold text-accent';
         }
 
-        // Animate gauge
         setTimeout(() => {
             const degrees = (data.pd * 360).toFixed(0);
             pdGauge.style.background = `conic-gradient(from -90deg at 50% 50%, ${color} 0deg, ${color} ${degrees}deg, transparent ${degrees}deg, transparent 360deg)`;
         }, 100);
 
-        // Update Risk Segment Badge
         riskBadge.textContent = `RIESGO ${data.riesgo.toUpperCase()}`;
         riskBadge.className = 'px-6 py-2 rounded-full font-bold text-sm tracking-wide border'; 
         
@@ -695,7 +645,6 @@ document.addEventListener('DOMContentLoaded', () => {
             riskBadge.classList.add('bg-error/20', 'text-error', 'border-error/30');
         }
 
-        // Update Decision
         decisionText.innerHTML = `Decisión Recomendada: <strong>${data.decision}</strong>`;
         if (data.decision === 'Aprobado') {
             decisionText.className = 'mt-4 text-sm font-semibold text-accent text-center';
@@ -703,7 +652,6 @@ document.addEventListener('DOMContentLoaded', () => {
             decisionText.className = 'mt-4 text-sm font-semibold text-error text-center';
         }
 
-        // Update SHAP Chart
         if (data.shap_data) {
             shapChart.classList.remove('hidden');
             shapPlaceholder.classList.add('hidden');
@@ -729,7 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentChart = null;
     function renderShapChart(shapData) {
-        // Find top 10 features by absolute contribution magnitude
+
         const features = shapData.features.sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)).slice(0, 10);
         
         const seriesData = features.map(f => {

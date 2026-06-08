@@ -18,8 +18,7 @@ def send_recovery_email(to_email: str, reset_token: str, base_url: str = "http:/
         return True
     
     reset_url = f"{base_url}/reset-password?token={reset_token}"
-    
-    # Crear el mensaje HTML
+
     html = f"""
     <html>
       <body style="background-color: #0b1310; color: #f5f5dc; font-family: sans-serif; padding: 40px; text-align: center;">

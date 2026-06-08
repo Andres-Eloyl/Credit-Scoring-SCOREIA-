@@ -1,130 +1,57 @@
-# SCOREIA 🏦
-## Sistema de Credit Scoring Basado en Inteligencia Artificial
+# SCOREIA
 
-[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![ML](https://img.shields.io/badge/Algorithm-Random%20Forest-orange.svg)]()
-[![XAI](https://img.shields.io/badge/XAI-SHAP-purple.svg)]()
+Inteligencia de Riesgo Crediticio y Decisiones Automatizadas.
 
----
+## Descripcion General
 
-### 📌 Descripción
+SCOREIA es un motor de evaluacion de riesgo crediticio de ultima generacion disenado para instituciones financieras. Utiliza un modelo de clasificacion (Random Forest) entrenado con datos historicos para evaluar el perfil de riesgo de los solicitantes de credito en menos de 200 milisegundos. 
 
-SCOREIA es un sistema end-to-end de **Credit Scoring** que predice la **Probabilidad de Incumplimiento (PD)** de solicitantes de crédito bancario mediante clasificación binaria supervisada. El sistema combina:
+La plataforma no funciona como una caja negra; integra un modulo de interpretabilidad (XAI) basado en valores SHAP, permitiendo a los analistas comprender exactamente que factores influyeron en la aprobacion o rechazo de cada solicitud.
 
-- **Random Forest Classifier** optimizado con búsqueda bayesiana de hiperparámetros
-- **SMOTE** para manejo del desbalanceo de clases (80% pago / 20% incumplimiento)
-- **SHAP Values** para explicabilidad individual de cada decisión crediticia
-- **Evidently** para monitoreo de concept drift y auditoría de equidad
+## Caracteristicas Principales
 
----
+- Evaluacion instantanea de riesgo con modelos de Machine Learning predictivos.
+- Simulador "What-If" para ajustar montos y plazos en tiempo real.
+- Panel de administracion y vista unificada de analisis.
+- Sistema de explicabilidad (XAI) para cumplimiento normativo.
+- Autenticacion segura mediante cifrado bcrypt nativo.
+- UI/UX premium con tipografia moderna y diseño de paneles de cristal oscuro.
 
-### 🎯 Métricas Objetivo
+## Arquitectura
 
-| Métrica | Objetivo |
-|---|---|
-| AUC-ROC | ≥ 0.80 |
-| F1-Score | ≥ 0.72 |
+- Backend: FastAPI (Python)
+- Base de Datos: SQLite (SQLAlchemy ORM)
+- Seguridad: Hashing Bcrypt
+- Interfaz de Usuario: HTML5, CSS Vanilla, JavaScript, TailwindCSS (via CDN)
+- Graficos: ApexCharts
+- Exportacion de Reportes: html2pdf.js
 
----
+## Requisitos de Instalacion
 
-### 🗂️ Estructura del Proyecto
+- Python 3.10 o superior
+- Entorno virtual recomendado (venv)
 
-```
-SCOREIA/
-├── data/
-│   ├── raw/                    # Datos originales (no versionados)
-│   ├── processed/              # Datos transformados
-│   └── external/               # Datos externos de referencia
-├── notebooks/                  # Análisis exploratorio y experimentos
-├── src/
-│   ├── module1_preprocessing/  # Limpieza, imputación, OHE, SMOTE
-│   ├── module2_features/       # Ratios financieros, WoE, selección
-│   ├── module3_training/       # Entrenamiento, CV, serialización
-│   ├── module4_inference/      # Predicción, segmentación, SHAP
-│   └── module5_monitoring/     # Drift detection, fairness audit
-├── models/                     # Modelos serializados (.pkl)
-├── reports/                    # Gráficos, reportes HTML y JSON
-├── tests/                      # Tests unitarios con pytest
-├── app/                        # Demo interactiva con Streamlit
-├── config.yaml                 # Configuración central
-├── requirements.txt            # Dependencias Python 3.11
-└── main.py                     # Entry point CLI
-```
+## Instrucciones de Instalacion
 
----
+1. Clonar el repositorio.
+2. Crear un entorno virtual:
+   python -m venv venv
+3. Activar el entorno virtual:
+   - Windows: venv\Scripts\activate
+   - Unix/MacOS: source venv/bin/activate
+4. Instalar las dependencias necesarias (especificadas en el entorno o usando pip install fastapi uvicorn sqlalchemy bcrypt pydantic scikit-learn pandas shap jinja2).
+5. Configurar las credenciales SMTP en un archivo .env si se requiere la funcionalidad de envio de correos reales.
 
-### ⚙️ Instalación
+## Ejecucion del Servidor
 
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/Andres-Eloyl/Credit-Scoring-SCOREIA-.git
-cd Credit-Scoring-SCOREIA-
+Para iniciar la aplicacion, ejecutar el siguiente comando desde la raiz del proyecto:
 
-# 2. Crear entorno virtual (Python 3.11)
-python -m venv venv
-venv\Scripts\activate   # Windows
+python -m app.main_api
 
-# 3. Instalar dependencias
-pip install -r requirements.txt
-```
+El servidor estara disponible en el puerto 8000 por defecto.
+La aplicacion estara accesible en: http://localhost:8000
 
----
+## Creditos
 
-### 🚀 Uso Rápido
-
-```bash
-# Generar dataset sintético
-python data/generate_synthetic_data.py
-
-# Entrenar el modelo completo
-python main.py --mode train
-
-# Inferencia sobre nuevas solicitudes
-python main.py --mode predict --input data/raw/nuevas_solicitudes.csv
-
-# Lanzar demo interactiva
-streamlit run app/streamlit_app.py
-```
-
----
-
-### 🏗️ Arquitectura de los Módulos
-
-| Módulo | Responsabilidad |
-|---|---|
-| **Módulo 1** | Ingesta, limpieza, imputación, OHE, SMOTE |
-| **Módulo 2** | Ratios financieros, Weight of Evidence, selección de variables |
-| **Módulo 3** | Entrenamiento RF, K-Fold CV, MLflow tracking, serialización |
-| **Módulo 4** | Predicción, segmentación de riesgo (Bajo/Medio/Alto), SHAP |
-| **Módulo 5** | Detección de concept drift, auditoría de equidad |
-
----
-
-### 📊 Variables del Modelo
-
-| Código | Variable | Tipo |
-|---|---|---|
-| F01 | edad | Numérico entero |
-| F02 | estado_civil | Categórico (Soltero/Casado/Divorciado/Viudo) |
-| F03 | nivel_educativo | Ordinal (Primaria→Secundaria→Universidad→Posgrado) |
-| F04 | tipo_vivienda | Categórico (Propia/Arrendada/Familiar) |
-| F05 | ingreso_mensual | Numérico float (USD) |
-| F06 | antiguedad_laboral | Numérico entero (meses) |
-| F07 | tipo_contrato | Categórico (Indefinido/Temporal/Independiente) |
-| F08 | score_buro | Numérico entero (300-850) |
-| F09 | meses_mora_maxima | Numérico entero |
-| F10 | num_creditos_activos | Numérico entero |
-| F11 | consultas_buro_6m | Numérico entero |
-| F12 | ratio_deuda_ingreso | Numérico float |
-| F13 | utilizacion_credito | Numérico float |
-| F14 | monto_solicitado | Numérico float (USD) |
-| F15 | plazo_meses | Numérico entero |
-| F16 | tipo_prestamo | Categórico (Personal/Hipotecario/Automotriz/Tarjeta) |
-| **LABEL** | **incumplimiento** | **Binario (0=Pagó, 1=Incumplió)** |
-
----
-
-### 📄 Licencia
-
-MIT License — Ver [LICENSE](LICENSE) para detalles.
+Desarrollado y diseñado por Andres Eloy Lopez.
+Todos los derechos reservados, 2026.

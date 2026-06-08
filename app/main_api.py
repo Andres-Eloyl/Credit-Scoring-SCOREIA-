@@ -34,12 +34,10 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from app import models, database
 
-# Crear las tablas en la BD
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(title="SCOREIA API", description="API para el modelo de Credit Scoring", version="1.0.0")
 
-# Permitir CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -48,7 +46,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inicializar modelo y clases de inferencia (globales)
 try:
     predictor = Predictor(model_path="models/scoreia_rf_v1.pkl", config_path="config.yaml")
     segmentor = RiskSegmentor(config_path="config.yaml")
@@ -187,28 +184,23 @@ def read_root():
 async def predict(data: dict, db: Session = Depends(database.get_db)):
     if not predictor:
         raise HTTPException(status_code=500, detail="El modelo no está disponible.")
-    
-    # Extraer client_id y risk_threshold
+
     client_id = data.get("client_id", "Unknown")
     risk_threshold = float(data.get("risk_threshold", 0.60))
     
     data_dict = data.copy()
     data_dict.pop("client_id", None)
     data_dict.pop("risk_threshold", None)
-    
-    # Realizar predicción
+
     try:
         prediction_df = predictor.predict(data_dict)
         pd_val = float(prediction_df.iloc[0]["pd"])
-        
-        # Segmentación
+
         riesgo = prediction_df.iloc[0]["risk_segment"]
-        
-        # Explicabilidad: Extraer datos crudos para dashboard interactivo
+
         shap_data = explainer.get_shap_values_dict(data_dict)
         decision_text = "Aprobado" if pd_val <= risk_threshold else "Rechazado"
 
-        # Guardar en base de datos
         db_eval = models.Evaluation(
             client_id=client_id,
             edad=data.get("edad"),
@@ -245,19 +237,16 @@ from sqlalchemy import func
 
 @app.get("/api/stats")
 async def get_stats(db: Session = Depends(database.get_db)):
-    # Total evaluaciones
+
     total = db.query(models.Evaluation).count()
     if total == 0:
         return {"total": 0, "aprobados": 0, "rechazados": 0, "monto_total": 0, "pd_promedio": 0, "history_dates": [], "history_aprobados": [], "history_rechazados": []}
-    
-    # Aprobados vs Rechazados
+
     aprobados = db.query(models.Evaluation).filter(models.Evaluation.decision == "Aprobado").count()
     rechazados = total - aprobados
-    
-    # Monto total
+
     monto_total = db.query(func.sum(models.Evaluation.monto_solicitado)).scalar() or 0
-    
-    # PD promedio
+
     pd_promedio = db.query(func.avg(models.Evaluation.pd_value)).scalar() or 0
 
     return {
@@ -316,5 +305,5 @@ app.mount("/", StaticFiles(directory=str(ui_dir), html=False), name="ui")
 
 if __name__ == "__main__":
     import uvicorn
-    # Se debe correr desde la raíz: python -m app.main_api
+
     uvicorn.run("app.main_api:app", host="0.0.0.0", port=8000, reload=True)
