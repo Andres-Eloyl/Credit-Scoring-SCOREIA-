@@ -115,11 +115,6 @@
 </div>
 
 <script>
-    // Si ya hay sesión iniciada, redirigir directo a la app
-    if(localStorage.getItem('scoreia_user') && localStorage.getItem('scoreia_pass')) {
-        window.location.href = '/app';
-    }
-
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const btnShowRegister = document.getElementById('btnShowRegister');

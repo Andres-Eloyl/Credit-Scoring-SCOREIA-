@@ -8,6 +8,55 @@ document.addEventListener('DOMContentLoaded', () => {
         welcomeUser.innerText = storedUser;
     }
 
+    // Handle orange color cleanup (if user had it saved)
+    if (localStorage.getItem('accentColor') === '#f97316') {
+        localStorage.setItem('accentColor', '#398a48');
+    }
+
+    // --- SESSION INACTIVITY & LOGOUT ---
+    let inactivityTimer;
+    let logoutWarningTimer;
+    const INACTIVITY_LIMIT = 10 * 60 * 1000; // 10 minutes
+    const WARNING_LIMIT = 60 * 1000; // 1 minute to respond
+    
+    const inactivityModal = document.getElementById('inactivityModal');
+    const btnExtendSession = document.getElementById('btnExtendSession');
+    const btnForceLogout = document.getElementById('btnForceLogout');
+    const btnLogout = document.getElementById('nav-logout');
+
+    function performLogout() {
+        localStorage.removeItem('scoreia_user');
+        localStorage.removeItem('scoreia_pass');
+        window.location.href = '/login';
+    }
+
+    function showInactivityWarning() {
+        if (inactivityModal) {
+            inactivityModal.classList.remove('hidden');
+            logoutWarningTimer = setTimeout(performLogout, WARNING_LIMIT);
+        }
+    }
+
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        clearTimeout(logoutWarningTimer);
+        if (inactivityModal) inactivityModal.classList.add('hidden');
+        inactivityTimer = setTimeout(showInactivityWarning, INACTIVITY_LIMIT);
+    }
+
+    // Reset timer on user interaction
+    ['mousemove', 'keydown', 'click', 'scroll'].forEach(evt => {
+        document.addEventListener(evt, resetInactivityTimer);
+    });
+
+    // Initial start
+    resetInactivityTimer();
+
+    if (btnExtendSession) btnExtendSession.addEventListener('click', resetInactivityTimer);
+    if (btnForceLogout) btnForceLogout.addEventListener('click', performLogout);
+    if (btnLogout) btnLogout.addEventListener('click', performLogout);
+
+
     // --- SHAP LABEL MAP ---
     const shapLabelMap = {
         'edad': 'Edad',

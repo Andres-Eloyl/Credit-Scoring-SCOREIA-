@@ -264,6 +264,14 @@
             <span class="text-base font-bold">Configuración</span>
         </a>
     </div>
+    
+    <!-- Logout Button -->
+    <div class="mt-auto px-2">
+        <a id="nav-logout" class="text-error/80 hover:bg-error/10 hover:text-error px-4 py-3 flex items-center gap-3 rounded-xl transition-all cursor-pointer font-bold text-sm">
+            <span class="material-symbols-outlined text-lg">logout</span>
+            Cerrar Sesión
+        </a>
+    </div>
 </nav>
 
 <!-- Main Canvas -->
@@ -687,7 +695,7 @@
                             <button class="color-btn w-10 h-10 rounded-full bg-[#398a48] ring-2 ring-white ring-offset-2 ring-offset-[#1e211d]" data-color="#398a48"></button>
                             <button class="color-btn w-10 h-10 rounded-full bg-[#3b82f6] opacity-70 hover:opacity-100 transition-all" data-color="#3b82f6"></button>
                             <button class="color-btn w-10 h-10 rounded-full bg-[#8b5cf6] opacity-70 hover:opacity-100 transition-all" data-color="#8b5cf6"></button>
-                            <button class="color-btn w-10 h-10 rounded-full bg-[#f97316] opacity-70 hover:opacity-100 transition-all" data-color="#f97316"></button>
+                            <button class="color-btn w-10 h-10 rounded-full bg-[#0891b2] opacity-70 hover:opacity-100 transition-all" data-color="#0891b2"></button>
                         </div>
                         <p class="text-[10px] text-cream/50 mt-2">Aplica instantáneamente a gráficas, botones y componentes destacados.</p>
                     </div>
@@ -732,6 +740,24 @@
     </footer>
 </main>
 
-<script src="app.js?v=6"></script>
+<!-- Inactivity Modal -->
+<div id="inactivityModal" class="fixed inset-0 z-[200] hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-panel-premium rounded-3xl p-8 shadow-2xl flex flex-col text-center">
+        <div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center border border-error/20 mx-auto mb-4 animate-pulse">
+            <span class="material-symbols-outlined text-error text-3xl">timer</span>
+        </div>
+        <h3 class="text-xl font-bold text-cream mb-2">Sesión Inactiva</h3>
+        <p class="text-sm text-cream/60 mb-6">Por seguridad, tu sesión está a punto de cerrarse por inactividad.</p>
+        <button id="btnExtendSession" class="w-full bg-accent text-white font-bold py-3 rounded-xl hover:scale-[1.02] transition-all shadow-lg text-sm mb-3">
+            Extender Sesión
+        </button>
+        <button id="btnForceLogout" class="w-full text-cream/40 font-bold py-2 hover:text-cream text-sm transition-colors">
+            Cerrar ahora
+        </button>
+    </div>
+</div>
+
+<script src="app.js?v=7"></script>
 </body>
 </html>
