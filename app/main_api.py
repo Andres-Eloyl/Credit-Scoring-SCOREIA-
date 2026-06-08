@@ -126,7 +126,10 @@ async def register(data: UserRegister, db: Session = Depends(database.get_db)):
 
 @app.post("/api/auth/login")
 async def login(data: UserLogin, db: Session = Depends(database.get_db)):
-    user = db.query(models.User).filter(models.User.email == data.email).first()
+    from sqlalchemy import or_
+    user = db.query(models.User).filter(
+        or_(models.User.email == data.email, models.User.name == data.email)
+    ).first()
     if not user or not verify_password(data.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Credenciales inválidas.")
     
