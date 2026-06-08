@@ -14,10 +14,21 @@ from src.module4_inference.explainability import ModelExplainer
 
 import uuid
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
+import bcrypt
 from app.email_service import send_recovery_email
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+def hash_password(password: str) -> str:
+    pwd_bytes = password.encode('utf-8')[:72]
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    pwd_bytes = plain_password.encode('utf-8')[:72]
+    hash_bytes = hashed_password.encode('utf-8')
+    try:
+        return bcrypt.checkpw(pwd_bytes, hash_bytes)
+    except Exception:
+        return False
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
@@ -95,7 +106,7 @@ async def register(data: UserRegister, db: Session = Depends(database.get_db)):
     if db.query(models.User).filter(models.User.email == data.email).first():
         raise HTTPException(status_code=400, detail="El correo ya está registrado.")
     
-    hashed_pwd = pwd_context.hash(data.password)
+    hashed_pwd = hash_password(data.password)
     user = models.User(
         name=data.name,
         email=data.email,
@@ -116,7 +127,7 @@ async def register(data: UserRegister, db: Session = Depends(database.get_db)):
 @app.post("/api/auth/login")
 async def login(data: UserLogin, db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.email == data.email).first()
-    if not user or not pwd_context.verify(data.password, user.password_hash):
+    if not user or not verify_password(data.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Credenciales inválidas.")
     
     return {
@@ -160,7 +171,7 @@ async def reset_password(data: ResetPassword, db: Session = Depends(database.get
     if not user:
         raise HTTPException(status_code=404, detail="Usuario no encontrado.")
         
-    user.password_hash = pwd_context.hash(data.new_password)
+    user.password_hash = hash_password(data.new_password)
     db.delete(record)
     db.commit()
     return {"status": "success", "message": "Contraseña actualizada exitosamente."}
