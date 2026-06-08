@@ -341,6 +341,11 @@
         }
     }
 
+    // Inicializar bandera si hay valor por defecto
+    document.addEventListener("DOMContentLoaded", () => {
+        updateFlagIcon();
+    });
+
     // Toggle Panels con animaciones y ajustes de tamaño
     btnShowRegister.addEventListener('click', (e) => {
         e.preventDefault();
