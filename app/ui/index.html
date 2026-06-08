@@ -6,6 +6,7 @@
     <title>SCOREIA - Premium Risk Intelligence</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
@@ -446,10 +447,32 @@
         <div class="lg:col-span-5 xl:col-span-4 relative">
             <div class="sticky top-12 glass-panel-premium rounded-3xl p-8 min-h-[720px] flex flex-col overflow-hidden" id="results-container">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
-                <h3 class="text-xl font-headline-md font-semibold text-cream mb-8 flex items-center justify-between">
-                    Outcome de Análisis
-                    <span class="material-symbols-outlined text-cream/30">monitoring</span>
-                </h3>
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-xl font-headline-md font-semibold text-cream flex items-center gap-2">
+                        Outcome de Análisis
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        <button id="btnDownloadPDF" class="hidden text-xs bg-cream/10 hover:bg-cream/20 text-cream px-3 py-1.5 rounded-lg border border-cream/20 transition-all flex items-center gap-1 font-bold shadow-md" type="button" title="Descargar Reporte PDF">
+                            <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                            PDF
+                        </button>
+                        <span class="material-symbols-outlined text-cream/30">monitoring</span>
+                    </div>
+                </div>
+
+                <!-- Report Header (Only visible in PDF) -->
+                <div id="pdfHeader" class="hidden flex-col mb-6 pb-6 border-b border-cream/20">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-2xl font-black text-cream tracking-tight mb-1">SCOREIA Report</h2>
+                            <p class="text-xs font-bold text-cream/50 uppercase tracking-widest">Inteligencia de Riesgo Crediticio</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-cream/70">Fecha: <span id="pdfDate" class="font-bold text-cream"></span></p>
+                            <p class="text-xs text-cream/70">Cliente ID: <span id="pdfClientId" class="font-bold text-cream"></span></p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Sophisticated Empty State -->
                 <div class="flex-1 flex flex-col items-center justify-center text-center px-4" id="empty-state">

@@ -34,6 +34,7 @@ plotly>=5.18.0
 fastapi>=0.100.0             # Backend API
 uvicorn>=0.23.0              # Servidor ASGI para FastAPI
 SQLAlchemy>=2.0.0            # Base de Datos ORM
+psycopg2-binary>=2.9.0       # Driver PostgreSQL para Supabase
 
 # ─── Generación de Datos Sintéticos ───────────────────────────────────────────
 Faker>=22.0.0

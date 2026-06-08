@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyEmpty = document.getElementById('historyEmpty');
     const btnHistory = document.getElementById('btnHistory');
     
+    // PDF elements
+    const btnDownloadPDF = document.getElementById('btnDownloadPDF');
+    const pdfHeader = document.getElementById('pdfHeader');
+    const pdfDate = document.getElementById('pdfDate');
+    const pdfClientId = document.getElementById('pdfClientId');
+    
     // Simulator elements
     const simMonto = document.getElementById('simMonto');
     const simMontoText = document.getElementById('simMontoText');
@@ -78,6 +84,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initial fetch
     fetchHistory();
+
+    // --- PDF Logic ---
+    btnDownloadPDF.addEventListener('click', () => {
+        if (!latestFormData) return;
+        
+        // Prepare DOM for printing
+        const element = document.getElementById('results-container');
+        
+        // Hide UI elements we don't want in PDF
+        btnDownloadPDF.classList.add('hidden');
+        
+        // Show PDF header and fill data
+        pdfHeader.classList.remove('hidden');
+        pdfHeader.classList.add('flex');
+        pdfDate.innerText = new Date().toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
+        pdfClientId.innerText = latestFormData.client_id || 'N/A';
+        
+        // Configure html2pdf
+        const opt = {
+            margin:       0.5,
+            filename:     `Reporte_SCOREIA_\${latestFormData.client_id || 'Cliente'}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#1e211d' }, // match surface color
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+        // Generate PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Restore UI
+            btnDownloadPDF.classList.remove('hidden');
+            pdfHeader.classList.add('hidden');
+            pdfHeader.classList.remove('flex');
+        });
+    });
 
     // --- Simulator Logic ---
     function formatCurrency(val) {
@@ -269,6 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayResults(data, isSimulation = false) {
         // Unhide results
         resultsContent.classList.remove('hidden');
+        btnDownloadPDF.classList.remove('hidden'); // Show PDF button
+        
         if (!isSimulation) {
             resultsContent.classList.add('flex', 'animate-in', 'fade-in', 'slide-in-from-bottom-4', 'duration-700');
         } else {
