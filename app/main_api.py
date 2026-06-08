@@ -169,6 +169,10 @@ async def app_view():
 async def features_view():
     return FileResponse(ui_dir / "features.html")
 
+@app.get("/teoria")
+async def theory_view():
+    return FileResponse(ui_dir / "theory.html")
+
 @app.get("/tecnologia")
 async def tech_view():
     return FileResponse(ui_dir / "tech.html")
