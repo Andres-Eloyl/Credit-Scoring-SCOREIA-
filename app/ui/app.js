@@ -1,11 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- LOGIN CHECK ---
+    // --- LOGIN / REGISTRO ---
     const loginOverlay = document.getElementById('loginOverlay');
     const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
     const loginNameInput = document.getElementById('loginName');
+    const loginPassInput = document.getElementById('loginPass');
+    const regNameInput = document.getElementById('regName');
+    const regPassInput = document.getElementById('regPass');
+    const regPassConfirm = document.getElementById('regPassConfirm');
     const loginError = document.getElementById('loginError');
+    const regError = document.getElementById('regError');
     const welcomeUser = document.getElementById('welcomeUser');
+    const btnShowRegister = document.getElementById('btnShowRegister');
+    const btnShowLogin = document.getElementById('btnShowLogin');
+    const loginPanel = document.getElementById('loginPanel');
+    const registerPanel = document.getElementById('registerPanel');
     
     const storedUser = localStorage.getItem('scoreia_user');
     if (storedUser) {
@@ -13,21 +23,65 @@ document.addEventListener('DOMContentLoaded', () => {
         if (welcomeUser) welcomeUser.innerText = storedUser;
     }
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+    // Toggle entre Login y Registro
+    if (btnShowRegister) {
+        btnShowRegister.addEventListener('click', () => {
+            loginPanel.classList.add('hidden');
+            registerPanel.classList.remove('hidden');
+        });
+    }
+    if (btnShowLogin) {
+        btnShowLogin.addEventListener('click', () => {
+            registerPanel.classList.add('hidden');
+            loginPanel.classList.remove('hidden');
+        });
+    }
+
+    // Registro
+    if (registerForm) {
+        registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = loginNameInput.value.trim();
-            if (name.length < 2) {
-                loginError.classList.remove('hidden');
+            const name = regNameInput.value.trim();
+            const pass = regPassInput.value;
+            const passC = regPassConfirm.value;
+            if (name.length < 2 || pass.length < 4) {
+                regError.innerText = 'Nombre (min 2) y contraseña (min 4 caracteres).';
+                regError.classList.remove('hidden');
                 return;
             }
+            if (pass !== passC) {
+                regError.innerText = 'Las contraseñas no coinciden.';
+                regError.classList.remove('hidden');
+                return;
+            }
+            // Guardar credenciales
             localStorage.setItem('scoreia_user', name);
+            localStorage.setItem('scoreia_pass', pass);
+            // Iniciar sesión directo
             loginOverlay.classList.add('hidden');
             if (welcomeUser) welcomeUser.innerText = name;
         });
     }
 
-    // --- SHAP LABEL MAP (variables -> español legible) ---
+    // Inicio de Sesión
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = loginNameInput.value.trim();
+            const pass = loginPassInput.value;
+            const savedName = localStorage.getItem('scoreia_user');
+            const savedPass = localStorage.getItem('scoreia_pass');
+            if (name === savedName && pass === savedPass) {
+                loginOverlay.classList.add('hidden');
+                if (welcomeUser) welcomeUser.innerText = name;
+            } else {
+                loginError.innerText = 'Credenciales incorrectas.';
+                loginError.classList.remove('hidden');
+            }
+        });
+    }
+
+    // --- SHAP LABEL MAP ---
     const shapLabelMap = {
         'edad': 'Edad',
         'ingreso_mensual': 'Ingreso Mensual',
@@ -287,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Configure html2pdf
         const opt = {
             margin:       0.5,
-            filename:     `Reporte_SCOREIA_\${latestFormData.client_id || 'Cliente'}.pdf`,
+            filename:     'Reporte_SCOREIA_' + (latestFormData.client_id || 'Cliente') + '.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#1e211d' }, // match surface color
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -304,14 +358,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Config Logic ---
     function applyThemeConfig() {
-        // Theme
         if (currentConfig.theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
         
-        // Color — inject dynamic CSS overrides
+        // Color — inject with max specificity to beat Tailwind CDN
         let styleTag = document.getElementById('dynamic-accent-style');
         if (!styleTag) {
             styleTag = document.createElement('style');
@@ -320,16 +373,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const c = currentConfig.accentColor;
         styleTag.innerHTML = 
-            '.bg-accent { background-color: ' + c + ' !important; }' +
-            '.text-accent { color: ' + c + ' !important; }' +
-            '.border-accent { border-color: ' + c + ' !important; }' +
-            '.ring-accent { --tw-ring-color: ' + c + ' !important; }' +
-            '.from-accent { --tw-gradient-from: ' + c + ' !important; }' +
-            '.to-accent { --tw-gradient-to: ' + c + ' !important; }' +
-            '.accent-accent { accent-color: ' + c + ' !important; }' +
-            '.fill-accent { fill: ' + c + ' !important; }' +
-            '.nav-item-active { border-left-color: ' + c + ' !important; background: linear-gradient(90deg, ' + c + '26 0%, transparent 100%) !important; }' +
-            ':root { --forest-green: ' + c + '; }';
+            'html body .bg-accent, html body .bg-accent\\/20 { background-color: ' + c + ' !important; }' +
+            'html body .text-accent { color: ' + c + ' !important; }' +
+            'html body .border-accent { border-color: ' + c + ' !important; }' +
+            'html body .accent-accent { accent-color: ' + c + ' !important; }' +
+            'html body .fill-accent { fill: ' + c + ' !important; }' +
+            'html body .shadow-accent\\/20 { --tw-shadow-color: ' + c + '33 !important; }' +
+            'html body .nav-item-active { border-left-color: ' + c + ' !important; background: linear-gradient(90deg, ' + c + '26 0%, transparent 100%) !important; }' +
+            ':root { --forest-green: ' + c + ' !important; }' +
+            'html body .bg-accent\\/10 { background-color: ' + c + '1a !important; }' +
+            'html body .bg-accent\\/20 { background-color: ' + c + '33 !important; }' +
+            'html body .border-accent\\/20 { border-color: ' + c + '33 !important; }' +
+            'html body .border-accent\\/30 { border-color: ' + c + '4d !important; }' +
+            'html body .text-accent\\/80 { color: ' + c + 'cc !important; }';
     }
     
     function syncConfigUI() {

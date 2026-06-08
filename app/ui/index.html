@@ -226,17 +226,56 @@
             <h1 class="text-4xl font-headline-lg font-extrabold text-cream tracking-tight">SCOREIA</h1>
             <p class="text-sm text-cream/50 mt-2 font-body-md">Sistema de Inteligencia de Riesgo Crediticio</p>
         </div>
-        <form id="loginForm" class="glass-panel-premium p-8 rounded-3xl space-y-6">
-            <div>
-                <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre del Analista</label>
-                <input id="loginName" type="text" placeholder="Ej: Andrés Eloyl" required
-                    class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
-                <p id="loginError" class="hidden text-error text-xs mt-2">El nombre debe tener al menos 2 caracteres.</p>
-            </div>
-            <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
-                Ingresar al Sistema
-            </button>
-        </form>
+
+        <!-- Panel de Inicio de Sesión -->
+        <div id="loginPanel" class="glass-panel-premium p-8 rounded-3xl space-y-5">
+            <h2 class="text-lg font-bold text-cream text-center">Iniciar Sesión</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre de usuario</label>
+                    <input id="loginName" type="text" placeholder="Tu nombre" required
+                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
+                    <input id="loginPass" type="password" placeholder="••••••••" required
+                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                </div>
+                <p id="loginError" class="hidden text-error text-xs"></p>
+                <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
+                    Ingresar
+                </button>
+            </form>
+            <p class="text-center text-cream/40 text-xs">¿No tienes cuenta? <button id="btnShowRegister" class="text-accent font-bold hover:underline">Registrarse</button></p>
+        </div>
+
+        <!-- Panel de Registro -->
+        <div id="registerPanel" class="hidden glass-panel-premium p-8 rounded-3xl space-y-5">
+            <h2 class="text-lg font-bold text-cream text-center">Crear Cuenta</h2>
+            <form id="registerForm" class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Nombre del analista</label>
+                    <input id="regName" type="text" placeholder="Ej: Andrés Eloyl" required
+                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Contraseña</label>
+                    <input id="regPass" type="password" placeholder="Mínimo 4 caracteres" required
+                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-cream/60 uppercase tracking-widest mb-2 block">Confirmar contraseña</label>
+                    <input id="regPassConfirm" type="password" placeholder="Repite tu contraseña" required
+                        class="w-full bg-black/40 border border-cream/10 rounded-xl px-4 py-3.5 text-cream placeholder-cream/30 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all font-body-md">
+                </div>
+                <p id="regError" class="hidden text-error text-xs"></p>
+                <button type="submit" class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-all shadow-xl shadow-accent/20 text-sm uppercase tracking-widest">
+                    Crear Cuenta
+                </button>
+            </form>
+            <p class="text-center text-cream/40 text-xs">¿Ya tienes cuenta? <button id="btnShowLogin" class="text-accent font-bold hover:underline">Iniciar Sesión</button></p>
+        </div>
+
         <p class="text-center text-cream/30 text-[10px] mt-8 uppercase tracking-widest">Acceso restringido · Uso interno</p>
     </div>
 </div>
@@ -277,15 +316,15 @@
         <p class="px-4 text-[10px] font-bold text-cream/40 uppercase tracking-widest mb-4">Principal</p>
         <a id="nav-eval" class="nav-item-active text-accent px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
-            <span class="text-sm font-bold">Análisis Crediticio</span>
+            <span class="text-base font-bold">Análisis Crediticio</span>
         </a>
         <a id="nav-dashboard" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
             <span class="material-symbols-outlined text-xl">dashboard</span>
-            <span class="text-sm font-bold">Dashboard Analytics</span>
+            <span class="text-base font-bold">Dashboard Analytics</span>
         </a>
         <a id="nav-config" class="text-cream/50 hover:bg-cream/5 hover:text-cream px-4 py-3.5 flex items-center gap-4 rounded-xl transition-all cursor-pointer">
             <span class="material-symbols-outlined text-xl">settings</span>
-            <span class="text-sm font-bold">Configuración</span>
+            <span class="text-base font-bold">Configuración</span>
         </a>
     </div>
 </nav>
@@ -756,6 +795,6 @@
     </footer>
 </main>
 
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
