@@ -27,12 +27,22 @@
       }
     </script>
     <style>
-        :root { --forest-green: #398a48; --cream: #f5f5dc; }
-
         .bg-mesh {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background-color: #0a0e0a;
+            background-color: #050a08;
+            background-image:
+                radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(57, 138, 72, 0.15), transparent 40%);
         }
+
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(245,245,220,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(245,245,220,0.02) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
+        }
+
+        :root { --forest-green: #398a48; --cream: #f5f5dc; }
+
+        
 
         .glass-card {
             background: linear-gradient(135deg, rgba(245, 245, 220, 0.04) 0%, rgba(245, 245, 220, 0.01) 100%);
@@ -56,9 +66,13 @@
         .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-background text-cream overflow-x-hidden font-body">
-    <div class="bg-mesh"></div>
+<div class="bg-mesh"></div>
+<div class="grid-overlay"></div>
+
+    
     <canvas id="particleCanvas" class="fixed inset-0 z-[-1] pointer-events-none"></canvas>
 
 <!-- NAV -->
@@ -67,7 +81,7 @@
         <!-- Logo -->
         <a href="/" class="flex items-center gap-4 group">
             <div class="w-10 h-10 rounded-xl bg-[#0e1410] flex items-center justify-center border border-[#1a261d] transition-all">
-                <span class= font-headline"material-symbols-outlined text-accent text-2xl font-headline">blur_on</span>
+                <span class="material-symbols-outlined text-accent text-2xl font-headline">blur_on</span>
             </div>
             <span class="text-xl font-headline font-bold text-cream tracking-wide">SCOREIA</span>
         </a>
@@ -92,7 +106,7 @@
 
 <section class="min-h-screen flex items-center justify-center pt-20 px-6">
     <div class="max-w-4xl mx-auto text-center mt-24">
-        <h1 class= font-headline"text-4xl md:text-5xl font-bold text-cream tracking-wide leading-tight animate-hero font-headline">
+        <h1 class="text-4xl md:text-5xl font-bold text-cream tracking-wide leading-tight animate-hero font-headline">
             Inteligencia de Riesgo<br>
             <span class="text-accent">Crediticio</span>
         </h1>
@@ -120,8 +134,8 @@
                         <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-[10px] font-bold border border-accent/30 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">Riesgo Bajo</span>
                     </div>
                     <div class="flex items-baseline gap-2 whitespace-nowrap">
-                        <span class= font-headline"text-5xl font-bold text-cream tracking-wide font-headline">12.4</span>
-                        <span class= font-headline"text-2xl font-bold text-white font-headline">%</span>
+                        <span class="text-5xl font-bold text-cream tracking-wide font-headline">12.4</span>
+                        <span class="text-2xl font-bold text-white font-headline">%</span>
                     </div>
                     <div class="mt-6 h-3 bg-surface rounded-full overflow-hidden border border-cream/5 relative">
                         <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-accent to-[#50c878] rounded-full w-[12.4%] shadow-[0_0_10px_#398a48]"></div>
@@ -257,5 +271,82 @@
     initParticles();
     drawParticles();
 </script>
+
+<script>
+    let mouse = { x: -1000, y: -1000 };
+    document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    document.addEventListener('mouseout', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    // --- Partículas (Efecto Constelación) ---
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '-2';
+    canvas.style.pointerEvents = 'none';
+    document.body.prepend(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+
+    function initParticles() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        particlesArray = [];
+        let numParticles = Math.floor((window.innerWidth * window.innerHeight) / 10000);
+        for (let i = 0; i < numParticles; i++) {
+            let size = Math.random() * 2 + 0.5;
+            let x = Math.random() * innerWidth;
+            let y = Math.random() * innerHeight;
+            let speedX = (Math.random() - 0.5) * 0.5;
+            let speedY = (Math.random() - 0.5) * 0.5;
+            particlesArray.push({ x, y, speedX, speedY, size });
+        }
+    }
+
+    function animateParticles() {
+        requestAnimationFrame(animateParticles);
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        for (let i = 0; i < particlesArray.length; i++) {
+            let p = particlesArray[i];
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0 || p.x > innerWidth) p.speedX *= -1;
+            if (p.y < 0 || p.y > innerHeight) p.speedY *= -1;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(245, 245, 220, 0.3)';
+            ctx.fill();
+            for (let j = i; j < particlesArray.length; j++) {
+                let p2 = particlesArray[j];
+                let dx = p.x - p2.x;
+                let dy = p.y - p2.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 100) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(57, 138, 72, ${0.15 - distance/1000})`;
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    window.addEventListener('resize', initParticles);
+    initParticles();
+    animateParticles();
+</script>
+
 </body>
 </html>

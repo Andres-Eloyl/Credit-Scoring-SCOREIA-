@@ -38,6 +38,10 @@
             background-size: 40px 40px; z-index: -1; pointer-events: none;
         }
 
+        
+
+        
+
         .glass-card {
             background: linear-gradient(135deg, rgba(245, 245, 220, 0.04) 0%, rgba(245, 245, 220, 0.01) 100%);
             backdrop-filter: blur(24px);
@@ -55,17 +59,21 @@
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-background text-cream overflow-x-hidden pt-32 pb-20 font-body">
+<div class="bg-mesh"></div>
+<div class="grid-overlay"></div>
+
 
 
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between w-full">
         <a href="/" class="flex items-center gap-3 group">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
-                <span class= font-headline"material-symbols-outlined text-accent text-3xl font-headline">blur_on</span>
+                <span class="material-symbols-outlined text-accent text-3xl font-headline">blur_on</span>
             </div>
-            <span class= font-headline"text-2xl  text-cream tracking-tight group-hover:text-accent transition-colors font-headline">SCOREIA</span>
+            <span class="text-2xl text-cream tracking-tight group-hover:text-accent transition-colors font-headline">SCOREIA</span>
         </a>
         
         <a href="/funcionalidades" class="hidden lg:block text-base text-cream/60 hover:text-cream transition-colors tracking-wide">Funcionalidades</a>
@@ -84,33 +92,35 @@
 <section class="px-6 animate-hero">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-            <h1 class= font-headline"text-4xl md:text-6xl  text-cream tracking-tight mb-4 font-headline">Arquitectura Tecnológica</h1>
+            <h1 class="text-4xl md:text-6xl text-cream tracking-tight mb-4 font-headline">Arquitectura Tecnológica</h1>
             <p class="text-cream/50 text-lg max-w-2xl mx-auto">Construido con estándares de producción: API RESTful, persistencia de datos y algoritmos de Machine Learning puros.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="glass-card rounded-2xl p-8 text-center">
-                <span class= font-headline"material-symbols-outlined text-accent text-5xl mb-4 font-headline">code</span>
-                <p class= font-headline"text-2xl  text-accent font-headline">Python</p>
+                <span class="material-symbols-outlined text-accent text-5xl mb-4 font-headline">code</span>
+                <p class="text-2xl text-accent font-headline">Python</p>
                 <p class="text-xs text-cream/40 mt-2">Motor de ML (Scikit-Learn, Pandas)</p>
             </div>
             <div class="glass-card rounded-2xl p-8 text-center">
-                <span class= font-headline"material-symbols-outlined text-accent text-5xl mb-4 font-headline">api</span>
-                <p class= font-headline"text-2xl  text-accent font-headline">FastAPI</p>
+                <span class="material-symbols-outlined text-accent text-5xl mb-4 font-headline">api</span>
+                <p class="text-2xl text-accent font-headline">FastAPI</p>
                 <p class="text-xs text-cream/40 mt-2">API REST de alto rendimiento</p>
             </div>
             <div class="glass-card rounded-2xl p-8 text-center">
-                <span class= font-headline"material-symbols-outlined text-accent text-5xl mb-4 font-headline">database</span>
-                <p class= font-headline"text-2xl  text-accent font-headline">SQL</p>
+                <span class="material-symbols-outlined text-accent text-5xl mb-4 font-headline">database</span>
+                <p class="text-2xl text-accent font-headline">SQL</p>
                 <p class="text-xs text-cream/40 mt-2">Persistencia con SQLAlchemy</p>
             </div>
             <div class="glass-card rounded-2xl p-8 text-center">
-                <span class= font-headline"material-symbols-outlined text-accent text-5xl mb-4 font-headline">web</span>
-                <p class= font-headline"text-2xl  text-accent font-headline">UI / UX</p>
+                <span class="material-symbols-outlined text-accent text-5xl mb-4 font-headline">web</span>
+                <p class="text-2xl text-accent font-headline">UI / UX</p>
                 <p class="text-xs text-cream/40 mt-2">TailwindCSS, Vanilla JS, ApexCharts</p>
             </div>
         </div>
     </div>
 </section>
+
+
 
 <script>
     let mouse = { x: -1000, y: -1000 };
@@ -125,6 +135,7 @@
         mouse.y = -1000;
     });
 
+    // --- Partículas (Efecto Constelación) ---
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
@@ -137,7 +148,7 @@
     
     const ctx = canvas.getContext('2d');
     let particlesArray = [];
-    
+
     function initParticles() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -147,59 +158,45 @@
             let size = Math.random() * 2 + 0.5;
             let x = Math.random() * innerWidth;
             let y = Math.random() * innerHeight;
-            let dirX = (Math.random() * 1) - 0.5;
-            let dirY = (Math.random() * 1) - 0.5;
-            particlesArray.push({x, y, dirX, dirY, size});
+            let speedX = (Math.random() - 0.5) * 0.5;
+            let speedY = (Math.random() - 0.5) * 0.5;
+            particlesArray.push({ x, y, speedX, speedY, size });
         }
     }
-    
+
     function animateParticles() {
         requestAnimationFrame(animateParticles);
         ctx.clearRect(0, 0, innerWidth, innerHeight);
-        ctx.fillStyle = 'rgba(57, 138, 72, 0.4)';
-        ctx.lineWidth = 0.5;
-        
         for (let i = 0; i < particlesArray.length; i++) {
-            let p1 = particlesArray[i];
-            p1.x += p1.dirX;
-            p1.y += p1.dirY;
-            if (p1.x < 0 || p1.x > innerWidth) p1.dirX = -p1.dirX;
-            if (p1.y < 0 || p1.y > innerHeight) p1.dirY = -p1.dirY;
-            
+            let p = particlesArray[i];
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0 || p.x > innerWidth) p.speedX *= -1;
+            if (p.y < 0 || p.y > innerHeight) p.speedY *= -1;
             ctx.beginPath();
-            ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(245, 245, 220, 0.3)';
             ctx.fill();
-
-            const dxMouse = mouse.x - p1.x;
-            const dyMouse = mouse.y - p1.y;
-            const distMouse = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse);
-            if (distMouse < 150) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(57, 138, 72, ${0.3 - distMouse/500})`;
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-            
-            for (let j = i + 1; j < particlesArray.length; j++) {
+            for (let j = i; j < particlesArray.length; j++) {
                 let p2 = particlesArray[j];
-                let dx = p1.x - p2.x;
-                let dy = p1.y - p2.y;
+                let dx = p.x - p2.x;
+                let dy = p.y - p2.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < 100) {
                     ctx.beginPath();
                     ctx.strokeStyle = `rgba(57, 138, 72, ${0.15 - distance/1000})`;
-                    ctx.moveTo(p1.x, p1.y);
+                    ctx.moveTo(p.x, p.y);
                     ctx.lineTo(p2.x, p2.y);
                     ctx.stroke();
                 }
             }
         }
     }
-    
+
     window.addEventListener('resize', initParticles);
     initParticles();
     animateParticles();
 </script>
+
 </body>
 </html>
