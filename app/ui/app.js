@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            obj.innerHTML = (progress * (end - start) + start).toFixed(1) + suffix;
+            obj.innerHTML = (progress * (end - start) + start).toFixed(1) + `<span class="text-xl md:text-2xl ml-1 text-inherit opacity-70">${suffix}</span>`;
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             }
