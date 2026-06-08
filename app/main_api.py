@@ -173,6 +173,10 @@ async def features_view():
 async def tech_view():
     return FileResponse(ui_dir / "tech.html")
 
+@app.get("/soporte")
+async def support_view():
+    return FileResponse(ui_dir / "support.html")
+
 app.mount("/", StaticFiles(directory=str(ui_dir), html=False), name="ui")
 
 if __name__ == "__main__":

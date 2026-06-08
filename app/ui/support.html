@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>SCOREIA — Inteligencia de Riesgo Crediticio</title>
-    <meta name="description" content="Plataforma avanzada de scoring crediticio con modelos predictivos, explicabilidad SHAP y análisis en tiempo real.">
+    <title>SCOREIA — Soporte</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -17,8 +16,7 @@
                 "accent": "#398a48",
                 "cream": "#f5f5dc",
                 "surface": "#101410",
-                "background": "#0b1310",
-                "error": "#ffb4ab"
+                "background": "#0b1310"
             },
             fontFamily: {
                 "headline": ["Sora", "sans-serif"],
@@ -29,8 +27,6 @@
       }
     </script>
     <style>
-        :root { --forest-green: #398a48; --cream: #f5f5dc; }
-
         .bg-mesh {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #050a08;
@@ -57,97 +53,89 @@
             transform: translateY(-4px);
         }
 
-        @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-hero { animation: fade-in-up 0.8s ease-out forwards; }
-        .animate-hero-delay { animation: fade-in-up 0.8s ease-out 0.2s forwards; opacity: 0; }
-        .animate-hero-delay2 { animation: fade-in-up 0.8s ease-out 0.4s forwards; opacity: 0; }
     </style>
 </head>
-<body class="bg-background text-cream font-body overflow-x-hidden">
+<body class="bg-background text-cream font-body overflow-x-hidden pt-32 pb-20">
 <div class="bg-mesh"></div>
 <div class="grid-overlay"></div>
 
 <!-- NAV -->
 <nav class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-3xl border-b border-cream/10">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/20 transition-all">
                 <span class="material-symbols-outlined text-accent text-3xl">blur_on</span>
             </div>
-            <span class="text-2xl font-headline font-extrabold text-cream tracking-tight">SCOREIA</span>
-        </div>
+            <span class="text-2xl font-headline font-extrabold text-cream tracking-tight group-hover:text-accent transition-colors">SCOREIA</span>
+        </a>
         <div class="flex items-center gap-8">
             <a href="/funcionalidades" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Teoría del Modelo</a>
             <a href="/tecnologia" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Tecnología</a>
-            <a href="/soporte" class="hidden md:block text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide">Soporte</a>
-            <a href="/login" class="px-10 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-lg hover:scale-105 transition-all shadow-lg shadow-accent/20">
-                Ingresar
+            <a href="/" class="text-lg text-cream/60 hover:text-cream transition-colors font-bold tracking-wide flex items-center gap-2">
+                <span class="material-symbols-outlined text-2xl">arrow_back</span>
+                Inicio
             </a>
         </div>
     </div>
 </nav>
 
-<!-- HERO -->
-<section class="min-h-screen flex items-center justify-center pt-20 px-6">
-    <div class="max-w-5xl mx-auto text-center">
-        <h1 class="text-5xl md:text-7xl font-headline font-extrabold text-cream tracking-tight leading-tight animate-hero">
-            Inteligencia de Riesgo<br>
-            <span class="text-accent">Crediticio</span>
-        </h1>
-        <p class="text-lg md:text-xl text-cream/60 mt-6 max-w-2xl mx-auto leading-relaxed animate-hero-delay">
-            Plataforma avanzada de scoring crediticio que combina modelos predictivos de Machine Learning, explicabilidad SHAP y análisis en tiempo real para decisiones financieras precisas.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 animate-hero-delay2">
-            <a href="/login" class="px-12 py-5 rounded-2xl bg-accent text-white font-extrabold text-lg hover:scale-105 transition-all shadow-2xl shadow-accent/30 flex items-center gap-3">
-                <span class="material-symbols-outlined text-2xl">login</span>
-                Acceder al Sistema
-            </a>
-            <a href="/funcionalidades" class="px-12 py-5 rounded-2xl border-2 border-cream/20 text-cream font-extrabold text-lg hover:bg-cream/5 transition-all flex items-center gap-3">
-                <span class="material-symbols-outlined text-2xl">info</span>
-                Más Información
-            </a>
+<section class="px-6 animate-hero">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-headline font-extrabold text-cream tracking-tight mb-4">Centro de Soporte</h1>
+            <p class="text-cream/50 text-lg max-w-2xl mx-auto">¿Necesitas ayuda con el simulador de riesgo o tienes alguna duda técnica? Estamos aquí para asistirte.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Contact Card -->
+            <div class="glass-card rounded-3xl p-8 text-center flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-6">
+                    <span class="material-symbols-outlined text-accent text-3xl">mail</span>
+                </div>
+                <h3 class="text-2xl font-headline font-bold text-cream mb-2">Correo Electrónico</h3>
+                <p class="text-cream/60 mb-6">Soporte técnico y consultas generales sobre el funcionamiento de SCOREIA.</p>
+                <a href="mailto:soporte@scoreia.app" class="px-8 py-3 rounded-xl bg-accent text-white font-bold hover:scale-105 transition-all shadow-lg shadow-accent/20 inline-block">
+                    soporte@scoreia.app
+                </a>
+            </div>
+
+            <!-- Docs Card -->
+            <div class="glass-card rounded-3xl p-8 text-center flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 mb-6">
+                    <span class="material-symbols-outlined text-accent text-3xl">book</span>
+                </div>
+                <h3 class="text-2xl font-headline font-bold text-cream mb-2">Documentación API</h3>
+                <p class="text-cream/60 mb-6">Explora nuestra documentación REST para integrar el motor de scoring.</p>
+                <a href="/docs" target="_blank" class="px-8 py-3 rounded-xl border border-cream/20 text-cream font-bold hover:bg-cream/5 transition-all inline-block">
+                    Ver Swagger API
+                </a>
+            </div>
         </div>
 
-        <!-- Floating Gauge Preview -->
-        <div class="mt-20 animate-float">
-            <div class="glass-card rounded-3xl p-8 max-w-md mx-auto">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-cream/50 uppercase tracking-widest">Índice de Riesgo Crediticio</span>
-                    <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold border border-accent/30">Riesgo Bajo</span>
+        <div class="glass-card rounded-3xl p-10">
+            <h3 class="text-2xl font-headline font-bold text-cream mb-6 flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent">help</span>
+                Preguntas Frecuentes
+            </h3>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="text-lg font-bold text-cream mb-2">¿Cómo se garantiza la privacidad de los datos?</h4>
+                    <p class="text-cream/50">Todos los datos introducidos en el simulador se cifran en tránsito y en reposo. No vendemos ni compartimos información financiera con terceros sin tu consentimiento explícito.</p>
                 </div>
-                <div class="flex items-end gap-4">
-                    <span class="text-5xl font-headline font-extrabold text-accent">12.4%</span>
-                    <span class="text-sm text-cream/40 mb-2">Decisión: <strong class="text-accent">Aprobado</strong></span>
+                <div>
+                    <h4 class="text-lg font-bold text-cream mb-2">¿Qué pasa si el Índice de Riesgo es muy alto?</h4>
+                    <p class="text-cream/50">El sistema lo marcará como Denegado. Sin embargo, puedes usar el Simulador What-If y los valores SHAP para descubrir qué variables podrías mejorar (como el monto del préstamo o plazos) para reducir el riesgo.</p>
                 </div>
-                <div class="w-full h-2 bg-cream/10 rounded-full mt-4 overflow-hidden">
-                    <div class="w-[12.4%] h-full bg-accent rounded-full"></div>
+                <div>
+                    <h4 class="text-lg font-bold text-cream mb-2">¿Puedo modificar el umbral de aprobación?</h4>
+                    <p class="text-cream/50">Sí. Desde el dashboard principal puedes configurar dinámicamente tu perfil y el umbral de aceptación, adaptando SCOREIA a las políticas de riesgo específicas de tu institución.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t border-cream/5 py-12 px-6">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-accent">blur_on</span>
-            <span class="font-headline font-bold text-cream">SCOREIA</span>
-        </div>
-        <div class="flex items-center gap-3">
-            <span class="text-cream/60 text-lg">Desarrollado por</span>
-            <strong class="text-cream text-lg font-headline font-black">Andres_Eloyl</strong>
-            <a href="https://github.com/Andres-Eloyl" target="_blank" class="w-10 h-10 rounded-full bg-cream/10 flex items-center justify-center hover:bg-cream/20 transition-all hover:-translate-y-1 ml-2">
-                <svg viewBox="0 0 24 24" class="w-6 h-6 fill-cream" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path></svg>
-            </a>
-        </div>
-    </div>
-</footer>
 
 <script>
     document.addEventListener('mousemove', (e) => {
@@ -221,6 +209,5 @@
     initParticles();
     animateParticles();
 </script>
-
 </body>
 </html>
